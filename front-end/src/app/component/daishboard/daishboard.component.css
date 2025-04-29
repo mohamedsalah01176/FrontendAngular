@@ -1,0 +1,10 @@
+section{
+  margin-top: 50px;
+  margin-left: 270px;
+}
+.warning{
+  text-transform: capitalize;
+}
+@media (max-width:600) {
+
+}
