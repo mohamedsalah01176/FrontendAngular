@@ -1,0 +1,25 @@
+.slider{
+  position: fixed;
+  left: 0;
+  /* top:50px ; */
+  width: 230px;
+  height: 99vh;
+  background-color: black;
+  color: #ffffff;
+}
+.slider a{
+  display: block;
+  padding: 15px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: .5s;
+  color: white;
+  text-decoration: none;
+}
+.slider a i{
+  margin-right: 10px;
+}
+
+.slider a:hover{
+  transform: scale(1.1);
+}

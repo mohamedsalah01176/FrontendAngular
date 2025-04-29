@@ -1,0 +1,44 @@
+import { Routes } from '@angular/router';
+import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
+import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
+import { BlankLayoutComponent } from './layout/blank-layout/blank-layout.component';
+import { HomeComponent } from './component/home/home.component';
+import { ProductsComponent } from './component/products/products.component';
+import { ProductDetailComponent } from './component/product-detail/product-detail.component';
+import { ProfileComponent } from './component/profile/profile.component';
+import { OrdersComponent } from './component/orders/orders.component';
+import { DaishboardComponent } from './component/daishboard/daishboard.component';
+import { CartComponent } from './component/cart/cart.component';
+import { CategoriesComponent } from './component/categories/categories.component';
+import { OrdersDashboardComponent } from './component/orders-dashboard/orders-dashboard.component';
+import { ProductsDashboardComponent } from './component/products-dashboard/products-dashboard.component';
+import { CustomersDashboardComponent } from './component/customers-dashboard/customers-dashboard.component';
+import { MainDashboardComponent } from './component/main-dashboard/main-dashboard.component';
+
+export const routes: Routes = [
+  {path:"",component:AuthLayoutComponent,children:[
+    {path:"",redirectTo:'login',pathMatch:"full"},
+    {path:"login",component:LoginComponent,title:"Login Page"},
+    {path:"register",component:RegisterComponent,title:"Register Page"},
+  ]},
+  {path:"",component:BlankLayoutComponent,children:[
+    {path:"",redirectTo:'home',pathMatch:"full"},
+    {path:"home",component:HomeComponent,title:"Home Page"},
+    {path:"products",component:ProductsComponent,title:"Products Page"},
+    {path:"products",component:ProductsComponent,title:"Products Page"},
+    {path:"products/:id",component:ProductDetailComponent,title:"Product Page"},
+    {path:"profile",component:ProfileComponent,title:"Profile Page"},
+    {path:"order",component:OrdersComponent,title:"Profile Page"},
+    {path:"daishboard",component:DaishboardComponent,title:"Daishboard Page",children:[
+      {path:"",redirectTo:"mainDashboard",pathMatch:"full"},
+      {path:"mainDashboard",component:MainDashboardComponent,title:"Dashboard Page"},
+      {path:"orders",component:OrdersDashboardComponent,title:"orders Page"},
+      {path:"products",component:ProductsDashboardComponent,title:"Productsz Page"},
+      {path:"customers",component:CustomersDashboardComponent,title:"Customers Page"},
+    ]},
+    {path:"cart",component:CartComponent,title:"Cart Page"},
+    {path:"categories",component:CategoriesComponent,title:"Category Page"},
+  ]},
+
+];
