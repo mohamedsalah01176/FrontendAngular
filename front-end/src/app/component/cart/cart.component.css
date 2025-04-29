@@ -1,0 +1,198 @@
+
+
+.navLiks {
+  background-color: var(--secondary-color);
+  padding: 50px 20px;
+}
+.navLiks a{
+  text-decoration: none;
+  margin-right: 10px;
+  color: black;
+}
+.navLiks a:nth-child(1){
+  text-decoration: underline;
+  margin-right: 10px;
+  color: var(--text-muted);
+}
+section{
+  padding: 20px ;
+  margin-top: 30px;
+}
+
+table{
+  width: 90%;
+  margin: auto;
+}
+@media (max-width:700px) {
+  table{
+    width: 100%;
+  }
+
+}
+table thead tr{
+  border-bottom:2px solid var(--secondary-color) ;
+}
+table thead tr td{
+  padding: 15px 0px;
+  font-size: 20px;
+  color: var(--text-muted);
+  text-transform: upperCase;
+}
+table thead tr td:last-of-type{
+  text-align: right;
+}
+table tbody tr td{
+  padding: 30px 0px;
+}
+table tbody tr td img{
+  width: 130px;
+}
+table tbody tr td p{
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+table tbody tr td a{
+  text-decoration: none;
+  color: black;
+  margin: 3px 0px;
+  display: block;
+  font-size: 20px;
+}
+
+table tbody tr td div .conQuaintiy{
+  border: 2px solid var(--secondary-color);
+  padding: 8px 13px;
+  border-radius: 20px;
+}
+table tbody tr td div .conQuaintiy button{
+  border: none;
+  background-color: white;
+  padding: 0px 5px;
+  font-size: 18px;
+  position: relative;
+}
+table tbody tr td div .conQuaintiy div{
+  padding: 0px 10px;
+  font-size: 20px;
+}
+table tbody tr td div .delete{
+  cursor: pointer;
+  transition: .5s;
+
+}
+table tbody tr td div .delete:hover{
+
+  color: red;
+}
+
+section .conCoupon{
+  width: 300px;
+}
+section .conCoupon input{
+  width: 100%;
+  border-radius: 7px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+section .conCoupon .error{
+  color: red;
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+section .conCoupon button{
+  display: block;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 7px;
+  color: white;
+  background-color: black;
+  padding: 6px;
+  transition: .5s;
+}
+section .conCoupon button:hover{
+  color: black;
+  background-color: white;
+}
+section .conCheckout{
+  border: 1px solid black;
+  padding: 15px 20px;
+  border-radius: 7px;
+  width: 300px;
+}
+section .conCheckout div{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--secondary-color);
+  margin-bottom: 20px;
+}
+section .conCheckout div p{
+  margin-bottom: 8px;
+  font-size: 17px ;
+}
+section .conCheckout div h5{
+  font-size: 20px;
+}
+section .conCheckout button{
+  display: block;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 7px;
+  color: white;
+  background-color: black;
+  padding: 6px;
+  transition: .5s;
+}
+section .conCheckout button:hover{
+  color: black;
+  background-color: white;
+}
+
+
+
+
+
+.mobile h2{
+  padding: 10px;
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+
+.mobile div .conQuaintiy{
+  border: 2px solid var(--secondary-color);
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+.mobile div .conQuaintiy button{
+  border: none;
+  background-color: white;
+  padding: 0px 4px;
+  font-size: 18px;
+  position: relative;
+}
+.mobile div .conQuaintiy div{
+  padding: 0px 10px;
+  font-size: 18px;
+}
+.mobile div .delete{
+  cursor: pointer;
+  transition: .5s;
+
+}
+.mobile div .delete:hover{
+
+  color: red;
+}
+
+
+
+.mobile{
+  display: none;
+}
+@media (max-width:700px) {
+  .webScrean{
+    display: none;
+  }
+  .mobile{
+    display: block;
+  }
+}
