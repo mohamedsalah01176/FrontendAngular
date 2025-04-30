@@ -19,15 +19,6 @@
   width: 90%;
   box-shadow: none;
 }
-/* .addComment textarea {
-  width: 90%;
-  box-shadow: none;
-  resize: none;
-  border: 1px solid #ccc;
-  padding: 10px;
-  height: 50px;
-  min-height: 20px;
-} */
 
 .addComment fa-icon {
   width: 10%;
@@ -39,7 +30,4 @@
 .userReview .userImage img {
   width: 60px;
   height: 60px;
-
-.product{
-  background: #000;
 }
