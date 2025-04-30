@@ -1,1 +1,221 @@
-<p>product-detail works!</p>
+<div class="container py-5">
+  <div class="row align-items-center">
+    <!-- <div class="col-md-6">
+      <div class="image rounded-3 mb-1 w-75 m-auto">
+        <img src="Images/001.png" class="w-100 rounded-3" alt="product image" />
+      </div>
+      <div class="images-slider d-flex justify-content-between w-75 m-auto">
+        <div class="w-25 m-1 ms-0">
+          <img
+            src="Images/002.png"
+            class="w-100 rounded-3"
+            alt="product image"
+          />
+        </div>
+        <div class="w-25 m-1">
+          <img
+            src="Images/003.png"
+            class="w-100 rounded-3"
+            alt="product image"
+          />
+        </div>
+        <div class="w-25 m-1">
+          <img
+            src="Images/product-1.png"
+            class="w-100 rounded-3"
+            alt="product image"
+          />
+        </div>
+        <div class="w-25 m-1 me-0">
+          <img
+            src="Images/product-4.png"
+            class="w-100 rounded-3"
+            alt="product image"
+          />
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-lg-5 offset-lg-1">
+      <div class="image rounded-3 mb-1">
+        <owl-carousel-o [options]="mainCarouselOptions">
+          <ng-template carouselSlide>
+            <div>
+              <img
+                src="Images/001.png"
+                class="w-100 rounded-3"
+                alt="product image"
+              />
+            </div>
+          </ng-template>
+          <ng-template carouselSlide>
+            <div>
+              <img
+                src="Images/002.png"
+                class="w-100 rounded-3"
+                alt="product image"
+              />
+            </div>
+          </ng-template>
+          <ng-template carouselSlide>
+            <div>
+              <img
+                src="Images/003.png"
+                class="w-100 rounded-3"
+                alt="product image"
+              />
+            </div>
+          </ng-template>
+          <ng-template carouselSlide>
+            <div>
+              <img
+                src="Images/product-1.png"
+                class="w-100 rounded-3"
+                alt="product image"
+              />
+            </div>
+          </ng-template>
+        </owl-carousel-o>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="details">
+        <div
+          class="head d-flex justify-content-between align-items-center mt-5 mt-lg-0"
+        >
+          <a
+            class="btn btn-light btn-sm border border-1 px-4"
+            routerLink="/categories"
+          >
+            Men's Fashion
+          </a>
+          <fa-icon [icon]="faHeart" class="fs-4"></fa-icon>
+        </div>
+        <h1 class="h3 mt-3 mb-4 fw-bold text-light-emphasis">
+          Logo T-Shirt Green
+        </h1>
+
+        <p class="desc text-light-emphasis">
+          Soft and comfortable cotton fabric Crew neck and short sleeves
+          Comfortable, regular fit Wash according to care label instructions
+          Soft and comfortable cotton fabric Crew neck and short sleeves
+          Comfortable, regular fit Wash according to care label instructions
+        </p>
+        <h4 class="fw-bold my-4 text-light-emphasis">$265.50</h4>
+        <div class="quantity my-4">
+          <button
+            class="btn btn-light btn-sm border border-1 fw-semibold py-1 px-3"
+          >
+            -
+          </button>
+          <span class="mx-3">1</span>
+          <button
+            class="btn btn-light btn-sm border border-1 fw-semibold py-1 px-3"
+          >
+            +
+          </button>
+        </div>
+        <div class="btns d-flex justify-content-start">
+          <a
+            class="btn btn-light fw-semibold border border-1 btn-sm py-3 px-4 me-3"
+            routerLink="/cart"
+          >
+            ADD TO CART
+          </a>
+          <a
+            class="btn btn-dark btn-sm fw-semibold py-3 px-4 flex-grow-1"
+            routerLink="/wishlist"
+          >
+            BUY NOW
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-10 offset-lg-1">
+      <div class="addComment mt-5">
+        <input
+          type="text"
+          class="form-control py-2 rounded-0"
+          placeholder="Add Reveiw...."
+        />
+        <!-- <textarea placeholder="Add Reveiw...."></textarea> -->
+
+        <fa-icon
+          [icon]="faPaperPlane"
+          class="fs-5 border border-1 btn btn-light rounded-0 text-secondary"
+        ></fa-icon>
+      </div>
+      <div class="comment my-4 rounded-2">
+        <h4 class="py-1 m-0 text-light-emphasis">Reveiws</h4>
+        <hr />
+        <div class="userReview d-flex gap-4 mb-2 rounded-2 px-3 py-2">
+          <div class="userImage">
+            <img src="Images/skills-02.jpg" class="rounded-5" alt="" />
+          </div>
+          <div class="userComment text-light-emphasis">
+            <h6 class="fw-bold">Mohamed Mamdouh</h6>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
+              aperiam eum labore adipisci obcaecati reprehenderit sint quo
+              dolorem necessitatibus ratione nihi
+            </p>
+          </div>
+        </div>
+        <div class="userReview d-flex gap-4 mb-2 rounded-2 px-3 py-2">
+          <div class="userImage">
+            <img src="Images/avatar-05.png" class="rounded-5" alt="" />
+          </div>
+          <div class="userComment text-light-emphasis">
+            <h6 class="fw-bold">Mohamed Salah</h6>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
+              aperiam eum labore adipisci obcaecati reprehenderit sint quo
+              dolorem necessitatibus ratione nihi
+            </p>
+          </div>
+        </div>
+        <div class="userReview d-flex gap-4 mb-2 rounded-2 px-3 py-2">
+          <div class="userImage">
+            <img src="Images/skills-02.jpg" class="rounded-5" alt="" />
+          </div>
+          <div class="userComment text-light-emphasis">
+            <h6 class="fw-bold">Hani Osama</h6>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
+              aperiam eum labore adipisci obcaecati reprehenderit sint quo
+              dolorem necessitatibus ratione nihi
+            </p>
+          </div>
+        </div>
+        <div class="userReview d-flex gap-4 mb-2 rounded-2 px-3 py-2">
+          <div class="userImage">
+            <img src="Images/avatar-05.png" class="rounded-5" alt="" />
+          </div>
+          <div class="userComment text-light-emphasis">
+            <h6 class="fw-bold">Yousef Ezzet</h6>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
+              aperiam eum labore adipisci obcaecati reprehenderit sint quo
+              dolorem necessitatibus ratione nihi
+            </p>
+          </div>
+        </div>
+        <div class="userReview d-flex gap-4 mb-2 rounded-2 px-3 py-2">
+          <div class="userImage">
+            <img src="Images/skills-02.jpg" class="rounded-5" alt="" />
+          </div>
+          <div class="userComment text-light-emphasis">
+            <h6 class="fw-bold">Abdelrahman</h6>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
+              aperiam eum labore adipisci obcaecati reprehenderit sint quo
+              dolorem necessitatibus ratione nihi
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

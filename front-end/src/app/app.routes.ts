@@ -15,6 +15,8 @@ import { OrdersDashboardComponent } from './component/orders-dashboard/orders-da
 import { ProductsDashboardComponent } from './component/products-dashboard/products-dashboard.component';
 import { CustomersDashboardComponent } from './component/customers-dashboard/customers-dashboard.component';
 import { MainDashboardComponent } from './component/main-dashboard/main-dashboard.component';
+import { WishListComponent } from './component/wish-list/wish-list.component';
+import { ErrorComponent } from './component/error/error.component';
 
 export const routes: Routes = [
   {path:"",component:AuthLayoutComponent,children:[
@@ -38,7 +40,8 @@ export const routes: Routes = [
       {path:"customers",component:CustomersDashboardComponent,title:"Customers Page"},
     ]},
     {path:"cart",component:CartComponent,title:"Cart Page"},
+    {path:"wishlist",component:WishListComponent,title:"Wishlist"},
     {path:"categories",component:CategoriesComponent,title:"Category Page"},
   ]},
-
+  {path:"**",component:ErrorComponent,title:"Error Page"},
 ];
