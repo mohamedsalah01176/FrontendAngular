@@ -1,2 +1,2 @@
-# backenAngular
-this is backend for angular
+# frontendAngular
+this is frontend for angular
