@@ -19,6 +19,7 @@ import { WishListComponent } from './component/wish-list/wish-list.component';
 import { ErrorComponent } from './component/error/error.component';
 
 import { CheckoutComponent } from './component/checkout/checkout.component';
+import { ContactUsComponent } from './component/contact-us/contact-us.component';
 
 
 export const routes: Routes = [
@@ -46,6 +47,7 @@ export const routes: Routes = [
     {path:"wishlist",component:WishListComponent,title:"Wishlist"},
     {path:"categories",component:CategoriesComponent,title:"Category Page"},
     {path:"checkout",component:CheckoutComponent,title:"Checkout Page"},
+    {path:"contact-us",component:ContactUsComponent,title:"About Page"},
   ]},
   {path:"**",component:ErrorComponent,title:"Error Page"},
 ];
