@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, ViewChildren } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NavLinksComponent } from "../nav-links/nav-links.component";
 
 
 @Component({
   selector: 'app-cart',
-  imports: [RouterLink,CommonModule,FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, NavLinksComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })

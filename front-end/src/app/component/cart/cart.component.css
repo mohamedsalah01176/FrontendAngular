@@ -1,19 +1,5 @@
 
 
-.navLiks {
-  background-color: var(--secondary-color);
-  padding: 50px 20px;
-}
-.navLiks a{
-  text-decoration: none;
-  margin-right: 10px;
-  color: black;
-}
-.navLiks a:nth-child(1){
-  text-decoration: underline;
-  margin-right: 10px;
-  color: var(--text-muted);
-}
 section{
   padding: 20px ;
   margin-top: 30px;
@@ -132,7 +118,7 @@ section .conCheckout div p{
 section .conCheckout div h5{
   font-size: 20px;
 }
-section .conCheckout button{
+section .conCheckout a{
   display: block;
   width: 100%;
   border: 2px solid black;
@@ -141,8 +127,10 @@ section .conCheckout button{
   background-color: black;
   padding: 6px;
   transition: .5s;
+  text-align: center;
+  text-decoration: none;
 }
-section .conCheckout button:hover{
+section .conCheckout a:hover{
   color: black;
   background-color: white;
 }

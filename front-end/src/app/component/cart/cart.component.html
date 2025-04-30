@@ -1,9 +1,5 @@
 
-<div class="navLiks">
-  <a routerLink="/home">Home</a>
-  <a>/</a>
-  <a>{{url}}</a>
-</div>
+<app-nav-links [url]="url"></app-nav-links>
 <section class="webScrean">
   <table>
     <thead>
@@ -101,6 +97,6 @@
     <h5>Total:</h5>
     <p>EG {{ totalCheckout+15 | number:'1.0-0' }}</p>
   </div>
-  <button>Process to checkout</button>
+  <a routerLink="/checkout" >Process to checkout</a>
  </div>
 </section>
