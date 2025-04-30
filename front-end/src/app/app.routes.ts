@@ -18,6 +18,9 @@ import { MainDashboardComponent } from './component/main-dashboard/main-dashboar
 import { WishListComponent } from './component/wish-list/wish-list.component';
 import { ErrorComponent } from './component/error/error.component';
 
+import { CheckoutComponent } from './component/checkout/checkout.component';
+
+
 export const routes: Routes = [
   {path:"",component:AuthLayoutComponent,children:[
     {path:"",redirectTo:'login',pathMatch:"full"},
@@ -42,6 +45,7 @@ export const routes: Routes = [
     {path:"cart",component:CartComponent,title:"Cart Page"},
     {path:"wishlist",component:WishListComponent,title:"Wishlist"},
     {path:"categories",component:CategoriesComponent,title:"Category Page"},
+    {path:"checkout",component:CheckoutComponent,title:"Checkout Page"},
   ]},
   {path:"**",component:ErrorComponent,title:"Error Page"},
 ];

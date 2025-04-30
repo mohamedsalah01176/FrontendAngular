@@ -39,4 +39,7 @@
 .userReview .userImage img {
   width: 60px;
   height: 60px;
+
+.product{
+  background: #000;
 }

@@ -1,1 +1,102 @@
-<p>cart works!</p>
+
+<app-nav-links [url]="url"></app-nav-links>
+<section class="webScrean">
+  <table>
+    <thead>
+      <tr>
+        <td class="w-50">product</td>
+        <td class="w-25 text-end">quantity</td>
+        <td class="w-25 ">Total</td>
+      </tr>
+    </thead>
+    <tbody>
+      @for(item of products; track $index){
+        <tr>
+          <td class="w-50">
+            <div class="d-flex align-items-center gap-4">
+              <img src="/images/product-1.avif" alt="image">
+              <div>
+                <p>{{item.name}}</p>
+                <a routerLink="/products" >{{item.name}}</a>
+                <p>color:{{item.color}}</p>
+              </div>
+            </div>
+          </td>
+          <td class="w-25 ">
+            <div class="d-flex align-items-center justify-content-end gap-3 ">
+              <div class="conQuaintiy d-flex align-items-center gap-2">
+                <button title="munus" (click)="decreaseQounter(item.id)"><i class="fa-solid fa-minus"></i></button>
+                <div>{{item.quantity}}</div>
+                <button title="plus" (click)="increaseQounter(item.id)"><i class="fa-solid fa-plus"></i></button>
+              </div>
+              <i class="fa-solid fa-trash delete"></i>
+            </div>
+          </td>
+          <td class="w-25 text-end fs-5">
+            <span class="me-2 ">EG</span>
+            <span >{{item.price * item.quantity | number:'1.0-0'}}</span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
+
+<section class="mobile">
+  <h2 class="mb-5 ">products</h2>
+  @for(item of products; track $index){
+    <div class="w-50">
+      <div class="d-flex align-items-center gap-4">
+        <img src="/images/product-1.avif" alt="image" class="w-100">
+        <div>
+          <p>elexy-demo</p>
+          <a routerLink="/products" class="nav-link">elexy-demo</a>
+          <p>color:Eampit</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center gap-3 mt-3 mb-5">
+      <div class="w-25 ">
+        <div class="d-flex align-items-center justify-content-end gap-3 ">
+          <div class="conQuaintiy d-flex align-items-center gap-2">
+            <button title="munus" (click)="decreaseQounter(item.id)"><i class="fa-solid fa-minus"></i></button>
+            <div>{{item.quantity}}</div>
+            <button title="plus" (click)="increaseQounter(item.id)"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <i class="fa-solid fa-trash delete"></i>
+        </div>
+      </div>
+      <div class="w-25 text-end fs-5">
+        <span class="me-2 ">EG</span>
+        <span >{{item.price * item.quantity | number:'1.0-0'}}</span>
+
+      </div>
+    </div>
+  }
+</section>
+
+
+<section class="d-flex flex-column flex-sm-row justify-content-between pe-5 ps-5 gap-3">
+  <div class="conCoupon mb-4">
+    @if(error){
+      <p class="error">Copoun incorrect</p>
+    }
+    <input type="text" placeholder="Coupon Code" [(ngModel)]="coupon" >
+  <button (click)="addCoupon()">Applay Coupon </button>
+ </div>
+ <div class="conCheckout">
+  <div>
+    <h5>SubTotal:</h5>
+    <p>EG {{ totalCheckout | number:'1.0-0' }}</p>
+  </div>
+  <div>
+    <h5>Shipping:</h5>
+    <p>EG {{ 15 | number:'1.0-0' }}</p>
+  </div>
+  <div>
+    <h5>Total:</h5>
+    <p>EG {{ totalCheckout+15 | number:'1.0-0' }}</p>
+  </div>
+  <a routerLink="/checkout" >Process to checkout</a>
+ </div>
+</section>
