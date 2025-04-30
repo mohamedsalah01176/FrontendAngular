@@ -11,7 +11,7 @@ input::placeholder {
   
   form {
     animation: fadeIn 1s ease-out;
-  }
+}
   
   form input {
     height: 50px;
@@ -87,38 +87,3 @@ input::placeholder {
     font-weight: 600;
   }
   
-  /* Animations */
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes shake {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-5px);
-    }
-    50% {
-      transform: translateX(5px);
-    }
-    75% {
-      transform: translateX(-5px);
-    }
-  }
-  
-  @keyframes pulse {
-    0%, 100% {
-      box-shadow: 0 0 2px rgba(40, 167, 69, 0.6);
-    }
-    50% {
-      box-shadow: 0 0 3px rgba(40, 167, 69, 1);
-    }
-  }
