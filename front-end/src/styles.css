@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* start owl carsouel settings */
+.owl-theme .owl-dots .owl-dot span {
+  display: block !important;
+  width: 15px !important;
+  height: 4px !important;
+  margin: 0 10px;
+}
+
+.owl-theme .owl-dots .owl-dot.active span {
+  width: 25px !important;
+  background-color: rgb(14, 14, 14) !important;
+}
+
+/* end owl carsouel settings */
 :root {
     /* Primary Colors (for header, navbar, footer, etc.) */
     --primary-color: #1a1a1a; /* Matches the header and footer background */
