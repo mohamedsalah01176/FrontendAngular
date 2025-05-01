@@ -9,16 +9,16 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  private _HttpClient = inject(HttpClient);
   private _Router = inject(Router);
   userData = null;
+  constructor(private http: HttpClient, private router: Router) {} 
 
-  //change url only
-  // setRegisterForm(data: object): Observable<any> {
-  //   return this._HttpClient.post(
-  //     `${environment.baseUrl}/api/v1/auth/signup`,
-  //     data
-  //   );
+  setRegisterForm(data: object): Observable<any> {
+    return this.http.post(
+      'http://localhost:4000/api/auth/signup',
+      data
+    );
+  }
   // }
   //change url only
   // setLoginForm(data: object): Observable<any> {

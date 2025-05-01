@@ -151,3 +151,58 @@ input::placeholder {
     display: flex;
     flex-direction: column;
 }
+
+:host {
+  display: block;
+  height: 90vh;
+  overflow: hidden;
+}
+
+
+
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 8px;
+  position: absolute;
+  top: 20px;  
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  font-weight: bold;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* رسائل النجاح */
+.success-message {
+  background-color: #4caf50; 
+  color: white;
+}
+
+/* رسائل الخطأ */
+.error-message {
+  background-color: #ff1100;
+  color: white;
+}
+
+
+.message mat-icon {
+  margin-right: 8px;
+}
+
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-20px) translateX(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) translateX(-50%);
+    opacity: 1;
+  }
+}

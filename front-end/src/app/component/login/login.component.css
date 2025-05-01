@@ -115,9 +115,11 @@
     color: #721c24;
   }
   
-  
-
-
+  :host {
+    display: block;
+    height: 90vh;
+    overflow: hidden;
+  }
 
 
 

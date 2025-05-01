@@ -4,6 +4,17 @@
     <div class="col-md-6 bg-white p-3 p-md-5">
       <h2 class="fw-bold text-center mb-4 mb-md-5">Create Account</h2>
 
+         <div *ngIf="successMessage" class="message success-message">
+          <mat-icon>check_circle</mat-icon>
+          <span>{{ successMessage }}</span>
+        </div>
+  
+        <div *ngIf="errorMessage" class="message error-message">
+          <mat-icon>error</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      
+
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="mb-3">
           <input
@@ -16,7 +27,11 @@
           <div class="invalid-feedback" *ngIf="registerForm.get('username')?.hasError('required')">
             Name is required
           </div>
+          <div class="invalid-feedback" *ngIf="registerForm.get('username')?.hasError('pattern')">
+            Username must contain only letters and numbers
+          </div>
         </div>
+
 
         <div class="mb-3">
           <input
@@ -67,7 +82,7 @@
         <div class="mb-4">
           <div class="d-flex gap-3">
             <div class="flex-fill">
-              <input type="radio" id="userRole" formControlName="role" value="User" class="btn-check" autocomplete="off">
+              <input type="radio" id="userRole" formControlName="role" value="user" class="btn-check" autocomplete="off">
               <label class="btn btn-outline-primary w-100 p-3 d-flex flex-column align-items-center" for="userRole">
                 <i class="bi bi-person fs-2 mb-2"></i>
                 <span>User</span>
@@ -75,7 +90,7 @@
             </div>
             
             <div class="flex-fill">
-              <input type="radio" id="adminRole" formControlName="role" value="Admin" class="btn-check" autocomplete="off">
+              <input type="radio" id="adminRole" formControlName="role" value="admin" class="btn-check" autocomplete="off">
               <label class="btn btn-outline-primary w-100 p-3 d-flex flex-column align-items-center" for="adminRole">
                 <i class="bi bi-shield-lock fs-2 mb-2"></i>
                 <span>Admin</span>
