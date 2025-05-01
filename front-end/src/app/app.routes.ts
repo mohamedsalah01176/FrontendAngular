@@ -15,7 +15,11 @@ import { OrdersDashboardComponent } from './component/orders-dashboard/orders-da
 import { ProductsDashboardComponent } from './component/products-dashboard/products-dashboard.component';
 import { CustomersDashboardComponent } from './component/customers-dashboard/customers-dashboard.component';
 import { MainDashboardComponent } from './component/main-dashboard/main-dashboard.component';
+import { WishListComponent } from './component/wish-list/wish-list.component';
+import { ErrorComponent } from './component/error/error.component';
+
 import { CheckoutComponent } from './component/checkout/checkout.component';
+import { ContactUsComponent } from './component/contact-us/contact-us.component';
 
 export const routes: Routes = [
   {
@@ -42,7 +46,11 @@ export const routes: Routes = [
         component: ProductsComponent,
         title: 'Products Page',
       },
-
+      {
+        path: 'products',
+        component: ProductsComponent,
+        title: 'Products Page',
+      },
       {
         path: 'products/:id',
         component: ProductDetailComponent,
@@ -79,6 +87,8 @@ export const routes: Routes = [
         ],
       },
       { path: 'cart', component: CartComponent, title: 'Cart Page' },
+      { path: 'wishlist', component: WishListComponent, title: 'Wishlist' },
+
       {
         path: 'categories',
         component: CategoriesComponent,
@@ -89,6 +99,12 @@ export const routes: Routes = [
         component: CheckoutComponent,
         title: 'Checkout Page',
       },
+      {
+        path: 'contact-us',
+        component: ContactUsComponent,
+        title: 'About Page',
+      },
     ],
   },
+  { path: '**', component: ErrorComponent, title: 'Error Page' },
 ];

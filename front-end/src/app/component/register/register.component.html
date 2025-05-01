@@ -11,7 +11,7 @@
             type="text"
             class="form-control"
             placeholder="Name"
-            [ngClass]="{ 'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched }"
+            [ngClass]="{ 'is-invalid': registerForm.get('name')?.invalid && (registerForm.get('name')?.touched  || registerForm.get('name')?.dirty) }"
           />
           <div class="invalid-feedback" *ngIf="registerForm.get('name')?.hasError('required')">
             Name is required
@@ -24,7 +24,7 @@
             type="email"
             class="form-control"
             placeholder="Email"
-            [ngClass]="{ 'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched }"
+            [ngClass]="{ 'is-invalid': registerForm.get('email')?.invalid && (registerForm.get('email')?.touched|| registerForm.get('email')?.dirty) }"
           />
           <div class="invalid-feedback" *ngIf="registerForm.get('email')?.hasError('required')">
             Email is required
@@ -40,7 +40,7 @@
             type="password"
             class="form-control"
             placeholder="Password"
-            [ngClass]="{ 'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched }"
+            [ngClass]="{ 'is-invalid': registerForm.get('password')?.invalid && (registerForm.get('password')?.touched|| registerForm.get('password')?.dirty) }"
           />
           <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('required')">
             Password is required
@@ -56,7 +56,7 @@
             type="text"
             class="form-control"
             placeholder="Address"
-            [ngClass]="{ 'is-invalid': registerForm.get('address')?.invalid && registerForm.get('address')?.touched }"
+            [ngClass]="{ 'is-invalid': registerForm.get('address')?.invalid && (registerForm.get('address')?.touched || registerForm.get('address')?.dirty)}"
           />
           <div class="invalid-feedback" *ngIf="registerForm.get('address')?.hasError('required')">
             Address is required
@@ -69,7 +69,7 @@
             type="text"
             class="form-control"
             placeholder="Phone"
-            [ngClass]="{ 'is-invalid': registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched }"
+            [ngClass]="{ 'is-invalid': registerForm.get('phone')?.invalid && (registerForm.get('phone')?.touched  || registerForm.get('phone')?.dirty) }"
           />
           <div class="invalid-feedback" *ngIf="registerForm.get('phone')?.hasError('required')">
             Phone is required
@@ -97,7 +97,7 @@
 
     <!-- Right side (Image) -->
     <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-white p-3 p-md-5 order-1 order-lg-2">
-      <img src="Images/RegisterPhoto.png" alt="Register illustration" class="img-fluid" />
+      <img src="images/RegisterPhoto.png" alt="Register illustration" class="img-fluid" />
     </div>
   </div>
 </div>

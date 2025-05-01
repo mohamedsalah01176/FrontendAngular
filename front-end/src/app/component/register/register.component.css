@@ -11,7 +11,7 @@ input::placeholder {
   
   form {
     animation: fadeIn 1s ease-out;
-  }
+}
   
   form input {
     height: 50px;
@@ -19,12 +19,12 @@ input::placeholder {
     padding: 0 1.2rem;
     border-width: 2px;
     border-color: var(--input-border);
-    border-radius: 50px;
+    border-radius: 1rem;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     background-color: var(--background-color);
     color: var(--text-color);
-  }
+}
   
   form input:focus {
     border-color: #007bff; 
@@ -68,14 +68,19 @@ input::placeholder {
   /* Button styling with hover effects */
   .btn-dark {
     border: none;
+    width: 50%;
+    margin: auto;
     padding: 0.6rem 1.2rem;
     font-size: 1rem;
-    border-radius: 50px;
-    text-transform: uppercase;
+    border-radius: 1rem;
     letter-spacing: 1px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  }
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+}
   
   .btn-dark:hover {
     transform: scale(1.05);
@@ -87,38 +92,3 @@ input::placeholder {
     font-weight: 600;
   }
   
-  /* Animations */
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes shake {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-5px);
-    }
-    50% {
-      transform: translateX(5px);
-    }
-    75% {
-      transform: translateX(-5px);
-    }
-  }
-  
-  @keyframes pulse {
-    0%, 100% {
-      box-shadow: 0 0 2px rgba(40, 167, 69, 0.6);
-    }
-    50% {
-      box-shadow: 0 0 3px rgba(40, 167, 69, 1);
-    }
-  }
