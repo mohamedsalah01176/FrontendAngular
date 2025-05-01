@@ -19,14 +19,19 @@ export class AuthService {
       data
     );
   }
-  // }
-  //change url only
-  // setLoginForm(data: object): Observable<any> {
-  //   return this._HttpClient.post(
-  //     `${environment.baseUrl}/api/v1/auth/signin`,
-  //     data
-  //   );
-  // }
+
+  setLoginForm(data: object): Observable<any> {
+    return this.http.post(
+      `http://localhost:4000/api/auth/signin`,
+      data
+    );
+  }
+
+  getTokenFromCookies(): string | null {
+    const matches = document.cookie.match(/(?:^|; )userToken=([^;]*)/);
+    return matches ? decodeURIComponent(matches[1]) : null;
+  }
+
   saveUserData(): void {
     if (localStorage.getItem('userToken')) {
       this.userData = jwtDecode(localStorage.getItem('userToken')!);

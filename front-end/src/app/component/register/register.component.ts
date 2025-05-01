@@ -19,6 +19,9 @@ export class RegisterComponent {
 
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  successTimeout: any;
+  errorTimeout: any;
+
 
   registerForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]),
@@ -36,27 +39,28 @@ export class RegisterComponent {
       const userData = this.registerForm.getRawValue();
       this.authService.setRegisterForm(userData).subscribe({
         next: (response) => {
-          console.log('Registration successful:', response);
-          
           const message = response.message || 'Your account has been created';
           this.successMessage = message;
-          this.errorMessage = null;  
-          
-          setTimeout(() => {
+          this.errorMessage = null;
+
+          clearTimeout(this.successTimeout);
+          this.successTimeout = setTimeout(() => {
             this.successMessage = null;
           }, 4000);
-  
+
           this.registerForm.reset();
-          this.router.navigate(['/login']);
+
+          this.router.navigate(['/login'], {
+            state: { successMessage: message }
+          });
         },
         error: (error) => {
-          console.error('Registration failed:', error);
-          
           const errorMessage = error?.error?.message || 'Registration failed. Please try again.';
           this.errorMessage = errorMessage;
-          this.successMessage = null; 
-          
-          setTimeout(() => {
+          this.successMessage = null;
+
+          clearTimeout(this.errorTimeout);
+          this.errorTimeout = setTimeout(() => {
             this.errorMessage = null;
           }, 4000);
         }
@@ -64,6 +68,10 @@ export class RegisterComponent {
     } else {
       this.registerForm.markAllAsTouched();
     }
+  }
+  clearError() {
+    clearTimeout(this.errorTimeout);
+    this.errorMessage = null;
   }
   
 }

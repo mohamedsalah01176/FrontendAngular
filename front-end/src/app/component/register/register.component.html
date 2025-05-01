@@ -4,15 +4,13 @@
     <div class="col-md-6 bg-white p-3 p-md-5">
       <h2 class="fw-bold text-center mb-4 mb-md-5">Create Account</h2>
 
-         <div *ngIf="successMessage" class="message success-message">
-          <mat-icon>check_circle</mat-icon>
-          <span>{{ successMessage }}</span>
-        </div>
-  
-        <div *ngIf="errorMessage" class="message error-message">
-          <mat-icon>error</mat-icon>
-          <span>{{ errorMessage }}</span>
-        </div>
+      <!-- Error message -->
+      <div *ngIf="errorMessage" class="message error-message">
+        <mat-icon class="me-2">error</mat-icon>
+        <span>{{ errorMessage }}</span>
+        <button type="button" class="close-btn" (click)="clearError()">×</button>
+      </div>
+
       
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>

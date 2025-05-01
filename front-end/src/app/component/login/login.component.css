@@ -121,6 +121,61 @@
     overflow: hidden;
   }
 
+  .success-message {
+    background-color: #4caf50; 
+    color: white;
+    width: 30%;
+  }
+  
+  .message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 8px;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    text-align: center;
+    animation: slideIn 0.3s ease-out;
+    max-width: 100%;
+  }
+  
+  .message mat-icon {
+    margin-right: 8px;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-20px) translateX(-50%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0) translateX(-50%);
+      opacity: 1;
+    }
+  }
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 4px;
+    right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .success-message{
+      width: 70%; 
+      font-size: 14px;
+    }
+  }
+  
 
 
 /* Responsive adjustments */
