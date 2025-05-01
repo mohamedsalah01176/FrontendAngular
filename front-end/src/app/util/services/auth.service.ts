@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
@@ -10,21 +10,15 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private _Router = inject(Router);
+  private http = inject(HttpClient);
   userData = null;
-  constructor(private http: HttpClient, private router: Router) {} 
 
   setRegisterForm(data: object): Observable<any> {
-    return this.http.post(
-      'http://localhost:4000/api/auth/signup',
-      data
-    );
+    return this.http.post('http://localhost:4000/api/auth/signup', data);
   }
 
   setLoginForm(data: object): Observable<any> {
-    return this.http.post(
-      `http://localhost:4000/api/auth/signin`,
-      data
-    );
+    return this.http.post(`http://localhost:4000/api/auth/signin`, data);
   }
 
   getTokenFromCookies(): string | null {
