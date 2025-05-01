@@ -90,7 +90,7 @@ input::placeholder {
   }
   
   
-  .btn-check:checked + .btn-outline-primary {
+  /* .btn-check:checked + .btn-outline-primary {
     background-color: #198754; 
     color: white;
     border-color: #198754;
@@ -113,7 +113,7 @@ input::placeholder {
   .d-flex > .flex-fill {
     display: flex;
     flex-direction: column;
-  }
+  } */
   
   
 
@@ -124,7 +124,7 @@ input::placeholder {
   
   
   
-  /* .btn-check:checked + .btn-outline-primary {
+  .btn-check:checked + .btn-outline-primary {
     background: linear-gradient(135deg, var(--primary-color),var(--background-dark));
     color: white;
     border-radius: 1rem;
@@ -150,4 +150,4 @@ input::placeholder {
   .d-flex > .flex-fill {
     display: flex;
     flex-direction: column;
-} */
+}
