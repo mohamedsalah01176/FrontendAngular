@@ -9,24 +9,29 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  private _HttpClient = inject(HttpClient);
   private _Router = inject(Router);
   userData = null;
+  constructor(private http: HttpClient, private router: Router) {} 
 
-  //change url only
-  // setRegisterForm(data: object): Observable<any> {
-  //   return this._HttpClient.post(
-  //     `${environment.baseUrl}/api/v1/auth/signup`,
-  //     data
-  //   );
-  // }
-  //change url only
-  // setLoginForm(data: object): Observable<any> {
-  //   return this._HttpClient.post(
-  //     `${environment.baseUrl}/api/v1/auth/signin`,
-  //     data
-  //   );
-  // }
+  setRegisterForm(data: object): Observable<any> {
+    return this.http.post(
+      'http://localhost:4000/api/auth/signup',
+      data
+    );
+  }
+
+  setLoginForm(data: object): Observable<any> {
+    return this.http.post(
+      `http://localhost:4000/api/auth/signin`,
+      data
+    );
+  }
+
+  getTokenFromCookies(): string | null {
+    const matches = document.cookie.match(/(?:^|; )userToken=([^;]*)/);
+    return matches ? decodeURIComponent(matches[1]) : null;
+  }
+
   saveUserData(): void {
     if (localStorage.getItem('userToken')) {
       this.userData = jwtDecode(localStorage.getItem('userToken')!);

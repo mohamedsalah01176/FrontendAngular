@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import {
   FormControl,
   FormGroup,
@@ -8,12 +9,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; // Import Router for navigation
+import { AuthService } from '../../util/services/auth.service';
 // import { LoginService } from './login.service'; // Import the LoginService
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule,MatIconModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -27,40 +29,51 @@ export class LoginComponent {
 
   router = inject(Router);
 
+  
+  successMessage: string | null = null;
+  constructor(private authService: AuthService) {
+    const nav = this.router.getCurrentNavigation();
+    this.successMessage = nav?.extras?.state?.['successMessage'] || null;
+  
+    if (this.successMessage) {
+      setTimeout(() => {
+        this.successMessage = null;
+      }, 4000);
+    }
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
+      const loginData = this.loginForm.value;
+  
+      this.authService.setLoginForm(loginData).subscribe({
+        next: (response) => {
+          console.log('Login response:', response);
+          const token = response.token;
+          console.log('Token:', token);
 
-      // Simulated login check
-      if (email === 'test@example.com' && password === '123456') {
-        //fack token
-        localStorage.setItem(
-          'userToken',
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWUxZjI2NGE5MDQwMTY2YTk5Y'
-        );
-        // Clear any old error
-        console.log('Login Successful');
-        this.router.navigateByUrl('/home');
-        this.loginError = null;
-      } else {
-        this.loginError = 'Incorrect email or password.';
-      }
-
-      // If using real loginService:
-      /*
-      this.loginService.login(email, password).subscribe(
-        (response) => {
-          this.loginError = null;
-          this.router.navigate(['/home']);
+          if (token) {
+            document.cookie = `userToken=${token}; path=/;`;  
+            this.loginError = null;
+            console.log('Login successful:', response);
+  
+            this.router.navigate(['/home']);
+          } else {
+            this.loginError = 'Unexpected response from server.';
+          }
         },
-        (error) => {
+        error: (err) => {
+          console.error('Login failed:', err);
           this.loginError = 'Incorrect email or password.';
         }
-      );
-      */
+      });
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+  
+  clearSuccess() {
+    this.successMessage = null;
   }
 
   goToRegister() {
