@@ -87,6 +87,15 @@
             ><i class="fa-solid fa-user"></i
           ></a>
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/settings"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ><i class="fa-solid fa-gear"></i
+          ></a>
+        </li>
 
         <li class="nav-item" (click)="_AuthService.logOut()">
           <a class="nav-link cr"> logOut</a>

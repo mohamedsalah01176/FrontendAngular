@@ -20,6 +20,7 @@ import { ErrorComponent } from './component/error/error.component';
 
 import { CheckoutComponent } from './component/checkout/checkout.component';
 import { ContactUsComponent } from './component/contact-us/contact-us.component';
+import { SettingsComponent } from './component/settings/settings.component';
 // import { authGuard } from './util/Guards/auth.guard';
 // import { loggedGuard } from './util/Guards/logged.guard';
 
@@ -107,6 +108,11 @@ export const routes: Routes = [
         path: 'contact-us',
         component: ContactUsComponent,
         title: 'About Page',
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        title: 'Settings Page',
       },
     ],
   },
