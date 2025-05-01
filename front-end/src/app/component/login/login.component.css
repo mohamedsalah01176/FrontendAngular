@@ -70,6 +70,7 @@
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--primary-color),#563f4a);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
