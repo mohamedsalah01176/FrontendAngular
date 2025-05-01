@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-auth-navbar',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './auth-navbar.component.html',
-  styleUrl: './auth-navbar.component.css'
+  styleUrl: './auth-navbar.component.css',
 })
-export class AuthNavbarComponent {
-
-}
+export class AuthNavbarComponent {}
