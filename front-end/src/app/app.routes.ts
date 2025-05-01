@@ -17,17 +17,15 @@ import { CustomersDashboardComponent } from './component/customers-dashboard/cus
 import { MainDashboardComponent } from './component/main-dashboard/main-dashboard.component';
 import { WishListComponent } from './component/wish-list/wish-list.component';
 import { ErrorComponent } from './component/error/error.component';
-
 import { CheckoutComponent } from './component/checkout/checkout.component';
 import { ContactUsComponent } from './component/contact-us/contact-us.component';
-// import { authGuard } from './util/Guards/auth.guard';
-// import { loggedGuard } from './util/Guards/logged.guard';
-
+import { loggedGuard } from './util/Guards/logged.guard';
+import { authGuard } from './util/Guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
-    // canActivate: [authGuard],
+    canActivate: [loggedGuard],
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent, title: 'Login Page' },
@@ -41,7 +39,7 @@ export const routes: Routes = [
   {
     path: '',
     component: BlankLayoutComponent,
-    // canActivate: [loggedGuard],
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, title: 'Home Page' },
