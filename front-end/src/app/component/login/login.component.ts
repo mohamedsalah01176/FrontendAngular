@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; // Import Router for navigation
 // import { LoginService } from './login.service'; // Import the LoginService
 
@@ -19,7 +25,7 @@ export class LoginComponent {
 
   loginError: string | null = null; // <-- error message variable
 
-  constructor(private router: Router) {}
+  router = inject(Router);
 
   onSubmit() {
     if (this.loginForm.valid) {
@@ -27,9 +33,15 @@ export class LoginComponent {
 
       // Simulated login check
       if (email === 'test@example.com' && password === '123456') {
-        this.loginError = null; // Clear any old error
+        //fack token
+        localStorage.setItem(
+          'userToken',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWUxZjI2NGE5MDQwMTY2YTk5Y'
+        );
+        // Clear any old error
         console.log('Login Successful');
-        // this.router.navigate(['/home']);
+        this.router.navigateByUrl('/home');
+        this.loginError = null;
       } else {
         this.loginError = 'Incorrect email or password.';
       }
