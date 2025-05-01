@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 })
 export class RegisterComponent {
   registerForm = new FormGroup({
-    name: new FormControl('', {
+    username: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required]
     }),
@@ -24,11 +24,11 @@ export class RegisterComponent {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(6)]
     }),
-    address: new FormControl('', {
+    phone: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required]
     }),
-    phone: new FormControl('', {
+    role: new FormControl('', {  // Add this new form control
       nonNullable: true,
       validators: [Validators.required]
     })

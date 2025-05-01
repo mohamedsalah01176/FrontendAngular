@@ -7,13 +7,13 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="mb-3">
           <input
-            formControlName="name"
+            formControlName="username"
             type="text"
             class="form-control"
             placeholder="Name"
-            [ngClass]="{ 'is-invalid': registerForm.get('name')?.invalid && (registerForm.get('name')?.touched  || registerForm.get('name')?.dirty) }"
+            [ngClass]="{ 'is-invalid': registerForm.get('username')?.invalid && (registerForm.get('username')?.touched  || registerForm.get('username')?.dirty) }"
           />
-          <div class="invalid-feedback" *ngIf="registerForm.get('name')?.hasError('required')">
+          <div class="invalid-feedback" *ngIf="registerForm.get('username')?.hasError('required')">
             Name is required
           </div>
         </div>
@@ -50,18 +50,6 @@
           </div>
         </div>
 
-        <div class="mb-3">
-          <input
-            formControlName="address"
-            type="text"
-            class="form-control"
-            placeholder="Address"
-            [ngClass]="{ 'is-invalid': registerForm.get('address')?.invalid && (registerForm.get('address')?.touched || registerForm.get('address')?.dirty)}"
-          />
-          <div class="invalid-feedback" *ngIf="registerForm.get('address')?.hasError('required')">
-            Address is required
-          </div>
-        </div>
 
         <div class="mb-4">
           <input
@@ -75,6 +63,32 @@
             Phone is required
           </div>
         </div>
+
+        <div class="mb-4">
+          <div class="d-flex gap-3">
+            <div class="flex-fill">
+              <input type="radio" id="userRole" formControlName="role" value="User" class="btn-check" autocomplete="off">
+              <label class="btn btn-outline-primary w-100 p-3 d-flex flex-column align-items-center" for="userRole">
+                <i class="bi bi-person fs-2 mb-2"></i>
+                <span>User</span>
+              </label>
+            </div>
+            
+            <div class="flex-fill">
+              <input type="radio" id="adminRole" formControlName="role" value="Admin" class="btn-check" autocomplete="off">
+              <label class="btn btn-outline-primary w-100 p-3 d-flex flex-column align-items-center" for="adminRole">
+                <i class="bi bi-shield-lock fs-2 mb-2"></i>
+                <span>Admin</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="invalid-feedback d-block" 
+               *ngIf="registerForm.get('role')?.invalid && (registerForm.get('role')?.touched || registerForm.get('role')?.dirty)">
+            Please select a role
+          </div>
+        </div>
+
 
         <div class="d-grid mb-3">
           <button 
