@@ -51,9 +51,11 @@ export class LoginComponent {
           console.log('Login response:', response);
           const token = response.token;
           console.log('Token:', token);
-
+ 
           if (token) {
-            document.cookie = `userToken=${token}; path=/;`;  
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 90); 
+            document.cookie = `userToken=${token}; expires=${expiryDate.toUTCString()}; path=/;`; 
             this.loginError = null;
             console.log('Login successful:', response);
   
