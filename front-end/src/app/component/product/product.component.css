@@ -1,0 +1,32 @@
+.product {
+  border-radius: 5px;
+  border: solid 1px #0aad0a;
+  transition: box-shadow 0.5s;
+  overflow: hidden;
+}
+
+.product:hover {
+  box-shadow: 0 0 10px #11bd1168;
+}
+.product .btn-main {
+  transform: translatey(120%);
+  transition: all 0.6s;
+}
+.product:hover .btn-main {
+  transform: translatey(0%);
+}
+.text-main {
+  color: #0aad0a;
+}
+.btn-main {
+  background-color: #0aad0a;
+  padding: 7px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+.btn-main:hover {
+  background-color: #11bd11;
+}
