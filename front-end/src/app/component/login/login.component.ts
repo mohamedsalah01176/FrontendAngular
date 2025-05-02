@@ -15,7 +15,13 @@ import { AuthService } from '../../util/services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule,MatIconModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -29,12 +35,11 @@ export class LoginComponent {
 
   router = inject(Router);
 
-  
   successMessage: string | null = null;
   constructor(private authService: AuthService) {
     const nav = this.router.getCurrentNavigation();
     this.successMessage = nav?.extras?.state?.['successMessage'] || null;
-  
+
     if (this.successMessage) {
       setTimeout(() => {
         this.successMessage = null;
@@ -45,20 +50,17 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
-  
+
       this.authService.setLoginForm(loginData).subscribe({
         next: (response) => {
-          console.log('Login response:', response);
           const token = response.token;
-          console.log('Token:', token);
- 
+
           if (token) {
             const expiryDate = new Date();
-            expiryDate.setDate(expiryDate.getDate() + 90); 
-            document.cookie = `userToken=${token}; expires=${expiryDate.toUTCString()}; path=/;`; 
+            expiryDate.setDate(expiryDate.getDate() + 90);
+            document.cookie = `userToken=${token}; expires=${expiryDate.toUTCString()}; path=/;`;
             this.loginError = null;
-            console.log('Login successful:', response);
-  
+
             this.router.navigate(['/home']);
           } else {
             this.loginError = 'Unexpected response from server.';
@@ -67,13 +69,13 @@ export class LoginComponent {
         error: (err) => {
           console.error('Login failed:', err);
           this.loginError = 'Incorrect email or password.';
-        }
+        },
       });
     } else {
       this.loginForm.markAllAsTouched();
     }
   }
-  
+
   clearSuccess() {
     this.successMessage = null;
   }

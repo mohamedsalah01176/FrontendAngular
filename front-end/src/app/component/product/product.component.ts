@@ -10,10 +10,11 @@ import {
 import { Subscription } from 'rxjs';
 import { Iproduct } from '../../util/interfaces/iproduct';
 import { ProductService } from '../../util/services/product.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css',
 })
@@ -25,10 +26,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllProductsSub = this.ProductService.getAllProducts().subscribe({
       next: (res) => {
-        console.log(
-          '🚀 ~ ProductComponent ~ this.ProductService.getAllProducts ~ res:',
-          res.data
-        );
         this.productList = res.data;
       },
       error: (error) => {

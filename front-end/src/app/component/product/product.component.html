@@ -4,33 +4,35 @@
     @for (product of
     productList.slice(0,productListLength==0?productList.length:productListLength);
     track $index) {
-    <div class="col-md-2">
+    <div class="col-md-4 col-lg-3 col-xl-2">
       <div class="p-2 product">
-        <img
-          [src]="product.imageCover"
-          class="w-100"
-          height="250px"
-          [alt]="product.title"
-        />
-        <h3 class="text-main small">
-          {{ product.category.name }}
-        </h3>
-        <h5 class="one-line">
-          {{ product.title.split(" ").slice(0, 2).join(" ") }}
-        </h5>
-        <div class="d-flex justify-content-between align-items-center">
-          <p>{{ product.price }}</p>
-          <div>
-            @for (num of [1,2,3,4,5].slice(0,product.ratingsAverage ); track
-            $index) {
-            <i class="fas fa-star rating-color text-warning"></i>
-            } @if(product.ratingsAverage % 1 !== 0){
-            <i
-              class="fa-solid fa-star-half-stroke rating-color text-warning"
-            ></i>
-            }
+        <div [routerLink]="['/products', product.id]">
+          <img
+            [src]="product.imageCover"
+            class="w-100"
+            height="250px"
+            [alt]="product.title"
+          />
+          <h3 class="text-main small">
+            {{ product.category.name }}
+          </h3>
+          <h5 class="one-line">
+            {{ product.title.split(" ").slice(0, 2).join(" ") }}
+          </h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <p>{{ product.price }}</p>
+            <div>
+              @for (num of [1,2,3,4,5].slice(0,product.ratingsAverage ); track
+              $index) {
+              <i class="fas fa-star rating-color text-warning"></i>
+              } @if(product.ratingsAverage % 1 !== 0){
+              <i
+                class="fa-solid fa-star-half-stroke rating-color text-warning"
+              ></i>
+              }
 
-            {{ product.ratingsAverage }}
+              {{ product.ratingsAverage }}
+            </div>
           </div>
         </div>
         <button class="btn btn-main w-100">Add Cart</button>

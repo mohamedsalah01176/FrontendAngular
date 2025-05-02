@@ -7,10 +7,11 @@ import {
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CategoryService } from '../../util/services/category.service';
 import { Icategory } from '../../util/interfaces/icategory';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-slider-category',
-  imports: [CarouselModule],
+  imports: [CarouselModule, RouterModule],
   templateUrl: './slider-category.component.html',
   styleUrl: './slider-category.component.css',
 })
@@ -47,10 +48,6 @@ export class SliderCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.CategoryService.getAllCategories().subscribe({
       next: (res) => {
-        console.log(
-          '🚀 ~ SliderCategoryComponent ~ this.CategoryService.getAllCategories ~ res:',
-          res
-        );
         this.categoryList = res.data;
       },
       error: (error) => {

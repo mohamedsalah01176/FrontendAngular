@@ -25,6 +25,7 @@ import { SettingsComponent } from './component/settings/settings.component';
 
 import { loggedGuard } from './util/Guards/logged.guard';
 import { authGuard } from './util/Guards/auth.guard';
+import { CategoryDetailsComponent } from './component/category-details/category-details.component';
 export const routes: Routes = [
   {
     path: '',
@@ -47,11 +48,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, title: 'Home Page' },
-      {
-        path: 'products',
-        component: ProductsComponent,
-        title: 'Products Page',
-      },
+
       {
         path: 'products',
         component: ProductsComponent,
@@ -99,6 +96,11 @@ export const routes: Routes = [
         path: 'categories',
         component: CategoriesComponent,
         title: 'Category Page',
+      },
+      {
+        path: 'categories/:id',
+        component: CategoryDetailsComponent,
+        title: 'Categories Details',
       },
       {
         path: 'checkout',
