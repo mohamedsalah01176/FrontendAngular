@@ -89,33 +89,18 @@ input::placeholder {
     font-weight: 600;
   }
   
-  
-  /* .btn-check:checked + .btn-outline-primary {
-    background-color: #198754; 
-    color: white;
-    border-color: #198754;
+  .custom-role-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem !important;
+    border-radius: 0.8rem;
   }
   
-  
-  .btn-outline-primary {
-    color: var(--input-placeholder);
-    transition: all 0.3s ease;
-    border: 2px solid #dee2e6;
+  .custom-role-btn i {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
   }
-  
-  .btn-outline-primary:hover {
-    color: black;
-    border-color: #198754;  
-    background-color: #f8f9fa;
-  }
-  
-  
-  .d-flex > .flex-fill {
-    display: flex;
-    flex-direction: column;
-  } */
-  
-  
+
+
   
   .btn-check:checked + .btn-outline-primary {
     background: linear-gradient(135deg, var(--primary-color),var(--background-dark));
@@ -210,3 +195,13 @@ input::placeholder {
   }
 }
 
+
+.d-flex {
+  gap: 0rem !important; 
+}
+
+.d-flex > .flex-fill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} 

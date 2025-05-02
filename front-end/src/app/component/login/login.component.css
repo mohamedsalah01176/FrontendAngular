@@ -146,6 +146,18 @@
   .message mat-icon {
     margin-right: 8px;
   }
+
+    /* Border color on validation */
+    form input.ng-invalid.ng-touched {
+      border-color: var(--error-color);
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    form input.ng-valid.ng-touched {
+      border-color: var(--success-color);
+      animation: pulse 0.8s ease-in-out infinite;
+    }
+
   
   @keyframes slideIn {
     0% {
