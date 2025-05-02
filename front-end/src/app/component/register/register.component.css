@@ -100,38 +100,7 @@ input::placeholder {
     margin-bottom: 0.4rem;
   }
 
-  
 
-
-
-  
-  
-  /* .btn-check:checked + .btn-outline-primary {
-    background-color: #198754; 
-    color: white;
-    border-color: #198754;
-  }
-  
-  
-  .btn-outline-primary {
-    color: var(--input-placeholder);
-    transition: all 0.3s ease;
-    border: 2px solid #dee2e6;
-  }
-  
-  .btn-outline-primary:hover {
-    color: black;
-    border-color: #198754;  
-    background-color: #f8f9fa;
-  }
-  
-  
-  .d-flex > .flex-fill {
-    display: flex;
-    flex-direction: column;
-  } */
-  
-  
   
   .btn-check:checked + .btn-outline-primary {
     background: linear-gradient(135deg, var(--primary-color),var(--background-dark));
@@ -225,6 +194,7 @@ input::placeholder {
     font-size: 14px;
   }
 }
+
 
 .d-flex {
   gap: 0rem !important; 

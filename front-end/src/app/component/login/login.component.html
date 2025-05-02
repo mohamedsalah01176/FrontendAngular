@@ -16,7 +16,8 @@
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group mb-3">
             <label>Email</label>
-            <input type="text" formControlName="email" class="form-control shadow-sm" placeholder="Enter your email" />
+            <input type="text" formControlName="email" class="form-control shadow-sm" placeholder="Enter your email"  
+            [ngClass]="{ 'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched }" />
             <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
               <small *ngIf="loginForm.get('email')?.hasError('required')">Email is required.</small>
               <small *ngIf="loginForm.get('email')?.hasError('email')">Invalid email format.</small>
@@ -25,7 +26,9 @@
   
           <div class="form-group mb-2">
             <label>Password</label>
-            <input type="password" formControlName="password" class="form-control shadow-sm" placeholder="Enter your password" />
+            <input type="password" formControlName="password" class="form-control shadow-sm" placeholder="Enter your password"
+            [ngClass]="{ 'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched }"
+            />
             <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
               <small *ngIf="loginForm.get('password')?.hasError('required')">Password is required.</small>
             </div>
@@ -36,7 +39,7 @@
           </div>
   
           <div class="d-grid mb-3">
-            <button class="btn btn-dark shadow" type="submit" [disabled]="loginForm.invalid">Sign In</button>
+            <button class="btn btn-dark shadow" type="submit">Sign In</button>
           </div>
   
           <p class="text-center mt-3 small">
