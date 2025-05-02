@@ -32,8 +32,8 @@ export class AuthService {
     }
   }
   logOut(): void {
-    localStorage.removeItem('userToken');
-    this.userData = null;
-    this._Router.navigate(['/login']);
+  document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  this.userData = null;
+  this._Router.navigate(['/login']);
   }
 }
