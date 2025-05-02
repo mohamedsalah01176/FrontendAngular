@@ -78,19 +78,17 @@
         </div>
 
         <div class="mb-4">
-          <div class="d-flex gap-3">
+          <div class="d-flex px-3">
             <div class="flex-fill">
               <input type="radio" id="userRole" formControlName="role" value="user" class="btn-check" autocomplete="off">
-              <label class="btn btn-outline-primary w-100 p-3 d-flex flex-column align-items-center" for="userRole">
-                <i class="bi bi-person fs-2 mb-2"></i>
+              <label class="btn btn-outline-primary w-75 ms-3  py-3 d-flex flex-column justify-content-center align-items-center" for="userRole">
                 <span>User</span>
               </label>
             </div>
             
             <div class="flex-fill">
               <input type="radio" id="adminRole" formControlName="role" value="admin" class="btn-check" autocomplete="off">
-              <label class="btn btn-outline-primary w-100 p-3 d-flex flex-column align-items-center" for="adminRole">
-                <i class="bi bi-shield-lock fs-2 mb-2"></i>
+              <label class="btn btn-outline-primary w-75 me-3  py-3 d-flex flex-column justify-content-center align-items-center" for="adminRole">
                 <span>Admin</span>
               </label>
             </div>
@@ -107,7 +105,6 @@
           <button 
             type="submit" 
             class="btn btn-dark shadow" 
-            [disabled]="registerForm.invalid"
           >
             Create
           </button>

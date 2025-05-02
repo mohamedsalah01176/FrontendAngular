@@ -89,6 +89,22 @@ input::placeholder {
     font-weight: 600;
   }
   
+  .custom-role-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem !important;
+    border-radius: 0.8rem;
+  }
+  
+  .custom-role-btn i {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  
+
+
+
+  
   
   /* .btn-check:checked + .btn-outline-primary {
     background-color: #198754; 
@@ -210,3 +226,12 @@ input::placeholder {
   }
 }
 
+.d-flex {
+  gap: 0rem !important; 
+}
+
+.d-flex > .flex-fill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} 
