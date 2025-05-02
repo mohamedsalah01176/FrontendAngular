@@ -10,7 +10,7 @@ export class CategoryService {
   getAllCategories(): Observable<any> {
     return this.http.get(`https://ecommerce.routemisr.com/api/v1/categories`);
   }
-  getSpecificCategory(id: string): Observable<any> {
+  getSpecificCategory(id: string | null): Observable<any> {
     return this.http.get(
       `https://ecommerce.routemisr.com/api/v1/categories/${id}`
     );

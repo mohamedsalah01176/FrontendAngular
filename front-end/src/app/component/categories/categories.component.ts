@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CategoryService } from '../../util/services/category.service';
 import { Icategory } from '../../util/interfaces/icategory';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css',
 })
@@ -14,10 +15,6 @@ export class CategoriesComponent {
   ngOnInit(): void {
     this.CategoryService.getAllCategories().subscribe({
       next: (res) => {
-        console.log(
-          '🚀 ~ SliderCategoryComponent ~ this.CategoryService.getAllCategories ~ res:',
-          res
-        );
         this.categoryList = res.data;
       },
       error: (error) => {

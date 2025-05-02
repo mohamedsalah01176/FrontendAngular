@@ -2,7 +2,7 @@
   <h3 class="py-2">Choose your Category</h3>
   @for(category of categoryList; track category._id) {
   <div class="col-md-3 p-2">
-    <div class="text-center">
+    <div class="text-center" [routerLink]="['/categories', category._id]">
       <img height="250px" class="rounded-2 w-100" [src]="category.image" />
       <h5 class="text-main pt-2">{{ category.name }}</h5>
     </div>
