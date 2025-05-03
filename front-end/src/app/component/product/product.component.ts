@@ -1,42 +1,68 @@
-import {
-  Component,
-  inject,
-  Input,
-  input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-
-import { Subscription } from 'rxjs';
-import { Iproduct } from '../../util/interfaces/iproduct';
+import { Component, Input } from '@angular/core';
 import { ProductService } from '../../util/services/product.service';
+import { Iproduct } from '../../util/interfaces/iproduct';
+import { CookieService } from 'ngx-cookie-service';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product',
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.css',
+  styleUrls: ['./product.component.css']
 })
-export class ProductComponent implements OnInit, OnDestroy {
-  ProductService = inject(ProductService);
-  productList: Iproduct[] = [];
+export class ProductComponent {
+  Math = Math;
+  productList: Iproduct[] = []; 
+  filteredProductList: Iproduct[] = []; 
+  selectedImageIndex: { [key: string]: number } = {};
   @Input() productListLength: number = 0;
-  getAllProductsSub: Subscription = new Subscription();
+  searchQuery: string = '';
+
+  constructor(
+    private productService: ProductService,
+    private cookieService: CookieService
+  ) {}
+
   ngOnInit(): void {
-    this.getAllProductsSub = this.ProductService.getAllProducts().subscribe({
-      next: (res) => {
-        this.productList = res.data;
+    this.productService.getAllProducts().subscribe({
+      next: res => {
+        this.productList = res.products;
+        this.filteredProductList = [...this.productList]; 
       },
-      error: (error) => {
-        console.log(
-          '🚀 ~ ProductComponent ~ this.ProductService.getAllProducts ~ error:',
-          error
-        );
-      },
+      error: err => console.error(err)
     });
   }
-  ngOnDestroy(): void {
-    this.getAllProductsSub?.unsubscribe();
+
+  filterProducts(): void {
+    if (this.searchQuery.trim() === '') {
+      this.filteredProductList = [...this.productList];
+    } else {
+      this.filteredProductList = this.productList.filter(product =>
+        product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
   }
+
+  onSearchChange(): void {
+    this.filterProducts(); 
+  }
+
+  changeImage(productId: string, index: number): void {
+    this.selectedImageIndex[productId] = index;
+  }
+
+  addToCart(product: Iproduct): void {
+    console.log(`Added to cart: ${product.title}`);
+  }
+
+  toggleWishlist(product: Iproduct): void {
+    product.isWachList = !product.isWachList;
+    // const token = this.cookieService.get('userToken');
+    // this.productService.toggleWishlist(product._id, token).subscribe({
+    //   next: res => { } 
+    //   error: err => console.error(err)
+    // });
+}
 }
