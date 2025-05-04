@@ -1,1 +1,107 @@
-<p>blank-navbar works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="home"> store </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/home"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/products"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Products</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="categories"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Categories</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active-link "
+            routerLink="/contact-us"
+            >contact-us</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/daishboard"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >daishboard</a
+          >
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/wishlist"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ><i class="fa-solid fa-heart"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/cart"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <i class="fa-solid fa-cart-plus"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/profile"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ><i class="fa-solid fa-user"></i
+          ></a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/settings"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ><i class="fa-solid fa-gear"></i
+          ></a>
+        </li>
+
+        <li class="nav-item" (click)="_AuthService.logOut()">
+          <a class="nav-link cr"> logOut</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

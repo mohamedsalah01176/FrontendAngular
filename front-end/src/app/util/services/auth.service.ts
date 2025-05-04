@@ -16,9 +16,16 @@ export class AuthService {
   setRegisterForm(data: object): Observable<any> {
     return this.http.post(`${this.baseUrl}/signup`, data);
   }
-
   setLoginForm(data: object): Observable<any> {
     return this.http.post(`${this.baseUrl}/signin`, data);
+
+
+  setRegisterForm(data: object): Observable<any> {
+    return this.http.post('http://localhost:4000/api/auth/signup', data);
+  }
+
+  setLoginForm(data: object): Observable<any> {
+    return this.http.post(`http://localhost:4000/api/auth/signin`, data);
   }
 
   getTokenFromCookies(): string | null {
@@ -60,5 +67,9 @@ export class AuthService {
   }
   verifyEmail(email: string, code: string) {
     return this.http.post(`${this.baseUrl}/verification`, { email, code });
+
+  document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  this.userData = null;
+  this._Router.navigate(['/login']);
   }
 }
