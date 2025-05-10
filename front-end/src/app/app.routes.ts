@@ -108,6 +108,11 @@ export const routes: Routes = [
         title: 'Checkout Page',
       },
       {
+        path: 'orders',
+        component: OrdersComponent,
+        title: 'Checkout Page',
+      },
+      {
         path: 'contact-us',
         component: ContactUsComponent,
         title: 'About Page',
