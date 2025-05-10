@@ -1,0 +1,10 @@
+.table-responsive {
+  overflow-x: auto;
+}
+
+table td,
+table th {
+  vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+}
