@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { IFeedback } from '../interface/feedback';
+import { IFeedback } from '../interfaces/feedback';
 import { environment } from '../environment';
 import { Observable } from 'rxjs';
 
