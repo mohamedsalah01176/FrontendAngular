@@ -18,15 +18,9 @@ export class AuthService {
   }
   setLoginForm(data: object): Observable<any> {
     return this.http.post(`${this.baseUrl}/signin`, data);
-
-
-  setRegisterForm(data: object): Observable<any> {
-    return this.http.post('http://localhost:4000/api/auth/signup', data);
   }
 
-  setLoginForm(data: object): Observable<any> {
-    return this.http.post(`http://localhost:4000/api/auth/signin`, data);
-  }
+
 
   getTokenFromCookies(): string | null {
     const matches = document.cookie.match(/(?:^|; )userToken=([^;]*)/);

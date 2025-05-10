@@ -19,15 +19,70 @@
       <p>70 Washington SquareNew York, NY 10012, USA</p>
     </div>
   </div>
-  <form class="w-100 w-md-50">
+  <form (submit)="submit()" class="w-100 w-md-50" [formGroup]="FeedBackForm">
     <h2>Say Hello</h2>
-    <div>
-      <input type="text" placeholder="Name:">
-      <input type="text" placeholder="Email:">
-      <input type="password" placeholder="Phone number:">
-      <textarea title="message" placeholder="Message"></textarea>
+    <div class="con">
+      <div>
+        <input type="text" placeholder="Name:" formControlName="name">
+        @if(FeedBackForm.get('name')?.errors && (FeedBackForm.get('name')?.touched || FeedBackForm.get('name')?.dirty)){
+          @if(FeedBackForm.get('name')?.getError('required')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Name is Required</p>
+          }
+          @if(FeedBackForm.get('name')?.getError('minlength')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Minmum Length is 3 Char</p>
+          }
+        }
+      </div>
+      <div>
+        <input type="text" placeholder="Email:" formControlName="email">
+        @if(FeedBackForm.get('email')?.errors && (FeedBackForm.get('email')?.touched || FeedBackForm.get('email')?.dirty)){
+          @if(FeedBackForm.get('email')?.getError('required')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Email is Required</p>
+          }
+          @if(FeedBackForm.get('email')?.getError('email')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Email Not Valid</p>
+          }
+        }
+      </div>
+      <div>
+        <input type="text" placeholder="Phone number:" formControlName="phone">
+        @if(FeedBackForm.get('phone')?.errors && (FeedBackForm.get('phone')?.touched || FeedBackForm.get('phone')?.dirty)){
+          @if(FeedBackForm.get('phone')?.getError('required')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Phone is Required</p>
+          }
+          @if(FeedBackForm.get('phone')?.getError('pattern')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Phone Not Valid</p>
+          }
+        }
+      </div>
+      <div>
+        <textarea title="message" placeholder="Message" formControlName="message"></textarea>
+        @if(FeedBackForm.get('message')?.errors && (FeedBackForm.get('message')?.touched || FeedBackForm.get('message')?.dirty)){
+          @if(FeedBackForm.get('message')?.getError('required')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Message is Required</p>
+          }
+          @if(FeedBackForm.get('message')?.getError('minlength')){
+            <p class="error2 bg-danger p-2 text-white mt-1 border border-danger rounded-2">The Minmum Length is 3 Char</p>
+          }
+        }
+      </div>
     </div>
-    <input type="submit" value="Send Now" >
+    <input [ngStyle]="!FeedBackForm.valid ? {
+      'cursor': 'not-allowed',
+      'background-color': '#00000099',
+      'color': 'white'
+    } : {
+      'cursor': 'pointer',
+      'background-color': 'black',
+      'color': 'white'
+    }"
+    [disabled]="!FeedBackForm.valid"  type="submit" value="Send Now" >
+    @if(successMessage ){
+      <p class="bg-success text-white p-2 rounded-2 text-center mt-2">{{successMessage}} </p>
+    }
+    @if(errorMessage ){
+      <p class="bg-danger text-white p-2 rounded-2 text-center mt-2">{{errorMessage}} </p>
+    }
   </form>
 </section>
 
