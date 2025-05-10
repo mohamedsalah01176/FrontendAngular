@@ -1,13 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; // Import Router for navigation
+import { AuthService } from '../../util/services/auth.service';
 // import { LoginService } from './login.service'; // Import the LoginService
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -19,36 +33,51 @@ export class LoginComponent {
 
   loginError: string | null = null; // <-- error message variable
 
-  constructor(private router: Router) {}
+  router = inject(Router);
+
+  successMessage: string | null = null;
+  constructor(private authService: AuthService) {
+    const nav = this.router.getCurrentNavigation();
+    this.successMessage = nav?.extras?.state?.['successMessage'] || null;
+
+    if (this.successMessage) {
+      setTimeout(() => {
+        this.successMessage = null;
+      }, 4000);
+    }
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
+      const loginData = this.loginForm.value;
 
-      // Simulated login check
-      if (email === 'test@example.com' && password === '123456') {
-        this.loginError = null; // Clear any old error
-        console.log('Login Successful');
-        // this.router.navigate(['/home']);
-      } else {
-        this.loginError = 'Incorrect email or password.';
-      }
+      this.authService.setLoginForm(loginData).subscribe({
+        next: (response) => {
+          const token = response.token;
 
-      // If using real loginService:
-      /*
-      this.loginService.login(email, password).subscribe(
-        (response) => {
-          this.loginError = null;
-          this.router.navigate(['/home']);
+          if (token) {
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 90);
+            document.cookie = `userToken=${token}; expires=${expiryDate.toUTCString()}; path=/;`;
+            this.loginError = null;
+
+            this.router.navigate(['/home']);
+          } else {
+            this.loginError = 'Unexpected response from server.';
+          }
         },
-        (error) => {
+        error: (err) => {
+          console.error('Login failed:', err);
           this.loginError = 'Incorrect email or password.';
-        }
-      );
-      */
+        },
+      });
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  clearSuccess() {
+    this.successMessage = null;
   }
 
   goToRegister() {

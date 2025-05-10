@@ -70,6 +70,7 @@
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--primary-color),#563f4a);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -114,10 +115,79 @@
     color: #721c24;
   }
   
+  :host {
+    display: block;
+    height: 90vh;
+    overflow: hidden;
+  }
+
+  .success-message {
+    background-color: #4caf50; 
+    color: white;
+    width: 30%;
+  }
   
+  .message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 8px;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    text-align: center;
+    animation: slideIn 0.3s ease-out;
+    max-width: 100%;
+  }
+  
+  .message mat-icon {
+    margin-right: 8px;
+  }
 
+    /* Border color on validation */
+    form input.ng-invalid.ng-touched {
+      border-color: var(--error-color);
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    form input.ng-valid.ng-touched {
+      border-color: var(--success-color);
+      animation: pulse 0.8s ease-in-out infinite;
+    }
 
-
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-20px) translateX(-50%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0) translateX(-50%);
+      opacity: 1;
+    }
+  }
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 4px;
+    right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .success-message{
+      width: 70%; 
+      font-size: 14px;
+    }
+  }
+  
 
 
 /* Responsive adjustments */

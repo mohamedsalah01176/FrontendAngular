@@ -24,6 +24,11 @@ footer {
   padding: 5px 0;
   cursor: pointer;
 }
+.content-large i,
+.content-small i {
+  width: 18px;
+  height: 18px;
+}
 
 .content-large p,
 .content-large address,

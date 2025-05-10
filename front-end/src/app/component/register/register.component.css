@@ -75,11 +75,8 @@ input::placeholder {
     border-radius: 1rem;
     letter-spacing: 1px;
     cursor: pointer;
+    background: linear-gradient(135deg, var(--primary-color),#563f4a);
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    -webkit-border-radius: 1rem;
-    -moz-border-radius: 1rem;
-    -ms-border-radius: 1rem;
-    -o-border-radius: 1rem;
 }
   
   .btn-dark:hover {
@@ -92,3 +89,119 @@ input::placeholder {
     font-weight: 600;
   }
   
+  .custom-role-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem !important;
+    border-radius: 0.8rem;
+  }
+  
+  .custom-role-btn i {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+
+  
+  .btn-check:checked + .btn-outline-primary {
+    background: linear-gradient(135deg, var(--primary-color),var(--background-dark));
+    color: white;
+    border-radius: 1rem;
+    border-color: transparent;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-outline-primary {
+    transition: all 0.3s ease;
+    border-radius: 1rem;
+    color:var( --input-placeholder); 
+    border: 2px solid #dee2e6;
+    background: transparent; 
+  }
+  
+  .btn-outline-primary:hover {
+    color:var( --input-placeholder);
+    border-color: var(--primary-color);
+    background-color: rgba(26, 26, 26, 0.05);
+    transform: scale(1.03);
+  }
+  
+  .d-flex > .flex-fill {
+    display: flex;
+    flex-direction: column;
+}
+
+:host {
+  display: block;
+  height: 90vh;
+  overflow: hidden;
+}
+
+/* Success and error message styles */
+
+
+.error-message {
+  background-color: #ff1100;
+  color: white;
+  width: 30%;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 8px;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
+  max-width: 100%;
+}
+
+.message mat-icon {
+  margin-right: 8px;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-20px) translateX(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) translateX(-50%);
+    opacity: 1;
+  }
+}
+.close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 4px;
+  right: 10px;
+}
+
+@media (max-width: 768px) {
+  .success-message,
+  .error-message {
+    width: 70%; 
+    font-size: 14px;
+  }
+}
+
+
+.d-flex {
+  gap: 0rem !important; 
+}
+
+.d-flex > .flex-fill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} 
