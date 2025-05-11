@@ -8,7 +8,7 @@ import { ProductsComponent } from './component/products/products.component';
 import { ProductDetailComponent } from './component/product-detail/product-detail.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { OrdersComponent } from './component/orders/orders.component';
-import { DaishboardComponent } from './component/daishboard/daishboard.component';
+import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { CartComponent } from './component/cart/cart.component';
 import { CategoriesComponent } from './component/categories/categories.component';
 import { OrdersDashboardComponent } from './component/orders-dashboard/orders-dashboard.component';
@@ -62,9 +62,9 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent, title: 'Profile Page' },
       { path: 'order', component: OrdersComponent, title: 'Profile Page' },
       {
-        path: 'daishboard',
-        component: DaishboardComponent,
-        title: 'Daishboard Page',
+        path: 'dashboard',
+        component: DashboardComponent,
+        title: 'Dashboard Page',
         children: [
           { path: '', redirectTo: 'mainDashboard', pathMatch: 'full' },
           {

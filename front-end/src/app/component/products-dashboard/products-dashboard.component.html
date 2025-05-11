@@ -1,4 +1,9 @@
-<h3 class="lead mb-3 fs-3">Products</h3>
+<div class="header d-flex justify-content-between align-items-center mb-2">
+  <h3 class="lead mb-3 fs-3">Products</h3>
+  <button class="btn btn-success btn-sm" (click)="openPopup()">
+    Add New Product
+  </button>
+</div>
 
 <div class="table-responsive rounded-2 mb-4">
   <table class="table table-dark table-striped table-hover">
@@ -15,139 +20,208 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      @if (productList.length !== 0) {
+
+      <tr *ngFor="let product of productList">
         <td>
           <img
-            src="https://placehold.co/80?text=product"
+            src="{{ product.imageCover }}"
             class="rounded-2"
             alt="Product 1"
           />
         </td>
-        <td>Wireless Headphones</td>
-        <td>Electronics</td>
-        <td>$99.99</td>
+        <td>{{ product.title }}</td>
+        <td>{{ product.category.name }}</td>
+        <td>{{ product.price }}</td>
+        @if (+product.quantity > +product.sold) {
         <td><span class="badge fw-normal bg-success">Available</span></td>
-        <td>150</td>
-        <td>2025-05-01</td>
+        } @else {
+        <td><span class="badge fw-normal bg-danger">Unavailable</span></td>
+        }
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.createdAt.split("T")[0] }}</td>
         <td>
-          <button class="btn btn-success btn-sm me-2">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
+          <button
+            class="btn btn-success btn-sm me-2"
+            (click)="openPopupForEdit(product._id)"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="deleteProduct(product._id)"
+          >
+            Delete
+          </button>
         </td>
       </tr>
+      } @else {
       <tr>
-        <td>
-          <img
-            src="https://placehold.co/80?text=product"
-            class="rounded-2"
-            alt="Product 2"
-          />
-        </td>
-        <td>Sports Watch</td>
-        <td>Accessories</td>
-        <td>$49.99</td>
-        <td><span class="badge fw-normal bg-danger">Out of Stock</span></td>
-        <td>0</td>
-        <td>2025-04-20</td>
-        <td>
-          <button class="btn btn-success btn-sm me-2">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
+        <td colspan="12" class="text-center pt-3">
+          <h5 class="lead">No Products Found</h5>
         </td>
       </tr>
-      <tr>
-        <td>
-          <img
-            src="https://placehold.co/80?text=product"
-            class="rounded-2"
-            alt="Product 3"
-          />
-        </td>
-        <td>Smartphone Case</td>
-        <td>Accessories</td>
-        <td>$19.99</td>
-        <td><span class="badge fw-normal bg-success">Available</span></td>
-        <td>300</td>
-        <td>2025-05-05</td>
-        <td>
-          <button class="btn btn-success btn-sm me-2">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <img
-            src="https://placehold.co/80?text=product"
-            class="rounded-2"
-            alt="Product 3"
-          />
-        </td>
-        <td>Smartphone Case</td>
-        <td>Accessories</td>
-        <td>$19.99</td>
-        <td><span class="badge fw-normal bg-success">Available</span></td>
-        <td>300</td>
-        <td>2025-05-05</td>
-        <td>
-          <button class="btn btn-success btn-sm me-2">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <img
-            src="https://placehold.co/80?text=product"
-            class="rounded-2"
-            alt="Product 3"
-          />
-        </td>
-        <td>Smartphone Case</td>
-        <td>Accessories</td>
-        <td>$19.99</td>
-        <td><span class="badge fw-normal bg-success">Available</span></td>
-        <td>300</td>
-        <td>2025-05-05</td>
-        <td>
-          <button class="btn btn-success btn-sm me-2">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <img
-            src="https://placehold.co/80?text=product"
-            class="rounded-2"
-            alt="Product 3"
-          />
-        </td>
-        <td>Smartphone Case</td>
-        <td>Accessories</td>
-        <td>$19.99</td>
-        <td><span class="badge fw-normal bg-success">Available</span></td>
-        <td>300</td>
-        <td>2025-05-05</td>
-        <td>
-          <button class="btn btn-success btn-sm me-2">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <img
-            src="https://placehold.co/80?text=product"
-            class="rounded-2"
-            alt="Product 3"
-          />
-        </td>
-        <td>Smartphone Case</td>
-        <td>Accessories</td>
-        <td>$19.99</td>
-        <td><span class="badge fw-normal bg-success">Available</span></td>
-        <td>300</td>
-        <td>2025-05-05</td>
-        <td>
-          <button class="btn btn-success btn-sm me-2">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
-        </td>
-      </tr>
+      }
     </tbody>
   </table>
 </div>
+
+@if (isPopupVisible) {
+<div class="overlay">
+  <div class="popUp-AddProduct rounded-2 shadow-sm p-3 bg-white overflow-auto">
+    <form>
+      <div class="head">
+        <h4>Add Product</h4>
+        <button
+          type="button"
+          class="btn-close position-absolute top-0 end-0 me-3 mt-3"
+          (click)="closePopup()"
+        ></button>
+      </div>
+      <hr />
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <label for="title" class="fw-normal">Title</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="title"
+            name="title"
+            placeholder="Title"
+            [(ngModel)]="newProduct.title"
+          />
+        </div>
+
+        <div class="col-lg-6">
+          <label for="description" class="fw-normal">Description</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="description"
+            name="description"
+            placeholder="Description"
+            [(ngModel)]="newProduct.description"
+          />
+        </div>
+        <div class="col-lg-6">
+          <label for="quantity" class="fw-normal">Quantity</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="quantity"
+            name="quantity"
+            placeholder="Quantity"
+            [(ngModel)]="newProduct.quantity"
+          />
+        </div>
+        <div class="col-lg-6">
+          <label for="category" class="fw-normal">Category</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="category"
+            name="category"
+            placeholder="Category"
+            [(ngModel)]="newProduct.category.name"
+          />
+        </div>
+
+        <div class="col-lg-6">
+          <label for="productPrice" class="fw-normal">Price</label>
+          <input
+            type="number"
+            class="form-control py-2 rounded-0 my-2"
+            id="productPrice"
+            name="productPrice"
+            placeholder="Price"
+            [(ngModel)]="newProduct.price"
+          />
+        </div>
+      </div>
+    </form>
+
+    <button class="btn btn-sm btn-success mt-4 w-100" (click)="addProduct()">
+      Add Product
+    </button>
+  </div>
+</div>
+} @if (isPopupForEdit) {
+<div class="overlay">
+  <div class="popUp-AddProduct rounded-2 shadow-sm p-3 bg-white overflow-auto">
+    <form>
+      <div class="head">
+        <h4>Add Product</h4>
+        <button
+          type="button"
+          class="btn-close position-absolute top-0 end-0 me-3 mt-3"
+          (click)="closePopupForEdit()"
+        ></button>
+      </div>
+      <hr />
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <label for="title" class="fw-normal">Title</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="title"
+            name="title"
+            placeholder="Title"
+            [(ngModel)]="productToEdit.title"
+          />
+        </div>
+
+        <div class="col-lg-6">
+          <label for="description" class="fw-normal">Description</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="description"
+            name="description"
+            placeholder="Description"
+            [(ngModel)]="productToEdit.description"
+          />
+        </div>
+        <div class="col-lg-6">
+          <label for="quantity" class="fw-normal">Quantity</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="quantity"
+            name="quantity"
+            placeholder="Quantity"
+            [(ngModel)]="productToEdit.quantity"
+          />
+        </div>
+        <div class="col-lg-6">
+          <label for="category" class="fw-normal">Category</label>
+          <input
+            type="text"
+            class="form-control py-2 rounded-0 my-2"
+            id="category"
+            name="category"
+            placeholder="Category"
+            [(ngModel)]="productToEdit.category.name"
+          />
+        </div>
+
+        <div class="col-lg-6">
+          <label for="productPrice" class="fw-normal">Price</label>
+          <input
+            type="number"
+            class="form-control py-2 rounded-0 my-2"
+            id="productPrice"
+            name="productPrice"
+            placeholder="Price"
+            [(ngModel)]="productToEdit.price"
+          />
+        </div>
+      </div>
+    </form>
+
+    <button class="btn btn-sm btn-success mt-4 w-100" (click)="editProduct()">
+      Edit Product
+    </button>
+  </div>
+</div>
+}
