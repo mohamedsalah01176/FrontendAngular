@@ -21,6 +21,7 @@ export class RegisterComponent {
   errorMessage: string | null = null;
   successTimeout: any;
   errorTimeout: any;
+   showPassword = false;
 
 
   registerForm = new FormGroup({
@@ -72,6 +73,9 @@ export class RegisterComponent {
   clearError() {
     clearTimeout(this.errorTimeout);
     this.errorMessage = null;
+  }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
   
 }

@@ -205,3 +205,23 @@ input::placeholder {
   flex-direction: column;
   align-items: center;
 } 
+
+/* Positioning the eye icon inside the input */
+.position-relative {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 47%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.eye-icon:hover {
+  color: #333;
+}
