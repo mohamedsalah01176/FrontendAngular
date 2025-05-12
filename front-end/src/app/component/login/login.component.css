@@ -1,8 +1,4 @@
   .login-box {
-    width: 100%;
-    max-width: 500px;
-    padding: 1.5rem;
-    border-radius: 10px;
     animation: fadeIn 1s ease-out;
   }
   
@@ -158,6 +154,7 @@
       animation: pulse 0.8s ease-in-out infinite;
     }
 
+
   
   @keyframes slideIn {
     0% {
@@ -180,6 +177,39 @@
     top: 4px;
     right: 10px;
   }
+
+ .input-container {
+  display: flex;
+  align-items: center; 
+  position: relative;
+}
+
+.eye-icon {
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+  margin-left: -30px;
+  transition: color 0.3s ease;
+  z-index: 1; 
+}
+
+.eye-icon:hover {
+  color: #333;
+}
+
+input.form-control {
+  height: 50px;
+  font-size: 1rem;
+  padding: 0 1.2rem 0 1.2rem; 
+  border-width: 2px;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+
   
   @media (max-width: 768px) {
     .success-message{
