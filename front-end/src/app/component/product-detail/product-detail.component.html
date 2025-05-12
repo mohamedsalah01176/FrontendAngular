@@ -24,7 +24,7 @@
         >
           <a
             class="btn btn-light btn-sm border border-1 px-4"
-            routerLink="/categories"
+            [routerLink]="['/categories', productDetails.category.name]"
           >
             {{ productDetails.category.name }}
           </a>
