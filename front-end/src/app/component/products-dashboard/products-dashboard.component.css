@@ -42,9 +42,9 @@ tr img {
     width: 90vw;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 767px) and (max-width: 991px) {
   .popUp-AddProduct {
-    top: 13vh;
+    top: 15vh;
     height: 80vh;
     width: 80vw;
   }

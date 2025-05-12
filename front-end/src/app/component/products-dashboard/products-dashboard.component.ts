@@ -25,6 +25,7 @@ export class ProductsDashboardComponent {
       error: (err) => console.error(err),
     });
   }
+  
   deleteProduct(id: string) {
     this.ProductService.deleteProduct(id).subscribe({
       next: (res) => {
@@ -45,6 +46,7 @@ export class ProductsDashboardComponent {
     price: '',
     imageCover: '',
     category: { name: '' },
+    images: [],
   };
 
   isPopupVisible = false;
@@ -70,6 +72,7 @@ export class ProductsDashboardComponent {
           price: '',
           imageCover: '',
           category: { name: '' },
+          images: [],
         };
       },
       error: (err) => console.error(err),
