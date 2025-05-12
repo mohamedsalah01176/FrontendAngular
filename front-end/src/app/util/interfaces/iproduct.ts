@@ -16,7 +16,7 @@ export interface Iproduct {
   createdAt: string;
   updatedAt: string;
   id: string;
-  isWachList?: boolean
+  isWachList?: boolean;
 }
 
 interface Category {

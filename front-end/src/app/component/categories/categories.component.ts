@@ -15,6 +15,10 @@ export class CategoriesComponent {
   ngOnInit(): void {
     this.CategoryService.getAllCategories().subscribe({
       next: (res) => {
+        console.log(
+          '🚀 ~ CategoriesComponent ~ this.CategoryService.getAllCategories ~ res:',
+          res
+        );
         this.categoryList = res.data;
       },
       error: (error) => {
