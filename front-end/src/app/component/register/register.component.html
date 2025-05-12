@@ -11,9 +11,8 @@
         <button type="button" class="close-btn" (click)="clearError()">×</button>
       </div>
 
-      
-
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Username Field -->
         <div class="mb-3">
           <input
             formControlName="username"
@@ -30,7 +29,7 @@
           </div>
         </div>
 
-
+        <!-- Email Field -->
         <div class="mb-3">
           <input
             formControlName="email"
@@ -47,7 +46,8 @@
           </div>
         </div>
 
-        <div class="mb-3">
+        <!-- Password Field -->
+        <div class="mb-3 position-relative">
           <input
             formControlName="password"
             type="password"
@@ -61,9 +61,16 @@
           <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('minlength')">
             Password must be at least 6 characters
           </div>
+          
+          <!-- Eye icon inside the input -->
+          <i 
+            class="eye-icon" 
+            [ngClass]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'" 
+            (click)="togglePasswordVisibility()">
+          </i>
         </div>
 
-
+        <!-- Phone Field -->
         <div class="mb-4">
           <input
             formControlName="phone"
@@ -77,18 +84,19 @@
           </div>
         </div>
 
+        <!-- Role Selection -->
         <div class="mb-4">
           <div class="d-flex px-3">
             <div class="flex-fill">
               <input type="radio" id="userRole" formControlName="role" value="user" class="btn-check" autocomplete="off">
-              <label class="btn btn-outline-primary w-75 ms-3  py-3 d-flex flex-column justify-content-center align-items-center" for="userRole">
+              <label class="btn btn-outline-primary w-75 ms-3 py-3 d-flex flex-column justify-content-center align-items-center" for="userRole">
                 <span>User</span>
               </label>
             </div>
             
             <div class="flex-fill">
               <input type="radio" id="adminRole" formControlName="role" value="admin" class="btn-check" autocomplete="off">
-              <label class="btn btn-outline-primary w-75 me-3  py-3 d-flex flex-column justify-content-center align-items-center" for="adminRole">
+              <label class="btn btn-outline-primary w-75 me-3 py-3 d-flex flex-column justify-content-center align-items-center" for="adminRole">
                 <span>Admin</span>
               </label>
             </div>
@@ -100,7 +108,7 @@
           </div>
         </div>
 
-
+        <!-- Submit Button -->
         <div class="d-grid mb-3">
           <button 
             type="submit" 
@@ -110,6 +118,7 @@
           </button>
         </div>
 
+        <!-- Return to store -->
         <div class="text-center mt-3 small">
           🛒 
           <a routerLink="/" class="text-decoration-underline text-dark">
