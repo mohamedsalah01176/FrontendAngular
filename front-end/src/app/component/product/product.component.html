@@ -11,6 +11,7 @@
         (input)="onSearchChange()"
       />
     </div>
+
     <div class="row g-4">
       <div
         class="col-sm-6 col-md-4 col-lg-3"
@@ -34,20 +35,18 @@
             ></i>
           </button>
 
-          <div class="product-image">
-            <img
-              [src]="product.images[selectedImageIndex[product._id] || 0]"
-              alt="{{ product.title }}"
-              class="img-fluid product-thumbnail"
-            />
-            <div class="dot-indicators">
-              <span
-                *ngFor="let img of product.images; let i = index"
-                class="dot"
-                [class.active]="selectedImageIndex[product._id] === i"
-                (click)="changeImage(product._id, i)"
-              ></span>
-            </div>
+          <div class="product-image rounded-2 overflow-hidden">
+            <owl-carousel-o [options]="carouselOptions">
+              <ng-container *ngFor="let img of product.images">
+                <ng-template carouselSlide>
+                  <img
+                    [src]="img"
+                    [alt]="product.title"
+                    class="img-fluid product-thumbnail w-100"
+                  />
+                </ng-template>
+              </ng-container>
+            </owl-carousel-o>
           </div>
 
           <div
