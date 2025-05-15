@@ -18,14 +18,6 @@ export class AuthService {
   }
   setLoginForm(data: object): Observable<any> {
     return this.http.post(`${this.baseUrl}/signin`, data);
-
-
-  setRegisterForm(data: object): Observable<any> {
-    return this.http.post('http://localhost:4000/api/auth/signup', data);
-  }
-
-  setLoginForm(data: object): Observable<any> {
-    return this.http.post(`http://localhost:4000/api/auth/signin`, data);
   }
 
   getTokenFromCookies(): string | null {
@@ -47,10 +39,9 @@ export class AuthService {
   sendVerificationCode(email: string) {
     return this.http.post(`${this.baseUrl}/verification-code`, { email });
   }
-  resetPassword(email: string, code: string, newPassword: string) {
-    return this.http.post(`${this.baseUrl}/reset-passwordgit`, {
-      email,
-      code,
+  changePassword(oldPassword: string, newPassword: string) {
+    return this.http.post(`${this.baseUrl}/change-password`, {
+      oldPassword,
       newPassword,
     });
   }
@@ -66,10 +57,10 @@ export class AuthService {
     });
   }
   verifyEmail(email: string, code: string) {
+    document.cookie =
+      'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    this.userData = null;
+    this._Router.navigate(['/login']);
     return this.http.post(`${this.baseUrl}/verification`, { email, code });
-
-  document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  this.userData = null;
-  this._Router.navigate(['/login']);
   }
 }

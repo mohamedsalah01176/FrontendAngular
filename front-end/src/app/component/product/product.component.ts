@@ -10,12 +10,12 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-product',
   imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css'],
 })
 export class ProductComponent {
   Math = Math;
-  productList: Iproduct[] = []; 
-  filteredProductList: Iproduct[] = []; 
+  productList: Iproduct[] = [];
+  filteredProductList: Iproduct[] = [];
   selectedImageIndex: { [key: string]: number } = {};
   @Input() productListLength: number = 0;
   searchQuery: string = '';
@@ -27,11 +27,11 @@ export class ProductComponent {
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
-      next: res => {
+      next: (res) => {
         this.productList = res.products;
-        this.filteredProductList = [...this.productList]; 
+        this.filteredProductList = [...this.productList];
       },
-      error: err => console.error(err)
+      error: (err) => console.error(err),
     });
   }
 
@@ -39,14 +39,14 @@ export class ProductComponent {
     if (this.searchQuery.trim() === '') {
       this.filteredProductList = [...this.productList];
     } else {
-      this.filteredProductList = this.productList.filter(product =>
+      this.filteredProductList = this.productList.filter((product) =>
         product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
   }
 
   onSearchChange(): void {
-    this.filterProducts(); 
+    this.filterProducts();
   }
 
   changeImage(productId: string, index: number): void {
@@ -61,8 +61,8 @@ export class ProductComponent {
     product.isWachList = !product.isWachList;
     // const token = this.cookieService.get('userToken');
     // this.productService.toggleWishlist(product._id, token).subscribe({
-    //   next: res => { } 
+    //   next: res => { }
     //   error: err => console.error(err)
     // });
-}
+  }
 }

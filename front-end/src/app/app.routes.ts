@@ -117,6 +117,11 @@ export const routes: Routes = [
         component: SettingsComponent,
         title: 'Settings Page',
       },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        title: 'profile Page',
+      },
     ],
   },
   { path: '**', component: ErrorComponent, title: 'Error Page' },
