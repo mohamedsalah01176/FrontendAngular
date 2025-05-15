@@ -28,7 +28,7 @@
               </div>
             </div>
           }
-          <button class="delete" (click)="deleteSpecificProduct(order._id)">Delete</button>
+          <button class="delete mb-5" (click)="deleteSpecificProduct(order._id)">Delete</button>
         </div>
       }
       </div>
@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-    <button class="cancelOrder">Cancel Order</button>
+    <button class="cancelOrder" (click)="deleteAllOrders()">Cancel Order</button>
     <section class="secuirty">
       <h6><i class="fa-solid fa-lock"></i> Secuirty and Privacy</h6>
       <p class="mb-2">

@@ -34,6 +34,25 @@ export class OrdersComponent {
     return total
   }
   deleteSpecificProduct(orderId:string | undefined){
-    console.log(orderId)
+    this._OrderService.deleteSpecificOrder(orderId).subscribe({
+        next:(res)=>{
+          console.log(res)
+          this.orders=res.remainingOrders;
+        },
+        error:(err)=>{
+          console.log(err)
+        }
+      })
+  }
+  deleteAllOrders(){
+    this._OrderService.deleteAllOrders().subscribe({
+        next:(res)=>{
+          console.log(res)
+          this.orders=[];
+        },
+        error:(err)=>{
+          console.log(err)
+        }
+      })
   }
 }
