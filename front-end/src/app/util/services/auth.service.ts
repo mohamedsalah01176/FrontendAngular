@@ -21,7 +21,6 @@ export class AuthService {
   }
 
 
-
   getTokenFromCookies(): string | null {
     const matches = document.cookie.match(/(?:^|; )userToken=([^;]*)/);
     return matches ? decodeURIComponent(matches[1]) : null;
@@ -41,10 +40,9 @@ export class AuthService {
   sendVerificationCode(email: string) {
     return this.http.post(`${this.baseUrl}/verification-code`, { email });
   }
-  resetPassword(email: string, code: string, newPassword: string) {
-    return this.http.post(`${this.baseUrl}/reset-passwordgit`, {
-      email,
-      code,
+  changePassword(oldPassword: string, newPassword: string) {
+    return this.http.post(`${this.baseUrl}/change-password`, {
+      oldPassword,
       newPassword,
     });
   }
@@ -60,10 +58,10 @@ forgetPassword(email: string) {
     });
   }
   verifyEmail(email: string, code: string) {
+    document.cookie =
+      'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    this.userData = null;
+    this._Router.navigate(['/login']);
     return this.http.post(`${this.baseUrl}/verification`, { email, code });
-
-  document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  this.userData = null;
-  this._Router.navigate(['/login']);
   }
 }

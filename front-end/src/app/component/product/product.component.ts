@@ -12,9 +12,16 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
   standalone: true,
   imports: [RouterModule, CommonModule, FormsModule, CarouselModule],
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css'],
 })
 export class ProductComponent {
+
+  Math = Math;
+  productList: Iproduct[] = [];
+  filteredProductList: Iproduct[] = [];
+  selectedImageIndex: { [key: string]: number } = {};
+
+
   @Input() productListLength: number = 0;
   productList: Iproduct[] = [];
   filteredProductList: Iproduct[] = [];
@@ -39,11 +46,11 @@ export class ProductComponent {
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
-      next: res => {
+      next: (res) => {
         this.productList = res.products;
         this.filteredProductList = [...this.productList];
       },
-      error: err => console.error(err)
+      error: (err) => console.error(err),
     });
   }
 
@@ -51,7 +58,7 @@ export class ProductComponent {
     if (this.searchQuery.trim() === '') {
       this.filteredProductList = [...this.productList];
     } else {
-      this.filteredProductList = this.productList.filter(product =>
+      this.filteredProductList = this.productList.filter((product) =>
         product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
@@ -59,6 +66,12 @@ export class ProductComponent {
 
   onSearchChange(): void {
     this.filterProducts();
+
+  }
+
+  changeImage(productId: string, index: number): void {
+    this.selectedImageIndex[productId] = index;
+
   }
 
   addToCart(product: Iproduct): void {
@@ -67,10 +80,12 @@ export class ProductComponent {
 
   toggleWishlist(product: Iproduct): void {
     product.isWachList = !product.isWachList;
-    // const token = this.cookieService.get('userToken');
-    // this.productService.toggleWishlist(product._id, token).subscribe({
-    //   next: res => {},
-    //   error: err => console.error(err)
-    // });
+     const token = this.cookieService.get('userToken');
+    this.productService.toggleWishlist(product._id, token).subscribe({
+
+     next: res => {},
+
+      error: err => console.error(err)
+     });
   }
 }

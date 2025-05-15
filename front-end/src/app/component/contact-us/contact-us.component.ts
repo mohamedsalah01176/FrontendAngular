@@ -1,17 +1,28 @@
 import { Component, inject, OnInit } from '@angular/core';
+
+import { NavLinksComponent } from '../nav-links/nav-links.component';
+import { ActivatedRoute } from '@angular/router';
+
 import { NavLinksComponent } from "../nav-links/nav-links.component";
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FeedbackService } from '../../util/services/feedback.service';
 
+
 @Component({
   selector: 'app-contact-us',
   imports: [NavLinksComponent,ReactiveFormsModule,CommonModule],
   templateUrl: './contact-us.component.html',
-  styleUrl: './contact-us.component.css'
+  styleUrl: './contact-us.component.css',
 })
 export class ContactUsComponent implements OnInit {
+
+  private readonly _ActivatedRoute = inject(ActivatedRoute);
+  url: string = '';
+  ngOnInit() {
+    this.url = this._ActivatedRoute.snapshot.routeConfig?.path as string;
+
   private readonly _ActivatedRoute=inject(ActivatedRoute);
   private readonly _FeedbackService=inject(FeedbackService);
   private readonly _Router=inject(Router);
@@ -26,6 +37,7 @@ export class ContactUsComponent implements OnInit {
   })
   ngOnInit(){
     this.url=this._ActivatedRoute.snapshot.routeConfig?.path as string;
+
   }
   submit(){
     if(this.FeedBackForm.valid){
