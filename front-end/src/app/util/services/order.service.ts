@@ -22,14 +22,31 @@ export class OrderService {
     })
   }
   getOrders():Observable<any>{
-    // let token=document.cookie.split("=")[1];
-    // const user:{userID:string}=jwtDecode(token);
-    // return this._HttpClient.get(`${environment.baseUrl}/api/order/${user.userID}`,{
-    return this._HttpClient.get(`${environment.baseUrl}/api/order/sssssss`,{
+    let token=document.cookie.split("=")[1];
+    const user:{userID:string}=jwtDecode(token);
+    return this._HttpClient.get(`${environment.baseUrl}/api/order/${user.userID}`,{
       headers:{
-        // Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     })
+  }
+  deleteAllOrders():Observable<any>{
+    let token=document.cookie.split("=")[1];
+    const user:{userID:string}=jwtDecode(token);
+    return this._HttpClient.delete(`${environment.baseUrl}/api/orders/${user.userID}`,{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    })
+  }
+  deleteSpecificOrder(orderId:string | undefined):Observable<any>{
+    let token=document.cookie.split("=")[1];
+    return this._HttpClient.delete(`${environment.baseUrl}/api/order/${orderId}`,{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    })
+
   }
 
 }
