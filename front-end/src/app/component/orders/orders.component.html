@@ -3,50 +3,35 @@
     <h3>Shipping Address</h3>
     <div class="bigCon">
       <h4>Address</h4>
+      @for (order of orders; track $index) {
       <div class="conAddress">
-        <h5>Egypt - Giza - Haram</h5>
-        <p>+201155953141</p>
-      </div>
+          <h5>{{order.order_details.address}}</h5>
+          <p>{{order.order_details.phone}}</p>
+        </div>
+      }
     </div>
     <h2>Your Order</h2>
     <div class="bigCon">
-      <h3>Shipment 1 of 1</h3>
+      @for (order of orders; track $index) {
+      <h3>Shipment {{$index +1}} </h3>
       <div class="conItems ">
-        <div class="item">
-          <div>
-            <img src="/images/product-1.png" alt="img" >
-            <span class="quantity">x1</span>
-          </div>
-          <div>
-            <p>Xaomi</p>
-            <h4>Redmi Buide</h4>
-            <p>EGP <span>1900</span></p>
-          </div>
+          @for (item of order.products; track $index) {
+            <div class="item">
+              <div>
+                <img [src]="item.imageCover" alt="img" >
+                <span class="quantity">x{{item.quantity}}</span>
+              </div>
+              <div>
+                <p>{{item.category.name}}</p>
+                <h4>{{item.title}}</h4>
+                <p>EGP <span>{{item.price}}</span></p>
+              </div>
+            </div>
+          }
+          <button class="delete" (click)="deleteSpecificProduct(order._id)">Delete</button>
         </div>
-        <div class="item ">
-          <div>
-            <img src="/images/product-1.png" alt="img" >
-            <span class="quantity">x1</span>
-          </div>
-          <div>
-            <p>Xaomi</p>
-            <h4>Redmi Buide</h4>
-            <p>EGP <span>1900</span></p>
-          </div>
-        </div>
-        <div class="item">
-          <div>
-            <img src="/images/product-1.png" alt="img" >
-            <span class="quantity">x1</span>
-          </div>
-          <div>
-            <p>Xaomi</p>
-            <h4>Redmi Buide</h4>
-            <p>EGP <span>1900</span></p>
-          </div>
-        </div>
+      }
       </div>
-    </div>
   </div>
   <div >
     <h3>Order Summary</h3>
@@ -55,7 +40,7 @@
       <div class="conCheckout">
         <div>
           <h5>SubTotal:</h5>
-          <p>EG {{ 2000 | number:'1.0-0' }}</p>
+          <p>EG {{ total() | number:'1.0-0' }}</p>
         </div>
         <div>
           <h5>Shipping:</h5>
@@ -63,7 +48,7 @@
         </div>
         <div>
           <h5>Total:</h5>
-          <p>EG {{ 2000 + 15 | number:'1.0-0' }}</p>
+          <p>EG {{ total() + 15 | number:'1.0-0' }}</p>
         </div>
       </div>
     </div>

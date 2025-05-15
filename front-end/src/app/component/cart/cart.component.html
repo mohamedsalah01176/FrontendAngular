@@ -16,18 +16,18 @@
             <div class="d-flex align-items-center gap-4">
               <img src="/images/product-1.png" alt="image">
               <div>
-                <p>{{item.name}}</p>
-                <a routerLink="/products" >{{item.name}}</a>
-                <p>color:{{item.color}}</p>
+                <p>{{item.title}}</p>
+                <a routerLink="/products" >{{item.title}}</a>
+                <!-- <p>color:{{item.color}}</p> -->
               </div>
             </div>
           </td>
           <td class="w-25 ">
             <div class="d-flex align-items-center justify-content-end gap-3 ">
               <div class="conQuaintiy d-flex align-items-center gap-2">
-                <button title="munus" (click)="decreaseQounter(item.id)"><i class="fa-solid fa-minus"></i></button>
+                <button title="munus" (click)="decreaseQounter(item._id)"><i class="fa-solid fa-minus"></i></button>
                 <div>{{item.quantity}}</div>
-                <button title="plus" (click)="increaseQounter(item.id)"><i class="fa-solid fa-plus"></i></button>
+                <button title="plus" (click)="increaseQounter(item._id)"><i class="fa-solid fa-plus"></i></button>
               </div>
               <i class="fa-solid fa-trash delete"></i>
             </div>
@@ -59,9 +59,9 @@
       <div class="w-25 ">
         <div class="d-flex align-items-center justify-content-end gap-3 ">
           <div class="conQuaintiy d-flex align-items-center gap-2">
-            <button title="munus" (click)="decreaseQounter(item.id)"><i class="fa-solid fa-minus"></i></button>
+            <button title="munus" (click)="decreaseQounter(item._id)"><i class="fa-solid fa-minus"></i></button>
             <div>{{item.quantity}}</div>
-            <button title="plus" (click)="increaseQounter(item.id)"><i class="fa-solid fa-plus"></i></button>
+            <button title="plus" (click)="increaseQounter(item._id)"><i class="fa-solid fa-plus"></i></button>
           </div>
           <i class="fa-solid fa-trash delete"></i>
         </div>
@@ -97,6 +97,6 @@
     <h5>Total:</h5>
     <p>EG {{ totalCheckout+15 | number:'1.0-0' }}</p>
   </div>
-  <a routerLink="/checkout" >Process to checkout</a>
+  <a  (click)="handleProducts()">Process to checkout</a>
  </div>
 </section>

@@ -135,7 +135,9 @@ section .conCheckout a:hover{
   background-color: white;
 }
 
-
+a{
+  cursor: pointer;
+}
 
 
 
