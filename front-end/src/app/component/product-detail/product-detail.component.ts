@@ -2,19 +2,20 @@ import { ProductService } from '../../util/services/product.service';
 import { faHeart, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import { DecodedToken } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../util/services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
   imports: [
     FontAwesomeModule,
-    RouterModule,
     CarouselModule,
+    RouterModule,
     CommonModule,
     FormsModule,
   ],
@@ -70,7 +71,9 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private ProductService: ProductService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private CartService: CartService,
+    private router: Router
   ) {}
 
   user = {
@@ -176,4 +179,28 @@ export class ProductDetailComponent implements OnInit {
       error: (err) => console.error(err),
     });
   }
+
+addToCart(productId: string): void {
+  const token = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('userToken='))
+    ?.split('=')[1];
+
+  if (!token) {
+    console.error('User not authenticated');
+    return;
+  }
+
+  this.CartService.addToCart(productId, token).subscribe({
+    next: (response) => {
+      console.log('Product added to cart:', response);
+      this.router.navigate(['/cart']);
+    },
+    error: (error) => {
+      console.error('Error adding product to cart:', error);
+    }
+  });
+}
+
+
 }

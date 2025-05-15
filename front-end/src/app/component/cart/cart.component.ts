@@ -1,89 +1,109 @@
+import { Router } from '@angular/router';
+import { CartService } from '../../util/services/cart.service';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChildren } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChildren } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NavLinksComponent } from "../nav-links/nav-links.component";
+
+
 
 
 @Component({
   selector: 'app-cart',
-  imports: [RouterLink, CommonModule, FormsModule, NavLinksComponent],
+  standalone: true,
+  imports: [CommonModule, RouterLink,FormsModule],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrls: ['./cart.component.css'],
 })
-export class CartComponent {
-  products = [
-    {
-      id:1,
-      name: 'elexy-demo',
-      color: 'Eampit',
-      price: 39700,
-      quantity: 1,
-      image: '/images/product-1.avif',
-      total:500
-    },
-    {
-      id:2,
-      name: 'elexy-demo',
-      color: 'Eampit',
-      price: 39700,
-      quantity: 1,
-      image: '/images/product-1.avif',
-      total:100
-    },
-    // أضف المزيد حسب الحاجة
-  ];
-  @ViewChildren('ProductTotalPrice') ProductTotalPrice :any;
-  coupon:string='';
-  error:string=''
-  url:string='';
-  totalCheckout:number=0
-  private readonly _ActivatedRoute=inject(ActivatedRoute);
+export class CartComponent implements OnInit {
+  url: string = ''; 
+  products: any[] = [];
+  coupon: string = '';
+  error: string = '';
+  totalCheckout: number = 0;
+  token: string = 'YOUR_USER_TOKEN'; 
 
-  ngDoCheck(): void {
-    this.url=this._ActivatedRoute.snapshot.routeConfig?.path as string  ;
-    this.calcCheckout()
+  constructor(
+    private cartService: CartService,   
+    private _ActivatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loadCart();
   }
 
-  // calcTotal(id:number){
-  //   console.log(this.ProductTotalPrice._results)
-  //   for(let i =0;i<this.ProductTotalPrice._results.length;i++){
-  //     if(this.ProductTotalPrice._results[i].id === id){
-  //       console.log(id,"xxxxxxxxx")
-  //     }
-  //   }
-  //   let product=this.products.find(pro=>pro.id == id);
-  //   if(product){
-  //     // this.ProductTotalPrice.nativeElement.innerHtml=600;
-  //   }
-
-  // }
-  increaseQounter(id:number){
-    let product=this.products.find(pro=>pro.id == id);
-    if(product){
-      product.quantity++;
-      // this.calcTotal(id)
-    }
-  }
-  decreaseQounter(id:number){
-    let product=this.products.find(pro=>pro.id === id);
-    if(product){
-      if(product.quantity>1){
-        product.quantity--;
-        // this.calcTotal(id)
+  loadCart() {
+    this.cartService.getCart(this.token).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.products = response.cart.products;
+          this.calcCheckout();
+        }
+      },
+      (error) => {
+        console.error('Failed to load cart:', error);
       }
-    }
+    );
   }
 
-  deleteProduct(){}
-
-  calcCheckout(){
-    this.totalCheckout =this.products.reduce((prev,current)=>prev+(current.price * current.quantity),0);
-    return this.totalCheckout
+  increaseQounter(id: string) {
+    this.updateQuantity(id, this.products.find(p => p.productId === id)?.quantity + 1);
   }
-  addCoupon(){
-    console.log(this.coupon)
-    this.totalCheckout-=500;
-    this.calcCheckout()
+
+  decreaseQounter(id: string) {
+    this.updateQuantity(id, this.products.find(p => p.productId === id)?.quantity - 1);
+  }
+
+  updateQuantity(id: string, quantity: number) {
+    this.cartService.updateQuantity(id, quantity, this.token).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.loadCart();
+        }
+      },
+      (error) => {
+        console.error('Failed to update quantity:', error);
+      }
+    );
+  }
+
+  deleteProduct(id: string) {
+    this.cartService.removeProduct(id, this.token).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.loadCart();
+        }
+      },
+      (error) => {
+        console.error('Failed to remove product:', error);
+      }
+    );
+  }
+
+  calcCheckout() {
+    this.totalCheckout = this.products.reduce(
+      (prev, current) => prev + current.productId.price * current.quantity,
+      0
+    );
+  }
+
+  addCoupon() {
+    this.totalCheckout -= 500;
+    this.calcCheckout();
+  }
+
+  clearCart() {
+    this.cartService.clearCart(this.token).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.products = [];
+          this.calcCheckout();
+        }
+      },
+      (error) => {
+        console.error('Failed to clear cart:', error);
+      }
+    );
   }
 }
