@@ -1,3 +1,4 @@
+import { ForgetPasswordVerificationComponent } from './component/forget-password-verification/forget-password-verification.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
@@ -8,7 +9,7 @@ import { ProductsComponent } from './component/products/products.component';
 import { ProductDetailComponent } from './component/product-detail/product-detail.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { OrdersComponent } from './component/orders/orders.component';
-import { DaishboardComponent } from './component/daishboard/daishboard.component';
+import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { CartComponent } from './component/cart/cart.component';
 import { CategoriesComponent } from './component/categories/categories.component';
 import { OrdersDashboardComponent } from './component/orders-dashboard/orders-dashboard.component';
@@ -26,6 +27,7 @@ import { SettingsComponent } from './component/settings/settings.component';
 import { loggedGuard } from './util/Guards/logged.guard';
 import { authGuard } from './util/Guards/auth.guard';
 import { CategoryDetailsComponent } from './component/category-details/category-details.component';
+import { ForgotPasswordComponent } from './component/forgot-password/forgot-password.component';
 export const routes: Routes = [
   {
     path: '',
@@ -39,6 +41,8 @@ export const routes: Routes = [
         component: RegisterComponent,
         title: 'Register Page',
       },
+         { path: 'forgot-password', component:ForgotPasswordComponent, title: 'Forgot Password' }, 
+         { path: 'forgot-password-verification', component: ForgetPasswordVerificationComponent, title: 'Forgot Password Verification' }, 
     ],
   },
   {
@@ -62,9 +66,9 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent, title: 'Profile Page' },
       { path: 'order', component: OrdersComponent, title: 'Profile Page' },
       {
-        path: 'daishboard',
-        component: DaishboardComponent,
-        title: 'Daishboard Page',
+        path: 'dashboard',
+        component: DashboardComponent,
+        title: 'Dashboard Page',
         children: [
           { path: '', redirectTo: 'mainDashboard', pathMatch: 'full' },
           {
@@ -105,6 +109,11 @@ export const routes: Routes = [
       {
         path: 'checkout',
         component: CheckoutComponent,
+        title: 'Checkout Page',
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
         title: 'Checkout Page',
       },
       {

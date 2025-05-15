@@ -20,6 +20,7 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/signin`, data);
   }
 
+
   getTokenFromCookies(): string | null {
     const matches = document.cookie.match(/(?:^|; )userToken=([^;]*)/);
     return matches ? decodeURIComponent(matches[1]) : null;
@@ -45,14 +46,14 @@ export class AuthService {
       newPassword,
     });
   }
-  forgetPassword(email: string) {
-    return this.http.post(`${this.baseUrl}/forget-password`, { email });
-  }
+forgetPassword(email: string) {
+  return this.http.patch(`${this.baseUrl}/forget-password`, { email });
+}
 
-  verifyForgetPassword(email: string, code: string, newPassword: string) {
-    return this.http.post(`${this.baseUrl}/forget-password-verification`, {
+  verifyForgetPassword(email: string, providedCode : string, newPassword: string) {
+    return this.http.patch(`${this.baseUrl}/forget-password-verification`, {
       email,
-      code,
+      providedCode ,
       newPassword,
     });
   }

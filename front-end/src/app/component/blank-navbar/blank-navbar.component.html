@@ -46,16 +46,36 @@
             class="nav-link"
             routerLinkActive="active-link "
             routerLink="/contact-us"
-            >contact-us</a
+            >Contact-us</a
+          >
+        </li>
+        @if (isAdmin) {
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/dashboard"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Dashboard</a
+          >
+        </li>
+        }
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive=" active-link "
+            routerLink="/wishlist"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Wish List</a
           >
         </li>
         <li class="nav-item">
           <a
             class="nav-link"
             routerLinkActive=" active-link "
-            routerLink="/daishboard"
+            routerLink="/orders"
             [routerLinkActiveOptions]="{ exact: true }"
-            >daishboard</a
+            >Orders</a
           >
         </li>
       </ul>

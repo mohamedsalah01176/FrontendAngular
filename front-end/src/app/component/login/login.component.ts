@@ -30,7 +30,7 @@ export class LoginComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
-
+   showPassword = false;
   loginError: string | null = null; // <-- error message variable
 
   router = inject(Router);
@@ -82,5 +82,9 @@ export class LoginComponent {
 
   goToRegister() {
     this.router.navigate(['/register']);
+  }
+    
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

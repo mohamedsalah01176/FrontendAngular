@@ -16,7 +16,7 @@ export interface Iproduct {
   createdAt: string;
   updatedAt: string;
   id: string;
-  isWachList?: boolean
+  isWachList?: boolean;
 }
 
 interface Category {
@@ -31,4 +31,22 @@ interface Subcategory {
   name: string;
   slug: string;
   category: string;
+}
+export interface DecodedToken {
+  role: string;
+  userID: string;
+  userName: string;
+  [key: string]: any;
+}
+
+export interface ProductComment {
+  productId: string;
+  comments: Comment[];
+}
+export interface Comment {
+  userId: string;
+  comment: string;
+  userName?: string;
+  createdAt: Date;
+  userImage?: string;
 }

@@ -1,1 +1,81 @@
-<p>orders works!</p>
+<section class="container d-flex flex-column flex-md-row gap-5">
+  <div class="flex-grow-1">
+    <h3>Shipping Address</h3>
+    <div class="bigCon">
+      <h4>Address</h4>
+      <div class="conAddress">
+        <h5>Egypt - Giza - Haram</h5>
+        <p>+201155953141</p>
+      </div>
+    </div>
+    <h2>Your Order</h2>
+    <div class="bigCon">
+      <h3>Shipment 1 of 1</h3>
+      <div class="conItems ">
+        <div class="item">
+          <div>
+            <img src="/images/product-1.png" alt="img" >
+            <span class="quantity">x1</span>
+          </div>
+          <div>
+            <p>Xaomi</p>
+            <h4>Redmi Buide</h4>
+            <p>EGP <span>1900</span></p>
+          </div>
+        </div>
+        <div class="item ">
+          <div>
+            <img src="/images/product-1.png" alt="img" >
+            <span class="quantity">x1</span>
+          </div>
+          <div>
+            <p>Xaomi</p>
+            <h4>Redmi Buide</h4>
+            <p>EGP <span>1900</span></p>
+          </div>
+        </div>
+        <div class="item">
+          <div>
+            <img src="/images/product-1.png" alt="img" >
+            <span class="quantity">x1</span>
+          </div>
+          <div>
+            <p>Xaomi</p>
+            <h4>Redmi Buide</h4>
+            <p>EGP <span>1900</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div >
+    <h3>Order Summary</h3>
+    <div class="bigCon">
+      <h4>Order Summary</h4>
+      <div class="conCheckout">
+        <div>
+          <h5>SubTotal:</h5>
+          <p>EG {{ 2000 | number:'1.0-0' }}</p>
+        </div>
+        <div>
+          <h5>Shipping:</h5>
+          <p>EG {{ 15 | number:'1.0-0' }}</p>
+        </div>
+        <div>
+          <h5>Total:</h5>
+          <p>EG {{ 2000 + 15 | number:'1.0-0' }}</p>
+        </div>
+      </div>
+    </div>
+    <button class="cancelOrder">Cancel Order</button>
+    <section class="secuirty">
+      <h6><i class="fa-solid fa-lock"></i> Secuirty and Privacy</h6>
+      <p class="mb-2">
+        Our checkout is safe and secure. Your personal and payment Information is securely transmitted via 128-bit encryption. We do not store any payment card information on our systems
+      </p>
+      <p class=" mb-2">2025 ourTeam. All Rights Reserved</p>
+      <p>Terms of Use Terms of Sale Privacy Policy</p>
+    </section>
+  </div>
+
+</section>
