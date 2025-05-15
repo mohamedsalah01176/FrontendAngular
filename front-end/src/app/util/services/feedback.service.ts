@@ -12,6 +12,7 @@ export class FeedbackService {
   constructor() { }
 
   sendFeedback(body:IFeedback):Observable<any>{
+    let token=document.cookie.split("=")[1]
     return this._HttpClient.post(`${environment.baseUrl}/api/feedback`,body)
   }
 
