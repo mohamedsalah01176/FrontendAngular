@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { OrderService } from '../../util/services/order.service';
+import { IOrder } from '../../util/interfaces/order';
 
 @Component({
   selector: 'app-orders',
@@ -8,5 +10,30 @@ import { Component } from '@angular/core';
   styleUrl: './orders.component.css'
 })
 export class OrdersComponent {
+  orders:IOrder[]=[];
+  private readonly _OrderService=inject(OrderService)
+  ngOnInit(): void {
+      this._OrderService.getOrders().subscribe({
+        next:(res)=>{
+          console.log(res)
+          this.orders=res.orders;
+        },
+        error:(err)=>{
+          console.log(err)
+        }
+      })
+  }
 
+  total():number{
+    let total:number=0;
+    if(this.orders.length>0 ){
+      for(let i=0;i<this.orders.length;i++){
+          total+=Number(this.orders[i].total)
+      }
+    }
+    return total
+  }
+  deleteSpecificProduct(orderId:string | undefined){
+    console.log(orderId)
+  }
 }
