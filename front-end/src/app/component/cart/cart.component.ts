@@ -1,65 +1,76 @@
 import { Router } from '@angular/router';
 import { CartService } from '../../util/services/cart.service';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, ViewChildren } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
-
-
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterLink,FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  url: string = ''; 
   products: any[] = [];
-  coupon: string = '';
-  error: string = '';
   totalCheckout: number = 0;
-  token: string = 'YOUR_USER_TOKEN'; 
+  couponCode: string = '';
+  couponApplied: boolean = false;
+  couponMessage: string = '';
+  discountAmount: number = 0;
+  isLoading: boolean = true;
 
-  constructor(
-    private cartService: CartService,   
-    private _ActivatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
     this.loadCart();
   }
 
+  private updateLocalStorage() {
+    localStorage.setItem('productCart', JSON.stringify(this.products));
+  }
+
   loadCart() {
-    this.cartService.getCart(this.token).subscribe(
+    this.isLoading = true;
+    this.cartService.getCart().subscribe(
       (response) => {
         if (response.status === 'success') {
           this.products = response.cart.products;
           this.calcCheckout();
+          this.updateLocalStorage();
         }
+        this.isLoading = false;
       },
       (error) => {
         console.error('Failed to load cart:', error);
+        this.isLoading = false;
       }
     );
   }
 
-  increaseQounter(id: string) {
-    this.updateQuantity(id, this.products.find(p => p.productId === id)?.quantity + 1);
+  increaseQuantity(productId: string) {
+    const item = this.products.find(p => p.productId._id === productId);
+    if (item) {
+      item.quantity++; 
+      this.updateQuantityInCart(productId, item.quantity);
+    }
   }
 
-  decreaseQounter(id: string) {
-    this.updateQuantity(id, this.products.find(p => p.productId === id)?.quantity - 1);
+  decreaseQuantity(productId: string) {
+    const item = this.products.find(p => p.productId._id === productId);
+    if (item && item.quantity > 1) {
+      item.quantity--; 
+      this.updateQuantityInCart(productId, item.quantity);
+    }
   }
 
-  updateQuantity(id: string, quantity: number) {
-    this.cartService.updateQuantity(id, quantity, this.token).subscribe(
+  updateQuantityInCart(productId: string, quantity: number) {
+    this.cartService.updateQuantity(productId, quantity).subscribe(
       (response) => {
         if (response.status === 'success') {
-          this.loadCart();
+          this.calcCheckout();  
+          this.updateLocalStorage();  
         }
       },
       (error) => {
@@ -68,11 +79,14 @@ export class CartComponent implements OnInit {
     );
   }
 
-  deleteProduct(id: string) {
-    this.cartService.removeProduct(id, this.token).subscribe(
+  deleteProduct(productId: string) {
+    this.cartService.removeProduct(productId).subscribe(
       (response) => {
         if (response.status === 'success') {
-          this.loadCart();
+        
+          this.products = this.products.filter(p => p.productId._id !== productId);
+          this.calcCheckout(); 
+          this.updateLocalStorage(); 
         }
       },
       (error) => {
@@ -82,27 +96,50 @@ export class CartComponent implements OnInit {
   }
 
   calcCheckout() {
-    this.totalCheckout = this.products.reduce(
-      (prev, current) => prev + current.productId.price * current.quantity,
-      0
-    );
-  }
-
-  addCoupon() {
-    this.totalCheckout -= 500;
-    this.calcCheckout();
+    this.totalCheckout = this.products.reduce((acc, item) => {
+      const price = item.productId?.price || 0;
+      return acc + price * item.quantity;
+    }, 0);
   }
 
   clearCart() {
-    this.cartService.clearCart(this.token).subscribe(
+    this.cartService.clearCart().subscribe(
       (response) => {
         if (response.status === 'success') {
           this.products = [];
-          this.calcCheckout();
+          this.totalCheckout = 0;
+          this.updateLocalStorage();  
         }
       },
       (error) => {
         console.error('Failed to clear cart:', error);
+      }
+    );
+  }
+
+    handelcoupon() {
+    if (!this.couponCode) {
+      this.couponMessage = 'Please enter a coupon code.';
+      this.couponApplied = false;
+      return;
+    }
+
+    this.cartService.applyCoupon(this.couponCode).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.totalCheckout = response.newTotal;
+          this.discountAmount = response.discount || 0;
+          this.couponApplied = true;
+          this.couponMessage = response.message || 'Coupon applied successfully!';
+        } else {
+          this.couponApplied = false;
+          this.couponMessage = response.message || 'Invalid coupon.';
+        }
+      },
+      (error) => {
+        console.error('Failed to apply coupon:', error);
+        this.couponApplied = false;
+        this.couponMessage = 'Invalid coupon code. Please try again';
       }
     );
   }
