@@ -9,6 +9,8 @@ import { jwtDecode } from 'jwt-decode';
 import { DecodedToken } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../util/services/cart.service';
+import { MatSnackBar } from '@angular/material/snack-bar'; 
+
 
 @Component({
   selector: 'app-product-detail',
@@ -72,8 +74,9 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private ProductService: ProductService,
     private cdr: ChangeDetectorRef,
-    private CartService: CartService,
-    private router: Router
+    private cartService: CartService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   user = {
@@ -180,27 +183,33 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-addToCart(productId: string): void {
-  const token = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('userToken='))
-    ?.split('=')[1];
 
-  if (!token) {
-    console.error('User not authenticated');
-    return;
+
+  
+addToCart(productId: string) {
+    this.cartService.getCart().subscribe((response) => {
+      const isProductInCart = response.cart.products.some(
+        (product: { productId: { _id: string; }; }) => product.productId._id === productId
+      );
+
+      if (isProductInCart) {
+        this.snackBar.open('Product is already in your cart!', 'Close', {
+          duration: 4000, 
+          panelClass: ['snackbar-warning'], 
+        });
+      } else {
+        this.cartService.addToCart(productId).subscribe(
+          (response) => {
+            if (response.status === 'success') {
+              console.log('Product added to cart:', response);
+              this.router.navigate(['/cart']);
+            }
+          },
+          (error) => {
+            console.error('Failed to add product to cart:', error);
+          }
+        );
+      }
+    });
   }
-
-  this.CartService.addToCart(productId, token).subscribe({
-    next: (response) => {
-      console.log('Product added to cart:', response);
-      this.router.navigate(['/cart']);
-    },
-    error: (error) => {
-      console.error('Error adding product to cart:', error);
-    }
-  });
-}
-
-
 }
