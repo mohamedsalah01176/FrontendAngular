@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 import { DecodedToken } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../util/services/cart.service';
-import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -185,17 +185,17 @@ export class ProductDetailComponent implements OnInit {
 
 
 
-  
+
 addToCart(productId: string) {
-    this.cartService.getCart().subscribe((response) => {
+    this.cartService.addToCart(productId).subscribe((response) => {
       const isProductInCart = response.cart.products.some(
         (product: { productId: { _id: string; }; }) => product.productId._id === productId
       );
 
       if (isProductInCart) {
         this.snackBar.open('Product is already in your cart!', 'Close', {
-          duration: 4000, 
-          panelClass: ['snackbar-warning'], 
+          duration: 4000,
+          panelClass: ['snackbar-warning'],
         });
       } else {
         this.cartService.addToCart(productId).subscribe(

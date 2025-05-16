@@ -27,6 +27,8 @@ imports: [
 })
 export class CheckoutComponent {
   private readonly _OrderService=inject(OrderService)
+  private  router = inject(Router);
+
   OrderForm:FormGroup=new FormGroup({
     details:new FormControl(null),
     phone:new FormControl(null,[Validators.required,Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/)]),
@@ -40,6 +42,7 @@ export class CheckoutComponent {
       this._OrderService.createOrder({'order_details':this.OrderForm.value,products}).subscribe({
         next:(res)=>{
           console.log(res);
+          this.router.navigate(['/home'])
         },
         error:(err)=>{
           console.log(err)
