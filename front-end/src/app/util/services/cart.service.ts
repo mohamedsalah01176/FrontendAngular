@@ -12,6 +12,7 @@ export class CartService {
 
   private getTokenHeaders(): { headers: HttpHeaders } {
     const token = this.getTokenFromCookie('userToken');
+    console.log(token)
     return {
       headers: new HttpHeaders({
         Authorization: `Bearer ${token}`,
