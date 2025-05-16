@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 })
 export class ProductService {
   private http = inject(HttpClient);
-
   token = document.cookie
     .split('; ')
     .find((row) => row.startsWith('userToken='))
