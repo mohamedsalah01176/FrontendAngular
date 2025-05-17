@@ -187,29 +187,31 @@ export class ProductDetailComponent implements OnInit {
 
 
 addToCart(productId: string) {
-    this.cartService.addToCart(productId).subscribe((response) => {
-      const isProductInCart = response.cart.products.some(
-        (product: { productId: { _id: string; }; }) => product.productId._id === productId
-      );
-
-      if (isProductInCart) {
+  this.cartService.addToCart(productId).subscribe(
+    (response) => {
+      if (response.status === 'success') {
+        this.snackBar.open('Product added to cart!', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+        });
+        this.router.navigate(['/cart']);
+      }
+    },
+    (error) => {
+      if (error.error.message === 'Product already in cart') {
         this.snackBar.open('Product is already in your cart!', 'Close', {
           duration: 4000,
           panelClass: ['snackbar-warning'],
         });
       } else {
-        this.cartService.addToCart(productId).subscribe(
-          (response) => {
-            if (response.status === 'success') {
-              console.log('Product added to cart:', response);
-              this.router.navigate(['/cart']);
-            }
-          },
-          (error) => {
-            console.error('Failed to add product to cart:', error);
-          }
-        );
+        this.snackBar.open('Something went wrong!', 'Close', {
+          duration: 4000,
+          panelClass: ['snackbar-error'],
+        });
+        console.error('Add to cart error:', error);
       }
-    });
-  }
+    }
+  );
+}
+
 }
