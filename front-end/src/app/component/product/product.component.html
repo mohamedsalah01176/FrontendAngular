@@ -40,7 +40,7 @@
               <ng-container *ngFor="let img of product.images">
                 <ng-template carouselSlide>
                   <img
-                    [src]="img"
+                    crossorigin="anonymous" [src]="img.startsWith('user') ? serverURL + img : img"
                     [alt]="product.title"
                     class="img-fluid product-thumbnail w-100"
                   />

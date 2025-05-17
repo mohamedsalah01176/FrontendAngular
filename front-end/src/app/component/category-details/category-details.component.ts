@@ -18,6 +18,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
   CategoryService = inject(CategoryService);
   categoryID: string | null = null;
   categoryList: any[] = [];
+  serverURL = 'http://localhost:4000/uploads/';
 
   getSpecificProductsub: Subscription = new Subscription();
   selectedImageIndex: { [key: string]: number } = {};

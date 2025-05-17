@@ -9,6 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 import { DecodedToken } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../util/services/cart.service';
+import { DashboardService } from '../../util/services/dashboard.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,7 +23,7 @@ import { CartService } from '../../util/services/cart.service';
   standalone: true,
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css'],
-  providers: [ProductService],
+  providers: [ProductService, DashboardService],
 })
 export class ProductDetailComponent implements OnInit {
   faHeart = faHeart;
@@ -47,7 +48,15 @@ export class ProductDetailComponent implements OnInit {
     },
   };
 
-  productDetails = {
+  productDetails: {
+    _id: string;
+    title: string;
+    category: { name: string };
+    images: string[];
+    price: number;
+    description: string;
+    quantity: number;
+  } = {
     _id: '',
     title: '',
     category: { name: '' },
@@ -57,29 +66,31 @@ export class ProductDetailComponent implements OnInit {
     quantity: 0,
   };
 
-  productComments = [
-    {
-      _id: '',
-      userId: '',
-      comment: '',
-      userName: '',
-      createdAt: new Date(),
-      userImage: '',
-    },
-  ];
+  productComments: {
+    _id: string;
+    userId: string;
+    comment: string;
+    userName: string;
+    createdAt: Date;
+    avatar: string;
+  }[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private ProductService: ProductService,
     private cdr: ChangeDetectorRef,
     private CartService: CartService,
+    private dashboardService: DashboardService,
     private router: Router
   ) {}
 
-  user = {
-    userID: '',
-    userName: '',
-  };
+  user: {
+    userID?: string;
+    userName?: string;
+    avatar?: string;
+  } = {};
+
+  serverURL = 'http://localhost:4000/uploads/';
 
   getAllComments() {
     const productId = this.route.snapshot.params['id'];
@@ -87,6 +98,8 @@ export class ProductDetailComponent implements OnInit {
     this.ProductService.getAllComments(productId).subscribe({
       next: (res) => {
         this.productComments = res.data.Comments;
+        this.getAvatarForEveryUser();
+        this.cdr.detectChanges();
       },
       error: (err) => console.error(err),
     });
@@ -125,22 +138,35 @@ export class ProductDetailComponent implements OnInit {
       userName: this.user.userName,
       comment: this.userComment,
       createdAt: new Date(),
-      userImage: 'https://placehold.co/80?text=User',
     };
+
     this.ProductService.addComment(productId, comment).subscribe({
       next: (res) => {
         this.productComments = [...res.data.Comments];
         this.userComment = '';
-
+        this.getAvatarForEveryUser();
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err),
     });
   }
+
+  getAvatarForEveryUser() {
+    const newProductComments = this.productComments.map((comment) => {
+      this.dashboardService.getUserById(comment.userId).subscribe({
+        next: (res) => {
+          comment.avatar = res.data[0].avatar;
+        },
+        error: (err) => console.error(err),
+      });
+    });
+  }
+
   deleteComment(productId: string, commentId: string) {
     this.ProductService.deleteComment(productId, commentId).subscribe({
       next: (res) => {
         this.productComments = res.data;
+         this.getAvatarForEveryUser();
       },
       error: (err) => console.error(err),
     });
@@ -175,32 +201,31 @@ export class ProductDetailComponent implements OnInit {
         this.productComments = res.data;
         this.editPopupIsOpened = false;
         this.newComment = '';
+         this.getAvatarForEveryUser();
       },
       error: (err) => console.error(err),
     });
   }
 
-addToCart(productId: string): void {
-  const token = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('userToken='))
-    ?.split('=')[1];
+  addToCart(productId: string): void {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('userToken='))
+      ?.split('=')[1];
 
-  if (!token) {
-    console.error('User not authenticated');
-    return;
-  }
-
-  this.CartService.addToCart(productId, token).subscribe({
-    next: (response) => {
-      console.log('Product added to cart:', response);
-      this.router.navigate(['/cart']);
-    },
-    error: (error) => {
-      console.error('Error adding product to cart:', error);
+    if (!token) {
+      console.error('User not authenticated');
+      return;
     }
-  });
-}
 
-
+    this.CartService.addToCart(productId, token).subscribe({
+      next: (response) => {
+        console.log('Product added to cart:', response);
+        this.router.navigate(['/cart']);
+      },
+      error: (error) => {
+        console.error('Error adding product to cart:', error);
+      },
+    });
+  }
 }

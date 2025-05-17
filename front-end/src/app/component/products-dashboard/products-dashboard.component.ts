@@ -1,4 +1,4 @@
-import { ProductService } from './../../util/services/dashboard.service';
+import { DashboardService } from './../../util/services/dashboard.service';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Iproduct } from '../../util/interfaces/iproduct';
 import { CommonModule } from '@angular/common';
@@ -13,21 +13,21 @@ import { FormsModule } from '@angular/forms';
 export class ProductsDashboardComponent {
   productList: Iproduct[] = [];
   constructor(
-    private ProductService: ProductService,
+    private DashboardService: DashboardService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.ProductService.getAllAdminProducts().subscribe({
+    this.DashboardService.getAllAdminProducts().subscribe({
       next: (res) => {
         this.productList = res.products;
       },
       error: (err) => console.error(err),
     });
   }
-  
+
   deleteProduct(id: string) {
-    this.ProductService.deleteProduct(id).subscribe({
+    this.DashboardService.deleteProduct(id).subscribe({
       next: (res) => {
         console.log(res);
         this.productList = this.productList.filter(
@@ -39,7 +39,15 @@ export class ProductsDashboardComponent {
     });
   }
 
-  newProduct = {
+  newProduct: {
+    title: string;
+    description: string;
+    quantity: string;
+    price: string;
+    imageCover: string;
+    category: { name: string };
+    images: File[];
+  } = {
     title: '',
     description: '',
     quantity: '',
@@ -59,8 +67,29 @@ export class ProductsDashboardComponent {
     this.isPopupVisible = false;
   }
 
+  serverURL = 'http://localhost:4000/uploads/'
+
   addProduct() {
-    this.ProductService.addProduct(this.newProduct).subscribe({
+    const imageInput = document.getElementById(
+      'productImages'
+    ) as HTMLInputElement;
+
+    this.newProduct.images = imageInput.files ? [...imageInput.files] : [];
+
+    const formData = new FormData();
+
+    formData.append('title', this.newProduct.title);
+    formData.append('description', this.newProduct.description);
+    formData.append('price', this.newProduct.price);
+    formData.append('quantity', this.newProduct.quantity);
+    formData.append('category', this.newProduct.category.name);
+
+    
+    this.newProduct.images.forEach((file: File) => {
+      formData.append('images', file);
+    });
+
+    this.DashboardService.addProduct(formData).subscribe({
       next: (res) => {
         this.productList.push(res.data);
         this.isPopupVisible = false;
@@ -102,7 +131,7 @@ export class ProductsDashboardComponent {
   };
 
   getProductById(id: string) {
-    this.ProductService.getproductById(id).subscribe({
+    this.DashboardService.getproductById(id).subscribe({
       next: (res) => {
         this.productToEdit = res.product[0];
         this.isPopupForEdit = true;
@@ -120,19 +149,59 @@ export class ProductsDashboardComponent {
     this.isPopupForEdit = false;
   }
 
+  // editProduct() {
+  //   this.DashboardService.updateProduct(
+  //     this.productToEdit._id,
+  //     this.productToEdit
+  //   ).subscribe({
+  //     next: (res) => {
+  //       this.productList = this.productList.map((product) =>
+  //         product._id === this.productToEdit._id ? res.product : product
+  //       );
+  //       this.isPopupForEdit = false;
+  //       this.cdr.detectChanges();
+  //     },
+  //     error: (err) => console.error(err),
+  //   });
+  // }
+
+
   editProduct() {
-    this.ProductService.updateProduct(
-      this.productToEdit._id,
-      this.productToEdit
-    ).subscribe({
-      next: (res) => {
-        this.productList = this.productList.map((product) =>
-          product._id === this.productToEdit._id ? res.product : product
-        );
-        this.isPopupForEdit = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error(err),
+  const imageInput = document.getElementById(
+    'editProductImages'
+  ) as HTMLInputElement;
+
+  const images = imageInput.files ? [...imageInput.files] : [];
+
+  console.log(this.productToEdit);
+  
+
+  const formData = new FormData();
+  formData.append('title', this.productToEdit.title);
+  formData.append('description', this.productToEdit.description);
+  formData.append('price', this.productToEdit.price.toString());
+  formData.append('quantity', this.productToEdit.quantity.toString());
+  formData.append('category', this.productToEdit.category.name);
+
+  if (images.length > 0) {
+    images.forEach((file: File) => {
+      formData.append('images', file);
     });
   }
+
+  this.DashboardService.updateProduct(
+    this.productToEdit._id,
+    formData
+  ).subscribe({
+    next: (res) => {
+      this.productList = this.productList.map((product) =>
+        product._id === this.productToEdit._id ? res.product : product
+      );
+      this.isPopupForEdit = false;
+      this.cdr.detectChanges();
+    },
+    error: (err) => console.error(err),
+  });
+}
+
 }

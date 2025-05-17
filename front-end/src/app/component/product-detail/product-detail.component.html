@@ -7,7 +7,8 @@
           <ng-template carouselSlide>
             <div class="imageContainer">
               <img
-                [src]="image"
+                crossorigin="anonymous"
+                [src]="serverURL + image"
                 [alt]="productDetails.title"
                 class="w-100 rounded-3"
               />
@@ -92,7 +93,8 @@
         <div class="userReview d-flex gap-4 mb-2 rounded-2 px-3 py-2">
           <div class="userImage">
             <img
-              src="{{ userComment.userImage }}"
+              crossorigin="anonymous"
+              [src]="serverURL + userComment.avatar"
               class="rounded-2"
               alt="userImage"
             />
