@@ -22,7 +22,7 @@ export class CartComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(private cartService: CartService) {}
-
+  serverURL = 'http://localhost:4000/uploads/';
   ngOnInit(): void {
     this.loadCart();
   }
@@ -50,17 +50,17 @@ export class CartComponent implements OnInit {
   }
 
   increaseQuantity(productId: string) {
-    const item = this.products.find(p => p.productId._id === productId);
+    const item = this.products.find((p) => p.productId._id === productId);
     if (item) {
-      item.quantity++; 
+      item.quantity++;
       this.updateQuantityInCart(productId, item.quantity);
     }
   }
 
   decreaseQuantity(productId: string) {
-    const item = this.products.find(p => p.productId._id === productId);
+    const item = this.products.find((p) => p.productId._id === productId);
     if (item && item.quantity > 1) {
-      item.quantity--; 
+      item.quantity--;
       this.updateQuantityInCart(productId, item.quantity);
     }
   }
@@ -69,8 +69,8 @@ export class CartComponent implements OnInit {
     this.cartService.updateQuantity(productId, quantity).subscribe(
       (response) => {
         if (response.status === 'success') {
-          this.calcCheckout();  
-          this.updateLocalStorage();  
+          this.calcCheckout();
+          this.updateLocalStorage();
         }
       },
       (error) => {
@@ -83,10 +83,11 @@ export class CartComponent implements OnInit {
     this.cartService.removeProduct(productId).subscribe(
       (response) => {
         if (response.status === 'success') {
-        
-          this.products = this.products.filter(p => p.productId._id !== productId);
-          this.calcCheckout(); 
-          this.updateLocalStorage(); 
+          this.products = this.products.filter(
+            (p) => p.productId._id !== productId
+          );
+          this.calcCheckout();
+          this.updateLocalStorage();
         }
       },
       (error) => {
@@ -108,7 +109,7 @@ export class CartComponent implements OnInit {
         if (response.status === 'success') {
           this.products = [];
           this.totalCheckout = 0;
-          this.updateLocalStorage();  
+          this.updateLocalStorage();
         }
       },
       (error) => {
@@ -117,7 +118,7 @@ export class CartComponent implements OnInit {
     );
   }
 
-    handelcoupon() {
+  handelcoupon() {
     if (!this.couponCode) {
       this.couponMessage = 'Please enter a coupon code.';
       this.couponApplied = false;
@@ -130,7 +131,8 @@ export class CartComponent implements OnInit {
           this.totalCheckout = response.newTotal;
           this.discountAmount = response.discount || 0;
           this.couponApplied = true;
-          this.couponMessage = response.message || 'Coupon applied successfully!';
+          this.couponMessage =
+            response.message || 'Coupon applied successfully!';
         } else {
           this.couponApplied = false;
           this.couponMessage = response.message || 'Invalid coupon.';

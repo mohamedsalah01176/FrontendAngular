@@ -18,7 +18,8 @@
           @for (item of order.products; track $index) {
             <div class="item">
               <div>
-                <img [src]="item.imageCover" alt="img" >
+                
+                <img crossorigin="anonymous" [src]="serverURL+item.imageCover" alt="img" >
                 <span class="quantity">x{{item.quantity}}</span>
               </div>
               <div>

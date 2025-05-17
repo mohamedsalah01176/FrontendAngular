@@ -14,6 +14,8 @@ export class OrdersComponent {
   orders:IOrder[]=[];
   private readonly _OrderService=inject(OrderService)
   private readonly _Router=inject(Router)
+    serverURL = 'http://localhost:4000/uploads/';
+
   ngOnInit(): void {
       this._OrderService.getOrders().subscribe({
         next:(res)=>{
