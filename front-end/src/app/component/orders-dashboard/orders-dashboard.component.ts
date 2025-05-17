@@ -39,6 +39,8 @@ export class OrdersDashboardComponent {
     this.adminID = decodedToken.userID;
     this.DashboardService.getAllAdminOrders(decodedToken.userID).subscribe({
       next: (res) => {
+        console.log(res.orders);
+        
         this.usersOrders = res.orders;
         this.getUserData();
         this.cdr.detectChanges();
