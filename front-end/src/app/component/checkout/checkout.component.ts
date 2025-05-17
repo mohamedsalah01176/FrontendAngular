@@ -42,7 +42,7 @@ export class CheckoutComponent {
       this._OrderService.createOrder({'order_details':this.OrderForm.value,products}).subscribe({
         next:(res)=>{
           console.log(res);
-          this.router.navigate(['/home'])
+          this.router.navigate(['/orders'])
         },
         error:(err)=>{
           console.log(err)
