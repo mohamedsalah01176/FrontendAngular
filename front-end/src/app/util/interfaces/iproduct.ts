@@ -37,6 +37,7 @@ export interface DecodedToken {
   userID: string;
   userName: string;
   [key: string]: any;
+  avatar: string;
 }
 
 export interface ProductComment {

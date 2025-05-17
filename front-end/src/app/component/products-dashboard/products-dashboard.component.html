@@ -25,7 +25,12 @@
       <tr *ngFor="let product of productList">
         <td>
           <img
-            src="{{ product.imageCover }}"
+            crossorigin="anonymous"
+            [src]="
+              product.imageCover.startsWith('user')
+                ? serverURL + product.imageCover
+                : product.imageCover
+            "
             class="rounded-2"
             alt="Product 1"
           />
@@ -137,6 +142,16 @@
             [(ngModel)]="newProduct.price"
           />
         </div>
+        <div class="col-lg-6">
+          <label for="productImages" class="fw-normal">Choose Images</label>
+          <input
+            type="file"
+            multiple
+            class="form-control py-2 rounded-0 my-2"
+            id="productImages"
+            name="images"
+          />
+        </div>
       </div>
     </form>
 
@@ -214,6 +229,17 @@
             name="productPrice"
             placeholder="Price"
             [(ngModel)]="productToEdit.price"
+          />
+        </div>
+
+        <div class="col-lg-6">
+          <label for="editProductImages" class="fw-normal">Choose Images</label>
+          <input
+            type="file"
+            multiple
+            class="form-control py-2 rounded-0 my-2"
+            id="editProductImages"
+            name="images"
           />
         </div>
       </div>

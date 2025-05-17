@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
+export class DashboardService {
   private http = inject(HttpClient);
 
   getToken() {
@@ -39,32 +39,32 @@ export class ProductService {
   }
 
   addProduct(product: any): Observable<any> {
-    return this.http.post(
-      `http://localhost:4000/api/product`,
-      {
-        ...product,
-        sold: 0,
-        imageCover: 'https://placehold.co/80?text=Product',
-        images: [
-          `https://placehold.co/300?text=${product.category.name} Product Image 1`,
-          `https://placehold.co/300?text=${product.category.name} Product Image 2`,
-          `https://placehold.co/300?text=${product.category.name} Product Image 3`,
-          `https://placehold.co/300?text=${product.category.name} Product Image 4`,
-        ],
-      },
+    product.append('sold', '0');
+
+    return this.http.post(`http://localhost:4000/api/product`, product, {
+      headers: this.getToken(),
+    });
+  }
+
+  updateProduct(id: string, productFormData: FormData): Observable<any> {
+    return this.http.patch(
+      `http://localhost:4000/api/product/${id}`,
+      productFormData,
       {
         headers: this.getToken(),
       }
     );
   }
 
-  updateProduct(id: string, product: any): Observable<any> {
-    return this.http.patch(
-      `http://localhost:4000/api/product/${id}`,
-      { ...product },
-      {
-        headers: this.getToken(),
-      }
-    );
+  getAllAdminOrders(adminID: string): Observable<any> {
+    return this.http.get(`http://localhost:4000/api/order/admin/${adminID}`, {
+      headers: this.getToken(),
+    });
+  }
+
+  getUserById(id: string): Observable<any> {
+    return this.http.get(`http://localhost:4000/api/user/${id}`, {
+      headers: this.getToken(),
+    });
   }
 }

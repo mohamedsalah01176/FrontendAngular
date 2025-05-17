@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
@@ -19,8 +19,6 @@ export class AuthService {
   setLoginForm(data: object): Observable<any> {
     return this.http.post(`${this.baseUrl}/signin`, data);
   }
-
-
 
   getTokenFromCookies(): string | null {
     const matches = document.cookie.match(/(?:^|; )userToken=([^;]*)/);
@@ -48,22 +46,47 @@ export class AuthService {
       newPassword,
     });
   }
-forgetPassword(email: string) {
-  return this.http.patch(`${this.baseUrl}/forget-password`, { email });
-}
+  forgetPassword(email: string) {
+    return this.http.patch(`${this.baseUrl}/forget-password`, { email });
+  }
 
-  verifyForgetPassword(email: string, providedCode : string, newPassword: string) {
+  verifyForgetPassword(
+    email: string,
+    providedCode: string,
+    newPassword: string
+  ) {
     return this.http.patch(`${this.baseUrl}/forget-password-verification`, {
       email,
-      providedCode ,
+      providedCode,
       newPassword,
     });
   }
   verifyEmail(email: string, code: string) {
     return this.http.post(`${this.baseUrl}/verification`, { email, code });
 
-  document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  this.userData = null;
-  this._Router.navigate(['/login']);
+    document.cookie =
+      'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    this.userData = null;
+    this._Router.navigate(['/login']);
+  }
+
+  getToken() {
+    return new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${
+        document.cookie
+          .split('; ')
+          .find((row) => row.startsWith('userToken='))
+          ?.split('=')[1]
+      }`
+    );
+  }
+
+  changeUserInfo(newData: FormData) {
+    console.log("newData in front",newData);
+    
+    return this.http.patch(`${this.baseUrl}/changeUserInfo`, newData, {
+      headers: this.getToken(),
+    });
   }
 }

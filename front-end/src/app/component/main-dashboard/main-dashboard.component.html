@@ -6,7 +6,7 @@
         <i class="fa-solid fa-user"></i>
       </div>
       <h6 class="lead">Total visitors</h6>
-      <h5>75,555</h5>
+      <h5>{{ customerNumbers }}</h5>
     </div>
   </div>
   <div class="col-md-6 col-lg-3">
@@ -15,7 +15,7 @@
         <i class="fa-solid fa-truck-fast"></i>
       </div>
       <h6 class="lead">Total Orders</h6>
-      <h5>150</h5>
+      <h5>{{ usersOrders.length }}</h5>
     </div>
   </div>
   <div class="col-md-6 col-lg-3">
@@ -24,7 +24,7 @@
         <i class="fa-solid fa-money-check-dollar"></i>
       </div>
       <h6 class="lead">Total sales</h6>
-      <h5>$12,780</h5>
+      <h5>{{ getTotalSales() }} $</h5>
     </div>
   </div>
   <div class="col-md-6 col-lg-3">
@@ -33,7 +33,7 @@
         <i class="fa-solid fa-box-open"></i>
       </div>
       <h6 class="lead">Total products</h6>
-      <h5>50</h5>
+      <h5>{{ allAdminProducts }}</h5>
     </div>
   </div>
 </div>
@@ -41,7 +41,7 @@
 <div class="row g-3 my-4">
   <div class="col-xl-8">
     <div
-      class="rounded-2 shadow-lg  p-4 d-flex flex-column justify-content-center align-items-center"
+      class="rounded-2 shadow-lg p-4 d-flex flex-column justify-content-center align-items-center"
     >
       <h4>Target</h4>
 
@@ -56,94 +56,41 @@
     </div>
   </div>
   <div class="col-xl-4">
-    <div class="rounded-2 shadow-lg p-4">
+    <div class="productContainer rounded-2 shadow-lg p-4">
       <h5>Top Products</h5>
 
+      @for (product of productList.slice(0,4); track $index) {
       <div
         class="product d-flex justify-content-between align-items-center mt-3"
       >
         <div class="info d-flex align-items-center gap-2">
           <div class="img">
             <img
-              src="https://placehold.co/50?text=product"
+              crossorigin="anonymous"
+              [src]="
+                product.imageCover.startsWith('user')
+                  ? serverURL + product.imageCover
+                  : product.imageCover
+              "
               class="rounded-2"
               alt=""
             />
           </div>
           <div class="text">
-            <h6 class="m-0 text-muted fs-6">Product 1</h6>
-            <p class="m-0 lead fs-6">category</p>
+            <h6 class="m-0 text-muted fs-6">{{ product.title }}</h6>
+            <p class="m-0 lead fs-6">{{ product.category.name }}</p>
           </div>
         </div>
         <div class="price">
-          <p class="m-0 fw-normal">500$</p>
+          <p class="m-0 fw-normal">{{ product.price }}</p>
         </div>
       </div>
-      <div
-        class="product d-flex justify-content-between align-items-center mt-3"
-      >
-        <div class="info d-flex align-items-center gap-2">
-          <div class="img">
-            <img
-              src="https://placehold.co/50?text=product"
-              class="rounded-2"
-              alt=""
-            />
-          </div>
-          <div class="text">
-            <h6 class="m-0 text-muted fs-6">Product 1</h6>
-            <p class="m-0 lead fs-6">category</p>
-          </div>
-        </div>
-        <div class="price">
-          <p class="m-0 fw-normal">500$</p>
-        </div>
-      </div>
-      <div
-        class="product d-flex justify-content-between align-items-center mt-3"
-      >
-        <div class="info d-flex align-items-center gap-2">
-          <div class="img">
-            <img
-              src="https://placehold.co/50?text=product"
-              class="rounded-2"
-              alt=""
-            />
-          </div>
-          <div class="text">
-            <h6 class="m-0 text-muted fs-6">Product 1</h6>
-            <p class="m-0 lead fs-6">category</p>
-          </div>
-        </div>
-        <div class="price">
-          <p class="m-0 fw-normal">500$</p>
-        </div>
-      </div>
-      <div
-        class="product d-flex justify-content-between align-items-center mt-3"
-      >
-        <div class="info d-flex align-items-center gap-2">
-          <div class="img">
-            <img
-              src="https://placehold.co/50?text=product"
-              class="rounded-2"
-              alt=""
-            />
-          </div>
-          <div class="text">
-            <h6 class="m-0 text-muted fs-6">Product 1</h6>
-            <p class="m-0 lead fs-6">category</p>
-          </div>
-        </div>
-        <div class="price">
-          <p class="m-0 fw-normal">500$</p>
-        </div>
-      </div>
+      }
     </div>
   </div>
   <div class="col-xl-8">
     <div
-      class="rounded-2 shadow-lg  p-4 d-flex flex-column justify-content-center align-items-center"
+      class="rounded-2 shadow-lg p-4 d-flex flex-column justify-content-center align-items-center"
     >
       <h4 class="">Products Statistic</h4>
 
@@ -161,90 +108,17 @@
     </div>
   </div>
   <div class="col-xl-4">
-    <div class="rounded-2 shadow-lg  p-4">
-      <h5>Top Categories</h5>
+    <div class="categoriesContainer rounded-2 shadow-lg p-4">
+      <h5 class="mb-3">Top Categories</h5>
 
-      <div
-        class="product d-flex justify-content-between align-items-center mt-3"
-      >
-        <div class="info d-flex align-items-center gap-2">
-          <div class="img">
-            <img
-              src="https://placehold.co/50?text=product"
-              class="rounded-2"
-              alt=""
-            />
-          </div>
-          <div class="text">
-            <h6 class="m-0 text-muted fs-6">Smartphone</h6>
-          </div>
-        </div>
-        <div class="price">
-          <p class="m-0 fw-normal">120</p>
+      @for (category of uniqueAdminCategories.slice(0,4); track $index) {
+      <div class="category mt-3">
+        <div class="bg-secondary-subtle text-center p-3 rounded-2">
+          <h6 class="m-0 fs-6 lead">{{ category }}</h6>
         </div>
       </div>
-     
-      <div
-        class="product d-flex justify-content-between align-items-center mt-3"
-      >
-        <div class="info d-flex align-items-center gap-2">
-          <div class="img">
-            <img
-              src="https://placehold.co/50?text=product"
-              class="rounded-2"
-              alt=""
-            />
-          </div>
-          <div class="text">
-            <h6 class="m-0 text-muted   fs-6">Smartphone</h6>
-          </div>
-        </div>
-        <div class="price">
-          <p class="m-0 fw-normal">120</p>
-        </div>
-      </div>
-     
-      <div
-        class="product d-flex justify-content-between align-items-center mt-3"
-      >
-        <div class="info d-flex align-items-center gap-2">
-          <div class="img">
-            <img
-              src="https://placehold.co/50?text=product"
-              class="rounded-2"
-              alt=""
-            />
-          </div>
-          <div class="text">
-            <h6 class="m-0 text-muted fs-6">Smartphone</h6>
-          </div>
-        </div>
-        <div class="price">
-          <p class="m-0 fw-normal">120</p>
-        </div>
-      </div>
-     
-      <div
-        class="product d-flex justify-content-between align-items-center mt-3"
-      >
-        <div class="info d-flex align-items-center gap-2">
-          <div class="img">
-            <img
-              src="https://placehold.co/50?text=product"
-              class="rounded-2"
-              alt=""
-            />
-          </div>
-          <div class="text">
-            <h6 class="m-0 text-muted fs-6">Smartphone</h6>
-          </div>
-        </div>
-        <div class="price">
-          <p class="m-0 fw-normal">120</p>
-        </div>
-      </div>
-     
-  
+
+      }
     </div>
   </div>
 </div>

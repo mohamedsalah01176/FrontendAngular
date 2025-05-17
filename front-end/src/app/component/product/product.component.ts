@@ -37,6 +37,9 @@ export class ProductComponent {
     private cookieService: CookieService
   ) {}
 
+  serverURL = 'http://localhost:4000/uploads/'
+
+
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
       next: res => {

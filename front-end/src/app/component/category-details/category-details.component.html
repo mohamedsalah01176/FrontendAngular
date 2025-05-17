@@ -17,7 +17,10 @@
 
           <div class="product-image">
             <img
-              [src]="product.images[selectedImageIndex[product._id] || 0]"
+              crossorigin="anonymous"
+              [src]="
+                serverURL + product.images[selectedImageIndex[product._id] || 0]
+              "
               alt="{{ product.title }}"
               class="img-fluid product-thumbnail"
             />
