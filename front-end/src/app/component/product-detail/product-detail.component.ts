@@ -10,6 +10,9 @@ import { DecodedToken } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../util/services/cart.service';
 import { DashboardService } from '../../util/services/dashboard.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 
 @Component({
   selector: 'app-product-detail',
@@ -79,9 +82,11 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private ProductService: ProductService,
     private cdr: ChangeDetectorRef,
-    private CartService: CartService,
     private dashboardService: DashboardService,
-    private router: Router
+    private router: Router,
+    private cartService: CartService,
+    private snackBar: MatSnackBar
+
   ) {}
 
   user: {
@@ -207,25 +212,33 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  addToCart(productId: string): void {
-    const token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('userToken='))
-      ?.split('=')[1];
 
-    if (!token) {
-      console.error('User not authenticated');
-      return;
-    }
-
-    this.CartService.addToCart(productId, token).subscribe({
-      next: (response) => {
-        console.log('Product added to cart:', response);
+addToCart(productId: string) {
+  this.cartService.addToCart(productId).subscribe(
+    (response) => {
+      if (response.status === 'success') {
+        this.snackBar.open('Product added to cart!', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+        });
         this.router.navigate(['/cart']);
-      },
-      error: (error) => {
-        console.error('Error adding product to cart:', error);
-      },
-    });
-  }
+      }
+    },
+    (error) => {
+      if (error.error.message === 'Product already in cart') {
+        this.snackBar.open('Product is already in your cart!', 'Close', {
+          duration: 4000,
+          panelClass: ['snackbar-warning'],
+        });
+      } else {
+        this.snackBar.open('Something went wrong!', 'Close', {
+          duration: 4000,
+          panelClass: ['snackbar-error'],
+        });
+        console.error('Add to cart error:', error);
+      }
+    }
+  );
+}
+
 }

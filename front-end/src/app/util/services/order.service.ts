@@ -32,8 +32,9 @@ export class OrderService {
   }
   deleteAllOrders():Observable<any>{
     let token=document.cookie.split("=")[1];
+    console.log(token)
     const user:{userID:string}=jwtDecode(token);
-    return this._HttpClient.delete(`${environment.baseUrl}/api/orders/${user.userID}`,{
+    return this._HttpClient.delete(`${environment.baseUrl}/api/orders/delete/${user.userID}`,{
       headers:{
         Authorization: `Bearer ${token}`
       }
@@ -41,7 +42,8 @@ export class OrderService {
   }
   deleteSpecificOrder(orderId:string | undefined):Observable<any>{
     let token=document.cookie.split("=")[1];
-    return this._HttpClient.delete(`${environment.baseUrl}/api/order/${orderId}`,{
+    console.log(token)
+    return this._HttpClient.delete(`${environment.baseUrl}/api/order/delete/${orderId}`,{
       headers:{
         Authorization: `Bearer ${token}`
       }

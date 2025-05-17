@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { OrderService } from '../../util/services/order.service';
 import { IOrder } from '../../util/interfaces/order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
@@ -12,6 +13,7 @@ import { IOrder } from '../../util/interfaces/order';
 export class OrdersComponent {
   orders:IOrder[]=[];
   private readonly _OrderService=inject(OrderService)
+  private readonly _Router=inject(Router)
   ngOnInit(): void {
       this._OrderService.getOrders().subscribe({
         next:(res)=>{
@@ -49,6 +51,7 @@ export class OrdersComponent {
         next:(res)=>{
           console.log(res)
           this.orders=[];
+          this._Router.navigate(['/home'])
         },
         error:(err)=>{
           console.log(err)
