@@ -29,7 +29,6 @@ export class ProductsDashboardComponent {
   deleteProduct(id: string) {
     this.DashboardService.deleteProduct(id).subscribe({
       next: (res) => {
-        console.log(res);
         this.productList = this.productList.filter(
           (product) => product._id !== id
         );
@@ -67,7 +66,7 @@ export class ProductsDashboardComponent {
     this.isPopupVisible = false;
   }
 
-  serverURL = 'http://localhost:4000/uploads/'
+  serverURL = 'http://localhost:4000/uploads/';
 
   addProduct() {
     const imageInput = document.getElementById(
@@ -84,7 +83,6 @@ export class ProductsDashboardComponent {
     formData.append('quantity', this.newProduct.quantity);
     formData.append('category', this.newProduct.category.name);
 
-    
     this.newProduct.images.forEach((file: File) => {
       formData.append('images', file);
     });
@@ -149,59 +147,38 @@ export class ProductsDashboardComponent {
     this.isPopupForEdit = false;
   }
 
-  // editProduct() {
-  //   this.DashboardService.updateProduct(
-  //     this.productToEdit._id,
-  //     this.productToEdit
-  //   ).subscribe({
-  //     next: (res) => {
-  //       this.productList = this.productList.map((product) =>
-  //         product._id === this.productToEdit._id ? res.product : product
-  //       );
-  //       this.isPopupForEdit = false;
-  //       this.cdr.detectChanges();
-  //     },
-  //     error: (err) => console.error(err),
-  //   });
-  // }
-
-
   editProduct() {
-  const imageInput = document.getElementById(
-    'editProductImages'
-  ) as HTMLInputElement;
+    const imageInput = document.getElementById(
+      'editProductImages'
+    ) as HTMLInputElement;
 
-  const images = imageInput.files ? [...imageInput.files] : [];
+    const images = imageInput.files ? [...imageInput.files] : [];
 
-  console.log(this.productToEdit);
-  
+    const formData = new FormData();
+    formData.append('title', this.productToEdit.title);
+    formData.append('description', this.productToEdit.description);
+    formData.append('price', this.productToEdit.price.toString());
+    formData.append('quantity', this.productToEdit.quantity.toString());
+    formData.append('category', this.productToEdit.category.name);
 
-  const formData = new FormData();
-  formData.append('title', this.productToEdit.title);
-  formData.append('description', this.productToEdit.description);
-  formData.append('price', this.productToEdit.price.toString());
-  formData.append('quantity', this.productToEdit.quantity.toString());
-  formData.append('category', this.productToEdit.category.name);
+    if (images.length > 0) {
+      images.forEach((file: File) => {
+        formData.append('images', file);
+      });
+    }
 
-  if (images.length > 0) {
-    images.forEach((file: File) => {
-      formData.append('images', file);
+    this.DashboardService.updateProduct(
+      this.productToEdit._id,
+      formData
+    ).subscribe({
+      next: (res) => {
+        this.productList = this.productList.map((product) =>
+          product._id === this.productToEdit._id ? res.product : product
+        );
+        this.isPopupForEdit = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(err),
     });
   }
-
-  this.DashboardService.updateProduct(
-    this.productToEdit._id,
-    formData
-  ).subscribe({
-    next: (res) => {
-      this.productList = this.productList.map((product) =>
-        product._id === this.productToEdit._id ? res.product : product
-      );
-      this.isPopupForEdit = false;
-      this.cdr.detectChanges();
-    },
-    error: (err) => console.error(err),
-  });
-}
-
 }

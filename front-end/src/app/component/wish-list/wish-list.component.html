@@ -18,7 +18,7 @@
                     crossorigin="anonymous"
                     [src]="img.startsWith('user') ? serverURL + img : img"
                     [alt]="product.title"
-                    class="img-fluid product-thumbnail w-100"
+                    class="img-fluid product-thumbnail w-100 object-fit-contain"
                   />
                 </ng-template>
               </ng-container>

@@ -58,7 +58,6 @@ export class SettingsComponent {
           this.userInfo.username = user.username;
           this.userInfo.email = user.email;
         }
-        console.log(user);
         
       },
       error: (err) => console.error('Error fetching user:', err),
@@ -72,7 +71,6 @@ export class SettingsComponent {
 
     const formData = new FormData();
 
-    console.log(this.userInfo);
 
     if (userAvatarInput.files && userAvatarInput.files.length > 0) {
       formData.append('avatar', userAvatarInput.files[0]);
