@@ -16,17 +16,13 @@ export class MainDashboardComponent {
   gaugeData = [
     {
       name: 'Sales',
-      value: 65,
+      value: 75,
     },
   ];
   colorScheme = 'vivid';
 
-  Staticsdata = [
-    { name: 'Product 1', value: 100 },
-    { name: 'Product 2', value: 150 },
-    { name: 'Product 3', value: 80 },
-    { name: 'Product 4', value: 200 },
-  ];
+  Staticsdata: { name: string; value: number }[] = [];
+
 
   usersOrders = [
     {
@@ -68,6 +64,20 @@ export class MainDashboardComponent {
       next: (res) => {
         this.allAdminProducts = res.products.length;
         this.productList = res.products;
+        if (this.productList.length >= 4) {
+          this.Staticsdata = [
+            { name: this.productList[0].title, value: 100 },
+            { name: this.productList[1].title, value: 150 },
+            { name: this.productList[2].title, value: 80 },
+            { name: this.productList[3].title, value: 200 },
+          ];
+        } else {
+          this.Staticsdata = this.productList.map((item, index) => ({
+            name: item.title,
+            value: 100 + index * 10,
+          }));
+        }
+
         this.getAllAdminCategories();
       },
       error: (err) => console.error(err),
@@ -117,6 +127,5 @@ export class MainDashboardComponent {
     console.log(this.uniqueAdminCategories);
   }
 
-
-   serverURL = 'http://localhost:4000/uploads/'
+  serverURL = 'http://localhost:4000/uploads/';
 }

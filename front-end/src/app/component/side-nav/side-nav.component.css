@@ -16,7 +16,7 @@
 .side-links a {
   display: flex;
   align-items: center;
-  padding: 15px 20px;
+  padding: 15px 10px;
   color: #ccc;
   text-decoration: none;
   transition: 0.3s;
@@ -27,7 +27,7 @@
 .side-links a.active {
   background-color: #2a2a3b;
   color: #fff;
-  border-right: 8px solid #f44336;
+  border-left: 8px solid #009688;
 }
 
 .side-links i {
@@ -75,6 +75,7 @@ hr {
 }
 
 .DashboardActiveLink {
-  background-color: red !important;
-  color: green !important;
+  background-color: #2a2a3b;
+  color: #fff;
+  border-left: 8px solid #009688;
 }
