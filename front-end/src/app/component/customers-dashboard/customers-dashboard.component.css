@@ -8,3 +8,7 @@ table th {
   text-align: center;
   white-space: nowrap;
 }
+.profileImage {
+  width: 60px;
+  height: 60px;
+}

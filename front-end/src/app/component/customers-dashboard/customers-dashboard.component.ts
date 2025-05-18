@@ -49,11 +49,14 @@ export class CustomersDashboardComponent {
     });
   }
 
+  serverURL = 'http://localhost:4000/uploads/';
+
   allCustomers: {
     username: string;
     email: string;
     phone: string;
     _id: string;
+    avatar: string;
   }[] = [];
 
   uniqueUserID: string[] = [];
