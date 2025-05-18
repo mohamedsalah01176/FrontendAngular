@@ -50,11 +50,33 @@ export class ProductComponent {
 
   serverURL = 'http://localhost:4000/uploads/';
 
+  randomIndexesOfProducts: number[] = [];
+
+  getRandomIndexesOfProducts(productList: Iproduct[]) {
+    this.randomIndexesOfProducts = [];
+
+    let count;
+    if (productList.length > 12) {
+      count = 12;
+    } else {
+      count = productList.length;
+    }
+
+    while (this.randomIndexesOfProducts.length < count) {
+      const randomNum = Math.floor(Math.random() * productList.length);
+      if (!this.randomIndexesOfProducts.includes(randomNum)) {
+        this.randomIndexesOfProducts.push(randomNum);
+      }
+    }
+    console.log(this.randomIndexesOfProducts);
+  }
+
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
         this.productList = res.products;
         this.filteredProductList = [...this.productList];
+        this.getRandomIndexesOfProducts(this.productList);
       },
       error: (err) => console.error(err),
     });
@@ -68,6 +90,7 @@ export class ProductComponent {
         product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
+    this.getRandomIndexesOfProducts(this.filteredProductList);
   }
 
   onSearchChange(): void {
