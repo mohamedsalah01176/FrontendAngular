@@ -158,7 +158,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.add-to-cart-btn:active {
+.add-to-cart-btn:active { 
   transform: scale(1); 
 }
 
