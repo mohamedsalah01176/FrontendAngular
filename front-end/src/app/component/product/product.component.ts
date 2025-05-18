@@ -57,7 +57,11 @@ export class ProductComponent {
 
     let count;
     if (productList.length > 12) {
-      count = 12;
+      if (location.pathname === '/home') {
+        count = 12;
+      } else {
+        count = productList.length;
+      }
     } else {
       count = productList.length;
     }
