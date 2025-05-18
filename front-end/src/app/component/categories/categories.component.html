@@ -1,9 +1,9 @@
 <div class="row g-2">
-  <h3 class="py-2">Choose your Category</h3>
+  <h3 class="py-2 ">Categories </h3>
   @for(category of categoryList; track category._id) {
   <div class="col-md-3 p-2">
-    <div class="text-center border border-1 rounded-2" [routerLink]="['/categories', category.name]">
-      <img height="250px" class="rounded-2 w-100 object-fit-cover" [src]="category.image" />
+    <div class="text-center border border-1 rounded-2 shadow-sm category" [routerLink]="['/categories', category.name]">
+      <img height="250px" class="rounded-2 w-100 object-fit-contain" [src]="category.image" />
       <h5 class="text-main pt-2">{{ category.name }}</h5>
     </div>
   </div>

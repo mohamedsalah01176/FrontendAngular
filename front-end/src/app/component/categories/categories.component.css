@@ -1,0 +1,7 @@
+.category {
+    cursor: pointer;
+    transition: .3s;   
+}
+.category:hover {
+    transform: scale(1.03);   
+}
