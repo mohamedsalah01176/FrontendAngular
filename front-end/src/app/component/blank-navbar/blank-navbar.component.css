@@ -10,7 +10,7 @@
 
 .active-link {
   color: black;
-  font-weight: bold;
+  font-weight: 600;
 }
 .icons > li i {
   font-size: 17px;

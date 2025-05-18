@@ -9,7 +9,7 @@
 }
 section {
   width: 78%;
-  margin-top: 46px;
+  margin-top: 10px;
 }
 
 
@@ -20,6 +20,6 @@ section {
 }
 section {
   width: 85%;
-  margin-top: 46px;
+  /* margin-top: 16px; */
 }
 }
