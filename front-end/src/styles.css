@@ -107,8 +107,9 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .navbar {
-  position: relative;
+  position: fixed;
   z-index: 2000;
+  width: 100%;
 }
 
 /* scrollbar  */
@@ -142,5 +143,11 @@ body {
 }
 /* scrollbar  */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

@@ -53,3 +53,14 @@ footer {
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
 }
+.headTitle {
+  line-height: 1.4;
+}
+@media (max-width: 991px) {
+  .headTitle {
+    font-size: 20px !important;
+  }
+  .copyright {
+    justify-content: center !important;
+  }
+}
