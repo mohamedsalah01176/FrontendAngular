@@ -1,5 +1,6 @@
 .navbar-brand img{
-  width: 40px;
+  width: 60px; 
+  padding: 0;
 } 
 .nav-link {
   transition: unset !important;
