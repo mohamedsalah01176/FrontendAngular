@@ -1,3 +1,25 @@
+.popular-products {
+  padding: 5rem 0;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #2c3e50;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: red;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
 .product-card {
   position: relative;
   border-radius: 12px;
@@ -43,48 +65,18 @@
 }
 
 .product-thumbnail {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
+  height: 300px;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  display: block;
 }
 
 .product-card:hover .product-thumbnail {
   transform: scale(1.05);
 }
 
-.dot-indicators {
-  position: absolute;
-  bottom: -25px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  z-index: 5;
-  padding: 4px 0;
-}
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: rgba(137, 137, 137, 0.5);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.dot.active {
-  background: rgb(45, 45, 45);
-  transform: scale(1.3);
-}
-
 .product-image {
   position: relative;
-  padding-top: 100%;
   margin-bottom: 25px;
 }
 
@@ -167,4 +159,24 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 60%;
+  padding: 0.75rem;
+  margin: 1rem;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 3px #795e6b;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 8px #705361;
 }

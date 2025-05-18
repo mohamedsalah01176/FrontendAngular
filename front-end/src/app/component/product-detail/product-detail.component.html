@@ -29,7 +29,19 @@
           >
             {{ productDetails.category.name }}
           </a>
-          <fa-icon [icon]="faHeart" class="fs-4"></fa-icon>
+          <button
+            class="bg-transparent"
+            (click)="toggleWishlist(productDetails._id)"
+          >
+            <i
+              class="bi"
+              [ngClass]="
+                isItemInWhishlist(productDetails._id)
+                  ? 'bi-heart-fill text-danger'
+                  : 'bi-heart'
+              "
+            ></i>
+          </button>
         </div>
         <h1 class="h3 mt-3 mb-4 fw-bold text-light-emphasis">
           {{ productDetails.title }}

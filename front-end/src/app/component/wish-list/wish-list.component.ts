@@ -1,28 +1,71 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { WishlistService } from '../../util/services/wishlist.service';
-
+import { BehaviorSubject, map, Subscription, switchMap } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 @Component({
   selector: 'app-wish-list',
-  imports: [],
+  imports: [RouterModule, CommonModule, FormsModule, CarouselModule],
   templateUrl: './wish-list.component.html',
-  styleUrl: './wish-list.component.css',
+  styleUrls: ['./wish-list.component.css'],
 })
-export class WishListComponent {
-  wishlist: any[] = [];
-  constructor(private wishlistService: WishlistService) {}
+export class WishListComponent implements OnDestroy {
+  wishlistService = inject(WishlistService);
+  serverURL = 'http://localhost:4000/uploads/';
+  private readonly loadData$ = new BehaviorSubject(true);
+  wishlistItems = toSignal(this.loadWhishList);
+  carouselOptions = {
+    items: 1,
+    dots: true,
+    nav: false,
+    loop: true,
+    autoplay: true,
+    autoplayHoverPause: true,
+    autoplayTimeout: 4000,
+    margin: 10,
+  };
 
-  ngOnInit(): void {
-    this.loadWishlist();
+  get loadWhishList() {
+    return this.loadData$.pipe(
+      switchMap(() =>
+        this.wishlistService.loadWishlist().pipe(map((res) => res.wishlist))
+      )
+    );
   }
+  wishlistSub: Subscription = new Subscription();
+  selectedImageIndex: { [key: string]: number } = {};
 
-  loadWishlist(): void {
-    this.wishlistService.getWishlist().subscribe({
-      next: (res) => {
-        this.wishlist = res.wishlist;
+  removeItem(productId: string): void {
+    this.wishlistService.removeFromWishlist(productId).subscribe({
+      next: () => {
+        this.loadData$.next(true);
       },
       error: (err) => {
-        console.error('Failed to load wishlist', err);
+        console.error('Error removing item:', err);
       },
     });
+  }
+
+  isInWishlist(productId: string) {
+    // return this.wishlistService.isInWishlist(productId);
+  }
+
+  changeImage(productId: string, index: number): void {
+    this.selectedImageIndex[productId] = index;
+  }
+
+  addToCart(product: any): void {
+    console.log(`Added to cart: ${product.title}`);
+  }
+
+  toggleWishlist(product: any): void {
+    product.isWachList = !product.isWachList;
+  }
+
+  ngOnDestroy(): void {
+    this.wishlistSub.unsubscribe();
   }
 }

@@ -1,15 +1,18 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CategoryService } from '../../util/services/category.service';
-import { Icategory } from '../../util/interfaces/icategory';
 import { Subscription } from 'rxjs';
 import { Iproduct } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { WishlistService } from '../../util/services/wishlist.service';
+import { BehaviorSubject, map, switchMap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-category-details',
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, CarouselModule],
   templateUrl: './category-details.component.html',
   styleUrl: './category-details.component.css',
 })
@@ -18,7 +21,28 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
   CategoryService = inject(CategoryService);
   categoryID: string | null = null;
   categoryList: any[] = [];
+  private wishlistService = inject(WishlistService);
+  private readonly loadData$ = new BehaviorSubject(true);
+  wishlistItems = toSignal(this.loadWhishList);
   serverURL = 'http://localhost:4000/uploads/';
+  // Owl Carousel Options
+  carouselOptions = {
+    items: 1,
+    dots: true,
+    nav: false,
+    loop: true,
+    autoplay: true,
+    autoplayHoverPause: true,
+    autoplayTimeout: 4000,
+    margin: 10,
+  };
+  get loadWhishList() {
+    return this.loadData$.pipe(
+      switchMap(() =>
+        this.wishlistService.loadWishlist().pipe(map((res) => res.wishlist))
+      )
+    );
+  }
 
   getSpecificProductsub: Subscription = new Subscription();
   selectedImageIndex: { [key: string]: number } = {};
@@ -44,13 +68,37 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     console.log(`Added to cart: ${product.title}`);
   }
 
-  toggleWishlist(product: Iproduct): void {
-    product.isWachList = !product.isWachList;
-    // const token = this.cookieService.get('userToken');
-    // this.productService.toggleWishlist(product._id, token).subscribe({
-    //   next: res => { }
-    //   error: err => console.error(err)
-    // });
+  toggleWishlist(id: string): void {
+    const action = this.isItemInWhishlist(id)
+      ? this.removeFromWhishlist
+      : this.addToWhishlist;
+
+    action.call(this, id);
+  }
+
+  isItemInWhishlist(id: string) {
+    return this.wishlistItems()?.find((item) => item._id === id);
+  }
+
+  removeFromWhishlist(productId: string): void {
+    this.wishlistService.removeFromWishlist(productId).subscribe({
+      next: () => {
+        this.loadData$.next(true);
+      },
+      error: (err) => {
+        console.error('Error removing item:', err);
+      },
+    });
+  }
+  addToWhishlist(productId: string): void {
+    this.wishlistService.addToWishlist(productId).subscribe({
+      next: () => {
+        this.loadData$.next(true);
+      },
+      error: (err) => {
+        console.error('Error removing item:', err);
+      },
+    });
   }
 
   ngOnDestroy(): void {

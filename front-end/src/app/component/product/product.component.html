@@ -26,11 +26,13 @@
         "
       >
         <div class="product-card card h-100 border-0">
-          <button class="wishlist-btn" (click)="toggleWishlist(product)">
+          <button class="wishlist-btn" (click)="toggleWishlist(product._id)">
             <i
               class="bi"
               [ngClass]="
-                product.isWachList ? 'bi-heart-fill text-danger' : 'bi-heart'
+                isItemInWhishlist(product._id)
+                  ? 'bi-heart-fill text-danger'
+                  : 'bi-heart'
               "
             ></i>
           </button>
@@ -40,7 +42,8 @@
               <ng-container *ngFor="let img of product.images">
                 <ng-template carouselSlide>
                   <img
-                    crossorigin="anonymous" [src]="img.startsWith('user') ? serverURL + img : img"
+                    crossorigin="anonymous"
+                    [src]="img.startsWith('user') ? serverURL + img : img"
                     [alt]="product.title"
                     class="img-fluid product-thumbnail w-100"
                   />
