@@ -37,7 +37,7 @@
         </td>
         <td [title]="product.title" class="productTitle">{{ product.title }}</td>
         <td>{{ product.category.name }}</td>
-        <td>{{ product.price }}</td>
+        <td>{{ product.price }} EGP</td>
         @if (+product.quantity > +product.sold) {
         <td><span class="badge fw-normal bg-success">Available</span></td>
         } @else {

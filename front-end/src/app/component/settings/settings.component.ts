@@ -58,6 +58,8 @@ export class SettingsComponent {
           this.userInfo.username = user.username;
           this.userInfo.email = user.email;
         }
+        console.log(user);
+        
       },
       error: (err) => console.error('Error fetching user:', err),
     });

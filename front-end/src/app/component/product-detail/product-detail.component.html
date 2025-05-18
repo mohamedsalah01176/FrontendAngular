@@ -51,7 +51,7 @@
           {{ productDetails.description }}
         </p>
         <h4 class="fw-bold my-4 text-light-emphasis">
-          ${{ productDetails.price }}
+          {{ productDetails.price }} EGP
         </h4>
         <!-- <div class="quantity my-4">
           <button
@@ -107,6 +107,7 @@
             <img
               crossorigin="anonymous"
               [src]="serverURL + userComment.avatar"
+              
               class="rounded-2"
               alt="userImage"
             />

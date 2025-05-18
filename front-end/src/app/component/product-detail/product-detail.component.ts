@@ -171,6 +171,7 @@ export class ProductDetailComponent implements OnInit {
       this.dashboardService.getUserById(comment.userId).subscribe({
         next: (res) => {
           comment.avatar = res.data[0].avatar;
+          comment.userName = res.data[0].username;
         },
         error: (err) => console.error(err),
       });
