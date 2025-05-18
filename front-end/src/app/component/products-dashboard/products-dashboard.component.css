@@ -53,3 +53,9 @@ tr img {
 .info .details input {
   box-shadow: none;
 }
+.productTitle {
+      white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 215px;
+}

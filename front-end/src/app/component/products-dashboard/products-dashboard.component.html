@@ -31,11 +31,11 @@
                 ? serverURL + product.imageCover
                 : product.imageCover
             "
-            class="rounded-circle"
+            class="rounded-circle object-fit-cover"
             alt="Product 1"
           />
         </td>
-        <td>{{ product.title }}</td>
+        <td [title]="product.title" class="productTitle">{{ product.title }}</td>
         <td>{{ product.category.name }}</td>
         <td>{{ product.price }}</td>
         @if (+product.quantity > +product.sold) {
