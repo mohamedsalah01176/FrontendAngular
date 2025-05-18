@@ -51,12 +51,10 @@ export class AuthService {
   }
 
   verifyForgetPassword(
-    email: string,
     providedCode: string,
     newPassword: string
   ) {
     return this.http.patch(`${this.baseUrl}/forget-password-verification`, {
-      email,
       providedCode,
       newPassword,
     });
