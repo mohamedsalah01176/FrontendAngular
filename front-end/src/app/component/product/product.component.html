@@ -63,6 +63,22 @@
               <span class="price fw-bold text-danger fs-4"
                 >${{ product.price }}</span
               >
+              <span class="rating text-warning d-flex align-items-center gap-1">
+                <div
+                  *ngFor="
+                    let num of [1, 2, 3, 4, 5].slice(0, product.ratingsAverage);
+                    let i = index
+                  "
+                >
+                  <i class="fas fa-star"></i>
+                </div>
+                <div *ngIf="product.ratingsAverage % 1 !== 0">
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <span class="text-dark ms-1 fs-5">{{
+                  product.ratingsAverage
+                }}</span>
+              </span>
             </div>
             <button
               class="add-to-cart-btn w-100 mt-3"

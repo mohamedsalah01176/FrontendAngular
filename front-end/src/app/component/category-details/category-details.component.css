@@ -67,17 +67,19 @@
 .product-thumbnail {
   width: 100%;
   height: 300px;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
 .product-card:hover .product-thumbnail {
   transform: scale(1.05);
+    object-fit: contain;
 }
 
 .product-image {
   position: relative;
   margin-bottom: 25px;
+
 }
 
 .product-details {
