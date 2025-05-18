@@ -1,7 +1,7 @@
-.navbar-brand img{
-  width: 60px; 
+.navbar-brand img {
+  width: 50px;
   padding: 0;
-} 
+}
 .nav-link {
   transition: unset !important;
   cursor: pointer;
@@ -18,6 +18,10 @@
 }
 .icons > li:hover i {
   transform: scale(1.1);
+  transition: 0.3s;
+}
+.icons > li:last-child:hover i {
+  animation: logout infinite alternate 0.2s;
 }
 
 .logout {
@@ -30,4 +34,13 @@
 .nav-item {
   padding: 0 10px;
   font-size: 17px;
+}
+
+@keyframes logout {
+  0% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
