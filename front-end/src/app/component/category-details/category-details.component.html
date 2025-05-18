@@ -6,35 +6,36 @@
 
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="product-card card h-100 border-0">
-          <button class="wishlist-btn" (click)="toggleWishlist(product)">
+          <button class="wishlist-btn" (click)="toggleWishlist(product._id)">
             <i
               class="bi"
               [ngClass]="
-                product.isWachList ? 'bi-heart-fill text-danger' : 'bi-heart'
+                isItemInWhishlist(product._id)
+                  ? 'bi-heart-fill text-danger'
+                  : 'bi-heart'
               "
             ></i>
           </button>
 
-          <div class="product-image">
-            <img
-              crossorigin="anonymous"
-              [src]="
-                serverURL + product.images[selectedImageIndex[product._id] || 0]
-              "
-              alt="{{ product.title }}"
-              class="img-fluid product-thumbnail"
-            />
-            <div class="dot-indicators">
-              <span
-                *ngFor="let img of product.images; let i = index"
-                class="dot"
-                [class.active]="selectedImageIndex[product._id] === i"
-                (click)="changeImage(product._id, i)"
-              ></span>
-            </div>
+          <div class="product-image rounded-2 overflow-hidden">
+            <owl-carousel-o [options]="carouselOptions">
+              <ng-container *ngFor="let img of product.images">
+                <ng-template carouselSlide>
+                  <img
+                    crossorigin="anonymous"
+                    [src]="img.startsWith('user') ? serverURL + img : img"
+                    [alt]="product.title"
+                    class="img-fluid product-thumbnail w-100"
+                  />
+                </ng-template>
+              </ng-container>
+            </owl-carousel-o>
           </div>
 
-          <div class="product-details p-3">
+          <div
+            class="product-details p-3"
+            routerLink="/products/{{ product._id }}"
+          >
             <span class="product-category">{{ product.category.name }}</span>
             <h3 class="product-title one-line">{{ product.title }}</h3>
 

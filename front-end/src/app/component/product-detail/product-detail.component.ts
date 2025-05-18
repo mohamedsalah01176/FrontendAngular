@@ -1,7 +1,7 @@
 import { ProductService } from '../../util/services/product.service';
 import { faHeart, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CommonModule } from '@angular/common';
@@ -11,8 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { CartService } from '../../util/services/cart.service';
 import { DashboardService } from '../../util/services/dashboard.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { WishlistService } from '../../util/services/wishlist.service';
+import { BehaviorSubject, map, switchMap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-detail',
@@ -31,6 +32,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProductDetailComponent implements OnInit {
   faHeart = faHeart;
   faPaperPlane = faPaperPlane;
+  private wishlistService = inject(WishlistService);
+  private readonly loadData$ = new BehaviorSubject(true);
+  wishlistItems = toSignal(this.loadWhishList);
+  get loadWhishList() {
+    return this.loadData$.pipe(
+      switchMap(() =>
+        this.wishlistService.loadWishlist().pipe(map((res) => res.wishlist))
+      )
+    );
+  }
 
   mainCarouselOptions = {
     items: 1,
@@ -86,7 +97,6 @@ export class ProductDetailComponent implements OnInit {
     private router: Router,
     private cartService: CartService,
     private snackBar: MatSnackBar
-
   ) {}
 
   user: {
@@ -171,7 +181,7 @@ export class ProductDetailComponent implements OnInit {
     this.ProductService.deleteComment(productId, commentId).subscribe({
       next: (res) => {
         this.productComments = res.data;
-         this.getAvatarForEveryUser();
+        this.getAvatarForEveryUser();
       },
       error: (err) => console.error(err),
     });
@@ -206,39 +216,69 @@ export class ProductDetailComponent implements OnInit {
         this.productComments = res.data;
         this.editPopupIsOpened = false;
         this.newComment = '';
-         this.getAvatarForEveryUser();
+        this.getAvatarForEveryUser();
       },
       error: (err) => console.error(err),
     });
   }
 
-
-addToCart(productId: string) {
-  this.cartService.addToCart(productId).subscribe(
-    (response) => {
-      if (response.status === 'success') {
-        this.snackBar.open('Product added to cart!', 'Close', {
-          duration: 3000,
-          panelClass: ['snackbar-success'],
-        });
-        this.router.navigate(['/cart']);
+  addToCart(productId: string) {
+    this.cartService.addToCart(productId).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.snackBar.open('Product added to cart!', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-success'],
+          });
+          this.router.navigate(['/cart']);
+        }
+      },
+      (error) => {
+        if (error.error.message === 'Product already in cart') {
+          this.snackBar.open('Product is already in your cart!', 'Close', {
+            duration: 4000,
+            panelClass: ['snackbar-warning'],
+          });
+        } else {
+          this.snackBar.open('Something went wrong!', 'Close', {
+            duration: 4000,
+            panelClass: ['snackbar-error'],
+          });
+          console.error('Add to cart error:', error);
+        }
       }
-    },
-    (error) => {
-      if (error.error.message === 'Product already in cart') {
-        this.snackBar.open('Product is already in your cart!', 'Close', {
-          duration: 4000,
-          panelClass: ['snackbar-warning'],
-        });
-      } else {
-        this.snackBar.open('Something went wrong!', 'Close', {
-          duration: 4000,
-          panelClass: ['snackbar-error'],
-        });
-        console.error('Add to cart error:', error);
-      }
-    }
-  );
-}
+    );
+  }
+  toggleWishlist(id: string): void {
+    const action = this.isItemInWhishlist(id)
+      ? this.removeFromWhishlist
+      : this.addToWhishlist;
 
+    action.call(this, id);
+  }
+
+  isItemInWhishlist(id: string) {
+    return this.wishlistItems()?.find((item) => item._id === id);
+  }
+
+  removeFromWhishlist(productId: string): void {
+    this.wishlistService.removeFromWishlist(productId).subscribe({
+      next: () => {
+        this.loadData$.next(true);
+      },
+      error: (err) => {
+        console.error('Error removing item:', err);
+      },
+    });
+  }
+  addToWhishlist(productId: string): void {
+    this.wishlistService.addToWishlist(productId).subscribe({
+      next: () => {
+        this.loadData$.next(true);
+      },
+      error: (err) => {
+        console.error('Error removing item:', err);
+      },
+    });
+  }
 }
