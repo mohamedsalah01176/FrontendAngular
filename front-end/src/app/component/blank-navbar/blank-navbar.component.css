@@ -1,3 +1,6 @@
+.navbar-brand img{
+  width: 40px;
+} 
 .nav-link {
   transition: unset !important;
   cursor: pointer;
@@ -7,4 +10,23 @@
 .active-link {
   color: black;
   font-weight: bold;
+}
+.icons > li i {
+  font-size: 17px;
+  transition: 0.3s;
+}
+.icons > li:hover i {
+  transform: scale(1.1);
+}
+
+.logout {
+  background-color: #333;
+  color: #fff;
+}
+.logout:hover {
+  background-color: #222;
+}
+.nav-item {
+  padding: 0 10px;
+  font-size: 17px;
 }
