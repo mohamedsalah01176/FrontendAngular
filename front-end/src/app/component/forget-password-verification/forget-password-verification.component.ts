@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ForgetPasswordVerificationComponent {
   resetPasswordForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
     code: new FormControl('', Validators.required),
     newPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
@@ -29,12 +28,10 @@ export class ForgetPasswordVerificationComponent {
       this.resetPasswordForm.markAllAsTouched();
       return;
     }
-
-    const email = this.resetPasswordForm.value.email ?? '';
     const providedCode  = this.resetPasswordForm.value.code ?? '';
     const newPassword = this.resetPasswordForm.value.newPassword ?? '';
 
-    this.authService.verifyForgetPassword(email, providedCode , newPassword).subscribe({
+    this.authService.verifyForgetPassword( providedCode , newPassword).subscribe({
       next: () => {
         this.successMessage = 'Password reset successful!';
         this.errorMessage = null;
@@ -45,7 +42,7 @@ export class ForgetPasswordVerificationComponent {
       },
       error: (err) => {
         console.error('Error resetting password:', err.message);
-        this.errorMessage = 'Failed to reset password. Please check your email and code, then try again.';
+        this.errorMessage = 'Failed to reset password. Please check your code and then try again.';
         this.successMessage = null;
       }
     });

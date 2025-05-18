@@ -67,7 +67,7 @@
 .product-thumbnail {
   width: 100%;
   height: 300px;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -151,8 +151,8 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.add-to-cart-btn:active {
-  transform: scale(1);
+.add-to-cart-btn:active { 
+  transform: scale(1); 
 }
 
 .one-line {
