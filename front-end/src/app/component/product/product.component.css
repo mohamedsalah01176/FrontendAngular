@@ -177,6 +177,12 @@
   transition: all 0.3s ease;
 }
 
+@media (max-width:991px) {
+  .search-input {
+    width: 100%;
+  }
+}
+
 .search-input:focus {
   /* box-shadow: 0 0 8px #705361; */
   box-shadow: 0 0 3px 2px #ececec;
