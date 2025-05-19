@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { ProductService } from '../../util/services/product.service';
-import { Iproduct } from '../../util/interfaces/iproduct';
+import { DecodedToken, Iproduct } from '../../util/interfaces/iproduct';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { WishlistService } from '../../util/services/wishlist.service';
 import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-product',
@@ -49,6 +50,12 @@ export class ProductComponent {
   }
 
   serverURL = 'http://localhost:4000/uploads/';
+  isAdmin: boolean = false;
+
+  token = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('userToken='))
+    ?.split('=')[1];
 
   randomIndexesOfProducts: number[] = [];
 
@@ -76,6 +83,13 @@ export class ProductComponent {
   }
 
   ngOnInit(): void {
+    const user = jwtDecode<DecodedToken>(this.token as string);
+    if (user.role === 'admin') {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+    }
+
     this.productService.getAllProducts().subscribe({
       next: (res) => {
         this.productList = res.products;

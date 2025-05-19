@@ -29,6 +29,8 @@
           >
             {{ productDetails.category.name }}
           </a>
+          @if (!isAdmin) {
+
           <button
             class="bg-transparent border-0"
             (click)="toggleWishlist(productDetails._id)"
@@ -42,6 +44,7 @@
               "
             ></i>
           </button>
+          }
         </div>
         <h1 class="h3 mt-3 mb-4 fw-bold text-light-emphasis">
           {{ productDetails.title }}
@@ -66,6 +69,8 @@
             +
           </button>
         </div> -->
+
+        @if (!isAdmin) {
         <div class="btns d-flex justify-content-start">
           <a
             class="btn btn-light fw-semibold border border-1 btn-sm py-3 px-4 me-3 w-100"
@@ -77,10 +82,12 @@
             BUY NOW
           </a> -->
         </div>
+        }
       </div>
     </div>
 
     <div class="col-lg-10 offset-lg-1">
+      @if (!isAdmin) {
       <div class="addComment mt-5">
         <input
           type="text"
@@ -96,6 +103,7 @@
           (click)="addComment()"
         ></fa-icon>
       </div>
+      }
       <div class="comment my-4 rounded-2">
         <h4 class="py-1 m-0 text-light-emphasis">Reveiws</h4>
         <hr />
@@ -107,7 +115,6 @@
             <img
               crossorigin="anonymous"
               [src]="serverURL + userComment.avatar"
-              
               class="rounded-2"
               alt="userImage"
             />

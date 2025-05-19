@@ -2,13 +2,14 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CategoryService } from '../../util/services/category.service';
 import { Subscription } from 'rxjs';
-import { Iproduct } from '../../util/interfaces/iproduct';
+import { DecodedToken, Iproduct } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { WishlistService } from '../../util/services/wishlist.service';
 import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-category-details',
@@ -44,9 +45,23 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
+  isAdmin: boolean = false;
+
+  token = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('userToken='))
+    ?.split('=')[1];
+
   getSpecificProductsub: Subscription = new Subscription();
   selectedImageIndex: { [key: string]: number } = {};
   ngOnInit(): void {
+    const user = jwtDecode<DecodedToken>(this.token as string);
+    if (user.role === 'admin') {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+    }
+
     this.categoryID = this.route.snapshot.params['id'];
     this.getSpecificProductsub = this.CategoryService.getSpecificCategory(
       this.categoryID

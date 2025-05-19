@@ -103,6 +103,7 @@ export class ProductDetailComponent implements OnInit {
     userID?: string;
     userName?: string;
     avatar?: string;
+    role?: string;
   } = {};
 
   serverURL = 'http://localhost:4000/uploads/';
@@ -131,6 +132,8 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
+  isAdmin: boolean = false;
+
   ngOnInit(): void {
     const token = document.cookie
       .split('; ')
@@ -138,6 +141,12 @@ export class ProductDetailComponent implements OnInit {
       ?.split('=')[1];
 
     this.user = jwtDecode<DecodedToken>(token as string);
+
+    if (this.user.role === 'admin') {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+    }
 
     this.getProductDetails();
     this.getAllComments();

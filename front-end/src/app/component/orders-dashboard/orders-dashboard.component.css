@@ -8,3 +8,9 @@ table th {
   text-align: center;
   white-space: nowrap;
 }
+.orderTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 215px;
+}

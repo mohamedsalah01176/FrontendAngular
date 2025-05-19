@@ -95,6 +95,7 @@
       >
         <ng-container *ngIf="filteredProductList[i] as product">
           <div class="product-card card h-100 border-0">
+            @if(!isAdmin){
             <button class="wishlist-btn" (click)="toggleWishlist(product._id)">
               <i
                 class="bi"
@@ -105,7 +106,7 @@
                 "
               ></i>
             </button>
-
+            }
             <div class="product-image rounded-2 overflow-hidden">
               <owl-carousel-o [options]="carouselOptions">
                 <ng-container *ngFor="let img of product.images">
@@ -155,12 +156,15 @@
                 </span>
               </div>
 
+              @if(!isAdmin){
+
               <button
                 class="add-to-cart-btn w-100 mt-3"
                 (click)="addToCart(product)"
               >
                 Add to Cart
               </button>
+              }
             </div>
           </div>
         </ng-container>

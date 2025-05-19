@@ -21,10 +21,10 @@
         <td class="py-3">
           @for (product of order.products; track $index) { @if (product.adminId
           === adminID) {
-          <span class="mb-2 d-block">{{ product.title }}</span>
+          <span class="my-2 d-block orderTitle" [title]="product.title">{{ product.title }}</span>
           } }
         </td>
-        <td class="py-3">{{ order.total }}$</td>
+        <td class="py-3">{{ order.total }} EGP</td>
         <td class="py-3">{{ order.createdAt.split("T")[0] }}</td>
         <!-- <td class="py-3">
           <button class="btn btn-success btn-sm">Completed</button>
