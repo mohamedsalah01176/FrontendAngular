@@ -78,12 +78,14 @@
             />
           </div>
           <div class="text">
-            <h6 class="m-0 lead fs-6">{{ product.title }}</h6>
+            <h6 class="m-0 lead fs-6" [title]="product.title">
+              {{ product.title }}
+            </h6>
             <p class="m-0 text-muted fs-6">{{ product.category.name }}</p>
           </div>
         </div>
         <div class="price">
-          <p class="m-0 fw-normal">{{ product.price }} $</p>
+          <p class="m-0 fw-normal">{{ product.price }} EGP</p>
         </div>
       </div>
       } }@else {

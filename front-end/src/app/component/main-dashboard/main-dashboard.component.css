@@ -23,13 +23,13 @@ h5:last-child {
 }
 
 .info h6 {
-  width: 150px;
+  width: 110px;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
 .info h6 + p {
-  width: 120px;
+  width: 110px;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
