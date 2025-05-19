@@ -23,11 +23,10 @@ export class MainDashboardComponent {
 
   Staticsdata: { name: string; value: number }[] = [];
 
-
   usersOrders = [
     {
       _id: '',
-      products: [{ title: '', adminId: '' }],
+      products: [{ title: '', adminId: '', price: 0 }],
       total: '',
       createdAt: '',
       userId: '',
@@ -56,6 +55,7 @@ export class MainDashboardComponent {
       next: (res) => {
         this.usersOrders = res.orders;
         this.getAllUserData();
+        this.getTotalSales();
       },
       error: (err) => console.error(err),
     });
@@ -104,12 +104,14 @@ export class MainDashboardComponent {
     }
   }
 
+  total: number = 0;
   getTotalSales() {
-    let total: number = 0;
-    for (let x of this.usersOrders) {
-      total += +x.total;
+    for (let x of this.usersOrders[0].products) {
+      if (this.adminID === x.adminId) {
+        this.total += +x.price;
+      }
     }
-    return total;
+    return this.total;
   }
 
   uniqueAdminCategories: string[] = [];
@@ -124,7 +126,6 @@ export class MainDashboardComponent {
         this.uniqueAdminCategories.push(categoryName);
       }
     }
-    console.log(this.uniqueAdminCategories);
   }
 
   serverURL = 'http://localhost:4000/uploads/';
