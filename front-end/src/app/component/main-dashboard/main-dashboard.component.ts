@@ -23,17 +23,22 @@ export class MainDashboardComponent {
 
   Staticsdata: { name: string; value: number }[] = [];
 
-  usersOrders = [
+  usersCustomers = [
     {
       _id: '',
       products: [{ title: '', adminId: '', price: 0 }],
       total: '',
       createdAt: '',
       userId: '',
+      adminId: '',
+      orders: {},
+      userDetails: { _id: '' },
     },
   ];
 
   constructor(private DashboardService: DashboardService) {}
+
+  uniqueProduct: number[] = [];
 
   adminID = '';
   allAdminProducts: number = 0;
@@ -51,11 +56,13 @@ export class MainDashboardComponent {
     const decodedToken = jwtDecode<DecodedToken>(token);
     this.adminID = decodedToken.userID;
 
-    this.DashboardService.getAllAdminOrders(decodedToken.userID).subscribe({
+    this.DashboardService.getAllAdminCustomers(decodedToken.userID).subscribe({
       next: (res) => {
-        this.usersOrders = res.orders;
-        this.getAllUserData();
+        console.log(res.customers);
+
+        this.usersCustomers = res.customers;
         this.getTotalSales();
+        this.getAllUserData();
       },
       error: (err) => console.error(err),
     });
@@ -64,12 +71,41 @@ export class MainDashboardComponent {
       next: (res) => {
         this.allAdminProducts = res.products.length;
         this.productList = res.products;
+
+        if (this.productList.length >= 4) {
+          this.uniqueProduct = [];
+
+          while (this.uniqueProduct.length < 4) {
+            const randomNum = Math.floor(
+              Math.random() * this.productList.length
+            );
+
+            if (!this.uniqueProduct.includes(randomNum)) {
+              this.uniqueProduct.push(randomNum);
+            }
+          }
+        }
+
+        console.log(this.uniqueProduct);
+
         if (this.productList.length >= 4) {
           this.Staticsdata = [
-            { name: this.productList[0].title, value: 100 },
-            { name: this.productList[1].title, value: 150 },
-            { name: this.productList[2].title, value: 80 },
-            { name: this.productList[3].title, value: 200 },
+            {
+              name: this.productList[this.uniqueProduct[0]].title,
+              value: 100,
+            },
+            {
+              name: this.productList[this.uniqueProduct[1]].title,
+              value: 150,
+            },
+            {
+              name: this.productList[this.uniqueProduct[2]].title,
+              value: 80,
+            },
+            {
+              name: this.productList[this.uniqueProduct[3]].title,
+              value: 200,
+            },
           ];
         } else {
           this.Staticsdata = this.productList.map((item, index) => ({
@@ -94,8 +130,8 @@ export class MainDashboardComponent {
   uniqueUserID: string[] = [];
   customerNumbers = 0;
   getAllUserData(): void {
-    for (const order of this.usersOrders) {
-      const userId = order.userId;
+    for (const order of this.usersCustomers) {
+      const userId = order.userDetails._id;
 
       if (userId !== undefined && !this.uniqueUserID.includes(userId)) {
         this.uniqueUserID.push(userId);
@@ -106,12 +142,12 @@ export class MainDashboardComponent {
 
   total: number = 0;
   getTotalSales() {
-    for (let x of this.usersOrders[0].products) {
-      if (this.adminID === x.adminId) {
-        this.total += +x.price;
-      }
-    }
-    return this.total;
+    this.usersCustomers.forEach((customer) => {
+      const allProducts = (customer.orders as any[])[0]?.products;
+      allProducts.forEach((pro: any) => {
+        this.total += +pro.price;
+      });
+    });
   }
 
   uniqueAdminCategories: string[] = [];

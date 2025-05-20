@@ -155,3 +155,9 @@ body {
 .navbar-toggler:focus {
   box-shadow: 0 0 5px #ccc;
 }
+
+.custom-snackbar {
+  position: fixed !important;
+  top: 65px !important;
+  right: 20px !important;
+}

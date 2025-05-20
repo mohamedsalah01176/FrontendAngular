@@ -10,10 +10,17 @@ import { DecodedToken } from '../../util/interfaces/iproduct';
   styleUrl: './customers-dashboard.component.css',
 })
 export class CustomersDashboardComponent {
-  usersOrders = [
+  customersAllOrders = [
     {
       _id: '',
       products: [{ title: '', adminId: '' }],
+       userDetails: {
+        _id: '',
+        username: '',
+        avatar: '',
+        phone: '',
+        email: ''
+      },
       total: '',
       createdAt: '',
       userId: '',
@@ -25,6 +32,7 @@ export class CustomersDashboardComponent {
     private cdr: ChangeDetectorRef
   ) {}
 
+  serverURL = 'http://localhost:4000/uploads/';
   adminID = '';
 
   ngOnInit(): void {
@@ -40,49 +48,33 @@ export class CustomersDashboardComponent {
     const decodedToken = jwtDecode<DecodedToken>(token);
     this.adminID = decodedToken.userID;
 
-    this.DashboardService.getAllAdminOrders(decodedToken.userID).subscribe({
+    this.DashboardService.getAllAdminCustomers(decodedToken.userID).subscribe({
       next: (res) => {
-        this.usersOrders = res.orders;
+        console.log(res.customers);
+        this.customersAllOrders = res.customers;
         this.getAllUserData();
       },
       error: (err) => console.error(err),
     });
   }
 
-  serverURL = 'http://localhost:4000/uploads/';
+  uniqueUserID: string[] = [];
 
-  allCustomers: {
-    username: string;
-    email: string;
-    phone: string;
-    _id: string;
+  customersDetails: {
     avatar: string;
+    username: string;
+    phone: string;
+    email: string;
   }[] = [];
 
-  uniqueUserID: string[] = [];
-  isAlreadyAdded = false;
   getAllUserData(): void {
-    for (const order of this.usersOrders) {
-      const userId = order.userId;
-
+    for (const customer of this.customersAllOrders) {
+      const userId = customer.userDetails._id;
       if (userId !== undefined && !this.uniqueUserID.includes(userId)) {
         this.uniqueUserID.push(userId);
-        this.isAlreadyAdded = false;
-      } else {
-        this.isAlreadyAdded = true;
-      }
-
-      if (userId && !this.isAlreadyAdded) {
-        this.DashboardService.getUserById(userId).subscribe({
-          next: (res) => {
-            const user = res.data?.[0];
-            if (user) {
-              this.allCustomers.push(user);
-            }
-          },
-          error: (err) => console.error('Error fetching user:', err),
-        });
+        this.customersDetails.push(customer.userDetails);
       }
     }
+    console.log(this.customersDetails);
   }
 }

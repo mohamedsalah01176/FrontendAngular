@@ -37,6 +37,7 @@ export class ProductService {
       }
     );
   }
+
   deleteComment(productId: string, commentId: string): Observable<any> {
     return this.http.delete(
       `http://localhost:4000/api/product/comment/${productId}/${commentId}`,
@@ -58,4 +59,6 @@ export class ProductService {
       }
     );
   }
+
+ 
 }

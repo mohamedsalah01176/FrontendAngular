@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Iproduct } from '../../util/interfaces/iproduct';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-products-dashboard',
@@ -14,7 +15,8 @@ export class ProductsDashboardComponent {
   productList: Iproduct[] = [];
   constructor(
     private DashboardService: DashboardService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -32,9 +34,19 @@ export class ProductsDashboardComponent {
         this.productList = this.productList.filter(
           (product) => product._id !== id
         );
+        this.snackBar.open('Product Deleted Successfully', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         this.cdr.detectChanges();
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        this.snackBar.open('Error In Deleted Product', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
+        console.error(err);
+      },
     });
   }
 
@@ -92,6 +104,11 @@ export class ProductsDashboardComponent {
         this.productList.push(res.data);
         this.isPopupVisible = false;
         this.cdr.detectChanges();
+
+        this.addCategory({
+          name: this.newProduct.category.name,
+        });
+
         this.newProduct = {
           title: '',
           description: '',
@@ -102,7 +119,30 @@ export class ProductsDashboardComponent {
           images: [],
         };
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        const errors = err.error.message.errors;
+
+        const firstKey = Object.keys(errors)[0];
+
+        const firstErrorMessage = errors[firstKey].message;
+
+        this.snackBar.open(firstErrorMessage, '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
+        console.error(err);
+      },
+    });
+  }
+
+  addCategory(body: any) {
+    this.DashboardService.addCategory(body).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.error(err);
+      },
     });
   }
 
@@ -154,6 +194,30 @@ export class ProductsDashboardComponent {
 
     const images = imageInput.files ? [...imageInput.files] : [];
 
+    if (
+      !this.productToEdit.category ||
+      !this.productToEdit.category.name ||
+      this.productToEdit.category.name.trim().length === 0
+    ) {
+      this.snackBar.open('Category is required', '', {
+        duration: 4000,
+        panelClass: ['custom-snackbar'],
+      });
+      return;
+    }
+
+    if (
+      this.productToEdit.price === null ||
+      this.productToEdit.price === undefined ||
+      this.productToEdit.price.toString().trim().length === 0
+    ) {
+      this.snackBar.open('Price is required', '', {
+        duration: 4000,
+        panelClass: ['custom-snackbar'],
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', this.productToEdit.title);
     formData.append('description', this.productToEdit.description);
@@ -178,7 +242,19 @@ export class ProductsDashboardComponent {
         this.isPopupForEdit = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        const errors = err.error.message.errors;
+
+        const firstKey = Object.keys(errors)[0];
+
+        const firstErrorMessage = errors[firstKey].message;
+
+        this.snackBar.open(firstErrorMessage, '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
+        console.error(err);
+      },
     });
   }
 }

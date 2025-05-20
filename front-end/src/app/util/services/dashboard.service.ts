@@ -61,9 +61,26 @@ export class DashboardService {
       headers: this.getToken(),
     });
   }
+  completedOrder(orderID: string): Observable<any> {
+    return this.http.get(`http://localhost:4000/api/ordercomplate/${orderID}`, {
+      headers: this.getToken(),
+    });
+  }
+
+  getAllAdminCustomers(adminID: string): Observable<any> {
+    return this.http.get(`http://localhost:4000/api/customer/${adminID}`, {
+      headers: this.getToken(),
+    });
+  }
 
   getUserById(id: string): Observable<any> {
     return this.http.get(`http://localhost:4000/api/user/${id}`, {
+      headers: this.getToken(),
+    });
+  }
+
+  addCategory(data: any): Observable<any> {
+    return this.http.post(`http://localhost:4000/api/categories`, data, {
       headers: this.getToken(),
     });
   }
