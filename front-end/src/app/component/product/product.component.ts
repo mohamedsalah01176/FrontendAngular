@@ -10,6 +10,9 @@ import { WishlistService } from '../../util/services/wishlist.service';
 import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { jwtDecode } from 'jwt-decode';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CartService } from '../../util/services/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -24,7 +27,6 @@ export class ProductComponent {
   filteredProductList: Iproduct[] = [];
   searchQuery: string = '';
 
-  // Owl Carousel Options
   carouselOptions = {
     items: 1,
     dots: true,
@@ -40,6 +42,15 @@ export class ProductComponent {
   private cookieService = inject(CookieService);
   private readonly loadData$ = new BehaviorSubject(true);
   wishlistItems = toSignal(this.loadWhishList);
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private cartService: CartService,
+    private router: Router,
+  ) {}
+
+
+
 
   get loadWhishList() {
     return this.loadData$.pipe(
@@ -120,8 +131,33 @@ this.productService.getAllProducts().subscribe({
     this.filterProducts();
   }
 
-  addToCart(product: Iproduct): void {
-    console.log(`Added to cart: ${product.title}`);
+
+   addToCart(productId: string) {
+    this.cartService.addToCart(productId).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.snackBar.open('Product added to cart!', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-success'],
+          });
+          this.router.navigate(['/cart']);
+        }
+      },
+      (error) => {
+        if (error.error.message === 'Product already in cart') {
+          this.snackBar.open('Product is already in your cart!', 'Close', {
+            duration: 4000,
+            panelClass: ['snackbar-warning'],
+          });
+        } else {
+          this.snackBar.open('Something went wrong!', 'Close', {
+            duration: 4000,
+            panelClass: ['snackbar-error'],
+          });
+          console.error('Add to cart error:', error);
+        }
+      }
+    );
   }
 
   toggleWishlist(id: string): void {
@@ -157,11 +193,20 @@ this.productService.getAllProducts().subscribe({
     });
   }
 getRandomRating(): number {
-  const fullStars = Math.floor(Math.random() * 5) + 1; // من 1 إلى 5
-  const hasHalf = Math.random() < 0.5; // 50% احتمال لنصف نجمة
+  const fullStars = Math.floor(Math.random() * 5) + 1; 
+  const hasHalf = Math.random() < 0.5; 
   return hasHalf && fullStars < 5 ? fullStars + 0.5 : fullStars;
 }
 
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
