@@ -1,9 +1,9 @@
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CartService } from '../../util/services/cart.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   products: any[] = [];
   totalCheckout: number = 0;
   couponCode: string = '';
@@ -21,10 +21,25 @@ export class CartComponent implements OnInit {
   discountAmount: number = 0;
   isLoading: boolean = true;
 
-  constructor(private cartService: CartService) {}
+  cartCount: number = 0; 
+  private subscriptions = new Subscription();
+
   serverURL = 'http://localhost:4000/uploads/';
+
+  constructor(private cartService: CartService) {}
+
   ngOnInit(): void {
     this.loadCart();
+
+    this.subscriptions.add(
+      this.cartService.cartCount$.subscribe((count) => {
+        this.cartCount = count;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   private updateLocalStorage() {
@@ -69,8 +84,7 @@ export class CartComponent implements OnInit {
     this.cartService.updateQuantity(productId, quantity).subscribe(
       (response) => {
         if (response.status === 'success') {
-          this.calcCheckout();
-          this.updateLocalStorage();
+          this.loadCart();
         }
       },
       (error) => {
@@ -83,11 +97,7 @@ export class CartComponent implements OnInit {
     this.cartService.removeProduct(productId).subscribe(
       (response) => {
         if (response.status === 'success') {
-          this.products = this.products.filter(
-            (p) => p.productId._id !== productId
-          );
-          this.calcCheckout();
-          this.updateLocalStorage();
+          this.loadCart();
         }
       },
       (error) => {

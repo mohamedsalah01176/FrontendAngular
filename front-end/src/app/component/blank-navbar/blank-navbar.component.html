@@ -83,7 +83,7 @@
             ><i class="fa-solid fa-heart"></i>
           </a>
         </li>
-        <li class="nav-item flex-grow-1">
+        <li class="nav-item flex-grow-1 position-relative">
           <a
             class="nav-link text-center"
             routerLinkActive=" active-link "
@@ -91,8 +91,17 @@
             [routerLinkActiveOptions]="{ exact: true }"
           >
             <i class="fa-solid fa-cart-plus"></i>
+            <span
+              *ngIf="cartCount > 0"
+              class="position-absolute  translate-middle badge rounded-pill bg-danger cart-badge"
+              style="font-size: 0.7rem;"
+            >
+              {{ cartCount }}
+              <span class="visually-hidden">items in cart</span>
+            </span>
           </a>
         </li>
+
         }
         <li class="nav-item flex-grow-1">
           <a
