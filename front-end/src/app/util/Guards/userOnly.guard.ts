@@ -3,8 +3,13 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { jwtDecode } from 'jwt-decode';
 
-export const authGuard: CanActivateFn = (route, state) => {
+interface DecodedToken {
+  role: string;
+}
+
+export const userOnlyGuard: CanActivateFn = (route, state) => {
   const _Router = inject(Router);
   const _AuthService = inject(AuthService);
   const platformId = inject(PLATFORM_ID);
@@ -12,7 +17,13 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (isPlatformBrowser(platformId)) {
     const token = _AuthService.getTokenFromCookies();
     if (token) {
-      return true;
+      const user = jwtDecode<DecodedToken>(token);
+      if (user.role === 'user') {
+        return true;
+      } else {
+        _Router.navigate(['/dashboard/mainDashboard']);
+        return false;
+      }
     } else {
       _Router.navigate(['/login']);
       return false;
