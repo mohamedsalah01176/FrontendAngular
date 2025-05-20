@@ -17,7 +17,7 @@
               "
             ></i>
           </button>
-        }
+          }
 
           <div class="product-image rounded-2 overflow-hidden">
             <owl-carousel-o [options]="carouselOptions">
@@ -46,20 +46,18 @@
                 >{{ product.price }} EGP</span
               >
               <span class="rating text-warning d-flex align-items-center gap-1">
-                <div
-                  *ngFor="
-                    let num of [1, 2, 3, 4, 5].slice(0, product.ratingsAverage);
-                    let i = index
-                  "
-                >
-                  <i class="fas fa-star"></i>
-                </div>
-                <div *ngIf="product.ratingsAverage % 1 !== 0">
-                  <i class="fa-solid fa-star-half-stroke"></i>
-                </div>
-                <span class="text-dark ms-1 fs-5">{{
-                  product.ratingsAverage
-                }}</span>
+                <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                  <i
+                    class="fa-star"
+                    [ngClass]="{
+                      fas: product.ratingsAverage >= star,
+                      'fa-solid fa-star-half-stroke':
+                        product.ratingsAverage >= star - 0.5 &&
+                        product.ratingsAverage < star,
+                      far: product.ratingsAverage < star - 0.5
+                    }"
+                  ></i>
+                </ng-container>
               </span>
             </div>
             @if (!isAdmin) {

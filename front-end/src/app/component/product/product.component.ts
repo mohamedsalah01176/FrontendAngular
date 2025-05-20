@@ -101,19 +101,18 @@ export class ProductComponent {
       this.isAdmin = false;
     }
 
-this.productService.getAllProducts().subscribe({
-  next: (res) => {
-    this.productList = res.products.map((product: any) => ({
-      ...product,
-      ratingsAverage: this.getRandomRating()
-    }));
+    this.productService.getAllProducts().subscribe({
+      next: (res) => {
+        this.productList = res.products.map((product: any) => ({
+          ...product,
+          ratingsAverage: this.getRandomRating(),
+        }));
 
-    this.filteredProductList = [...this.productList];
-    this.getRandomIndexesOfProducts(this.productList);
-  },
-  error: (err) => console.error(err),
-});
-
+        this.filteredProductList = [...this.productList];
+        this.getRandomIndexesOfProducts(this.productList);
+      },
+      error: (err) => console.error(err),
+    });
   }
 
   filterProducts(): void {
@@ -192,21 +191,11 @@ this.productService.getAllProducts().subscribe({
       },
     });
   }
-getRandomRating(): number {
-  const fullStars = Math.floor(Math.random() * 5) + 1; 
-  const hasHalf = Math.random() < 0.5; 
-  return hasHalf && fullStars < 5 ? fullStars + 0.5 : fullStars;
+
+  getRandomRating(): number {
+    const fullStars = Math.floor(Math.random() * 5) + 1;
+    const hasHalf = Math.random() < 0.5;
+    return hasHalf && fullStars < 5 ? fullStars + 0.5 : fullStars;
+  }
 }
-
-}
-
-
-
-
-
-
-
-
-
-
 

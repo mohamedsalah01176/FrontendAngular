@@ -31,7 +31,14 @@ export class WishListComponent implements OnDestroy {
   get loadWhishList() {
     return this.loadData$.pipe(
       switchMap(() =>
-        this.wishlistService.loadWishlist().pipe(map((res) => res.wishlist))
+        this.wishlistService.loadWishlist().pipe(
+          map((res) =>
+            res.wishlist.map((product: any) => ({
+              ...product,
+              ratingsAverage: this.getRandomRating(),
+            }))
+          )
+        )
       )
     );
   }
@@ -61,11 +68,16 @@ export class WishListComponent implements OnDestroy {
     console.log(`Added to cart: ${product.title}`);
   }
 
-  toggleWishlist(product: any): void {
-    product.isWachList = !product.isWachList;
-  }
+  // toggleWishlist(product: any): void {
+  //   product.isWachList = !product.isWachList;
+  // }
 
   ngOnDestroy(): void {
     this.wishlistSub.unsubscribe();
+  }
+  getRandomRating(): number {
+    const fullStars = Math.floor(Math.random() * 5) + 1;
+    const hasHalf = Math.random() < 0.5;
+    return hasHalf && fullStars < 5 ? fullStars + 0.5 : fullStars;
   }
 }
