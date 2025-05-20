@@ -90,14 +90,19 @@ export class ProductComponent {
       this.isAdmin = false;
     }
 
-    this.productService.getAllProducts().subscribe({
-      next: (res) => {
-        this.productList = res.products;
-        this.filteredProductList = [...this.productList];
-        this.getRandomIndexesOfProducts(this.productList);
-      },
-      error: (err) => console.error(err),
-    });
+this.productService.getAllProducts().subscribe({
+  next: (res) => {
+    this.productList = res.products.map((product: any) => ({
+      ...product,
+      ratingsAverage: this.getRandomRating()
+    }));
+
+    this.filteredProductList = [...this.productList];
+    this.getRandomIndexesOfProducts(this.productList);
+  },
+  error: (err) => console.error(err),
+});
+
   }
 
   filterProducts(): void {
@@ -151,4 +156,12 @@ export class ProductComponent {
       },
     });
   }
+getRandomRating(): number {
+  const fullStars = Math.floor(Math.random() * 5) + 1; // من 1 إلى 5
+  const hasHalf = Math.random() < 0.5; // 50% احتمال لنصف نجمة
+  return hasHalf && fullStars < 5 ? fullStars + 0.5 : fullStars;
+}
+
+
+
 }
