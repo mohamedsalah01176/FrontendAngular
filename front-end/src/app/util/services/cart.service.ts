@@ -8,7 +8,6 @@ import { Observable, BehaviorSubject, tap } from 'rxjs';
 export class CartService {
   private apiUrl = 'http://localhost:4000/api/cart';
 
-  // BehaviorSubject لمتابعة عدد المنتجات في العربة
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
 
@@ -44,7 +43,6 @@ export class CartService {
     );
   }
 
-  // عند جلب العربة حدث عدد المنتجات تلقائيًا
   getCart(): Observable<any> {
     return this.http.get<any>(this.apiUrl, this.getTokenHeaders()).pipe(
       tap(response => {
