@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import {
   provideRouter,
   withInMemoryScrolling,
@@ -10,8 +10,10 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import {provideAnimations } from '@angular/platform-browser/animations'; // ✅ استيراد animations
+import { sppinerInterceptor } from './util/interceptors/sppiner.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +24,8 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'top' })
     ),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(),withInterceptors([sppinerInterceptor])),
     provideAnimations(),
+    importProvidersFrom(NgxSpinnerModule)
   ],
 };
