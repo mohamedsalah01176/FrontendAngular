@@ -4,7 +4,7 @@
   cursor: pointer;
 }
 .card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 h5:last-child {
   transition: 0.3s;
