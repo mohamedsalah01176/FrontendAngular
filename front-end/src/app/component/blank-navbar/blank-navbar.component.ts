@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-blank-navbar',
   imports: [RouterModule,CommonModule],
   templateUrl: './blank-navbar.component.html',
-  styleUrls: ['./blank-navbar.component.css'], // صححت هنا من styleUrl لـ styleUrls
+  styleUrls: ['./blank-navbar.component.css'],
 })
 export class BlankNavbarComponent implements OnInit, OnDestroy {
   _AuthService = inject(AuthService);
