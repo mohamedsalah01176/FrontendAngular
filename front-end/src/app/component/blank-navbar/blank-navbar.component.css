@@ -36,6 +36,32 @@
   font-size: 17px;
 }
 
+.cart-badge {
+  font-size: 0.7rem;
+  position: absolute;
+  top: 5px;          
+  left: 80%;
+  transform: translate(-50%, 10%);
+}
+
+@media (max-width: 575.98px) {
+  .cart-badge {
+    left: 60%;     
+    font-size: 0.6rem;
+    top: 4px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .cart-badge {
+    left: 60%;
+    font-size: 0.65rem;
+    top: 5px;
+  }
+}
+
+
+
 @keyframes logout {
   0% {
     transform: translateX(5px);

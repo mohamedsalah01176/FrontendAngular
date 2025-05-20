@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,11 +8,15 @@ import { Observable } from 'rxjs';
 export class CartService {
   private apiUrl = 'http://localhost:4000/api/cart';
 
+  // BehaviorSubject لمتابعة عدد المنتجات في العربة
+  private cartCountSubject = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCountSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   private getTokenHeaders(): { headers: HttpHeaders } {
     const token = this.getTokenFromCookie('userToken');
-    console.log(token)
+    console.log(token);
     return {
       headers: new HttpHeaders({
         Authorization: `Bearer ${token}`,
@@ -40,8 +44,15 @@ export class CartService {
     );
   }
 
+  // عند جلب العربة حدث عدد المنتجات تلقائيًا
   getCart(): Observable<any> {
-    return this.http.get<any>(this.apiUrl, this.getTokenHeaders());
+    return this.http.get<any>(this.apiUrl, this.getTokenHeaders()).pipe(
+      tap(response => {
+        if (response.status === 'success' && response.cart && response.cart.products) {
+          this.updateCartCount(response.cart.products);
+        }
+      })
+    );
   }
 
   updateQuantity(productId: string, quantity: number): Observable<any> {
@@ -63,12 +74,17 @@ export class CartService {
     return this.http.delete<any>(`${this.apiUrl}/clear`, this.getTokenHeaders());
   }
 
-applyCoupon(code: string) {
-  return this.http.post<any>(
-    `${this.apiUrl}/apply-coupon`,
-    { code },
-    this.getTokenHeaders()
-  );
+  applyCoupon(code: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/apply-coupon`,
+      { code },
+      this.getTokenHeaders()
+    );
+  }
+
+private updateCartCount(products: any[]) {
+  const totalQuantity = products.reduce((acc, item) => acc + (item.quantity || 0), 0);
+  this.cartCountSubject.next(totalQuantity);
 }
 
 }
