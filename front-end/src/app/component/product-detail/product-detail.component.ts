@@ -166,12 +166,25 @@ export class ProductDetailComponent implements OnInit {
 
     this.ProductService.addComment(productId, comment).subscribe({
       next: (res) => {
+        console.log('comment', res);
+
         this.productComments = [...res.data.Comments];
         this.userComment = '';
         this.getAvatarForEveryUser();
         this.cdr.detectChanges();
+
+        this.snackBar.open(res.message, '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        this.snackBar.open('Failed in added Comment', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
+        console.error(err);
+      },
     });
   }
 
@@ -192,8 +205,18 @@ export class ProductDetailComponent implements OnInit {
       next: (res) => {
         this.productComments = res.data;
         this.getAvatarForEveryUser();
+        this.snackBar.open(res.message, '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        this.snackBar.open('Failed in delete comment', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
+        console.error(err);
+      },
     });
   }
 
@@ -227,8 +250,19 @@ export class ProductDetailComponent implements OnInit {
         this.editPopupIsOpened = false;
         this.newComment = '';
         this.getAvatarForEveryUser();
+
+        this.snackBar.open(res.message, '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        this.snackBar.open('Failed in edit comment', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
+        console.error(err);
+      },
     });
   }
 

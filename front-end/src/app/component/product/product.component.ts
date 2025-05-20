@@ -46,11 +46,8 @@ export class ProductComponent {
   constructor(
     private snackBar: MatSnackBar,
     private cartService: CartService,
-    private router: Router,
+    private router: Router
   ) {}
-
-
-
 
   get loadWhishList() {
     return this.loadData$.pipe(
@@ -130,8 +127,7 @@ export class ProductComponent {
     this.filterProducts();
   }
 
-
-   addToCart(productId: string) {
+  addToCart(productId: string) {
     this.cartService.addToCart(productId).subscribe(
       (response) => {
         if (response.status === 'success') {
@@ -175,8 +171,16 @@ export class ProductComponent {
     this.wishlistService.removeFromWishlist(productId).subscribe({
       next: () => {
         this.loadData$.next(true);
+        this.snackBar.open('Product removed from wishlist successfully', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
       error: (err) => {
+        this.snackBar.open('Failed in removed product from wishlist', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         console.error('Error removing item:', err);
       },
     });
@@ -185,8 +189,16 @@ export class ProductComponent {
     this.wishlistService.addToWishlist(productId).subscribe({
       next: () => {
         this.loadData$.next(true);
+        this.snackBar.open('Product added to wishlist successfully', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
       error: (err) => {
+        this.snackBar.open('Failed in added product to wishlist', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         console.error('Error removing item:', err);
       },
     });
@@ -198,4 +210,3 @@ export class ProductComponent {
     return hasHalf && fullStars < 5 ? fullStars + 0.5 : fullStars;
   }
 }
-
