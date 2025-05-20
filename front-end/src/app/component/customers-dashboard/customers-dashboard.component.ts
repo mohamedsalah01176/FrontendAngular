@@ -14,12 +14,12 @@ export class CustomersDashboardComponent {
     {
       _id: '',
       products: [{ title: '', adminId: '' }],
-       userDetails: {
+      userDetails: {
         _id: '',
         username: '',
         avatar: '',
         phone: '',
-        email: ''
+        email: '',
       },
       total: '',
       createdAt: '',
@@ -75,6 +75,20 @@ export class CustomersDashboardComponent {
         this.customersDetails.push(customer.userDetails);
       }
     }
+
+    console.log(this.uniqueUserID);
     console.log(this.customersDetails);
+
+    let count = 0;
+    for (let userID of this.uniqueUserID) {
+      this.DashboardService.getUserById(userID).subscribe({
+        next: (res) => {
+          console.log(res);
+
+          this.customersDetails[count++] = res.data[0];
+        },
+        error: (err) => console.error(err),
+      });
+    }
   }
 }
