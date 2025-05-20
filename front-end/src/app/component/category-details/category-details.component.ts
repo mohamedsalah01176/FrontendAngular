@@ -67,7 +67,10 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
       this.categoryID
     ).subscribe({
       next: (res) => {
-        this.categoryList = res.category;
+        this.categoryList = res.category.map((product: any) => ({
+          ...product,
+          ratingsAverage: this.getRandomRating(),
+        }));
       },
 
       error: (err) => {
@@ -118,5 +121,10 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getSpecificProductsub.unsubscribe();
+  }
+  getRandomRating(): number {
+    const fullStars = Math.floor(Math.random() * 5) + 1;
+    const hasHalf = Math.random() < 0.5;
+    return hasHalf && fullStars < 5 ? fullStars + 0.5 : fullStars;
   }
 }
