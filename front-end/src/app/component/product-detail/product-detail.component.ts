@@ -270,23 +270,23 @@ export class ProductDetailComponent implements OnInit {
     this.cartService.addToCart(productId).subscribe(
       (response) => {
         if (response.status === 'success') {
-          this.snackBar.open('Product added to cart!', 'Close', {
-            duration: 3000,
-            panelClass: ['snackbar-success'],
+          this.snackBar.open('Product added to cart!', '', {
+            duration: 4000,
+            panelClass: ['custom-snackbar'],
           });
           this.router.navigate(['/cart']);
         }
       },
       (error) => {
         if (error.error.message === 'Product already in cart') {
-          this.snackBar.open('Product is already in your cart!', 'Close', {
+          this.snackBar.open('Product is already in your cart!', '', {
             duration: 4000,
-            panelClass: ['snackbar-warning'],
+            panelClass: ['custom-snackbar'],
           });
         } else {
-          this.snackBar.open('Something went wrong!', 'Close', {
+          this.snackBar.open('Something went wrong!', '', {
             duration: 4000,
-            panelClass: ['snackbar-error'],
+            panelClass: ['custom-snackbar'],
           });
           console.error('Add to cart error:', error);
         }
@@ -309,8 +309,16 @@ export class ProductDetailComponent implements OnInit {
     this.wishlistService.removeFromWishlist(productId).subscribe({
       next: () => {
         this.loadData$.next(true);
+        this.snackBar.open('Product removed from wishlist successfully', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
       error: (err) => {
+        this.snackBar.open('Failed in removed product from wishlist', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         console.error('Error removing item:', err);
       },
     });
@@ -319,8 +327,16 @@ export class ProductDetailComponent implements OnInit {
     this.wishlistService.addToWishlist(productId).subscribe({
       next: () => {
         this.loadData$.next(true);
+        this.snackBar.open('Product added to wishlist successfully', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
       error: (err) => {
+        this.snackBar.open('Failed in added product to wishlist', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         console.error('Error removing item:', err);
       },
     });

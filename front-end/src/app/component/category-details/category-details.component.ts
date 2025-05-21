@@ -10,6 +10,8 @@ import { WishlistService } from '../../util/services/wishlist.service';
 import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { jwtDecode } from 'jwt-decode';
+import { CartService } from '../../util/services/cart.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-category-details',
@@ -18,6 +20,11 @@ import { jwtDecode } from 'jwt-decode';
   styleUrl: './category-details.component.css',
 })
 export class CategoryDetailsComponent implements OnInit, OnDestroy {
+  constructor(
+    private snackBar: MatSnackBar,
+    private cartService: CartService
+  ) {}
+
   route = inject(ActivatedRoute);
   CategoryService = inject(CategoryService);
   categoryID: string | null = null;
@@ -82,8 +89,36 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     this.selectedImageIndex[productId] = index;
   }
 
-  addToCart(product: Iproduct): void {
-    console.log(`Added to cart: ${product.title}`);
+  // addToCart(product: Iproduct): void {
+  // console.log(`Added to cart: ${product.title}`);
+  // }
+
+  addToCart(productId: string) {
+    this.cartService.addToCart(productId).subscribe(
+      (response) => {
+        if (response.status === 'success') {
+          this.snackBar.open('Product added to cart!', '', {
+            duration: 3000,
+            panelClass: ['custom-snackbar'],
+          });
+          // this.router.navigate(['/cart']);
+        }
+      },
+      (error) => {
+        if (error.error.message === 'Product already in cart') {
+          this.snackBar.open('Product is already in your cart!', '', {
+            duration: 4000,
+            panelClass: ['custom-snackbar'],
+          });
+        } else {
+          this.snackBar.open('Something went wrong!', '', {
+            duration: 4000,
+            panelClass: ['custom-snackbar'],
+          });
+          console.error('Add to cart error:', error);
+        }
+      }
+    );
   }
 
   toggleWishlist(id: string): void {
@@ -102,8 +137,16 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     this.wishlistService.removeFromWishlist(productId).subscribe({
       next: () => {
         this.loadData$.next(true);
+        this.snackBar.open('Product removed from wishlist successfully', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
       error: (err) => {
+        this.snackBar.open('Failed in removed product from wishlist', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         console.error('Error removing item:', err);
       },
     });
@@ -112,8 +155,16 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
     this.wishlistService.addToWishlist(productId).subscribe({
       next: () => {
         this.loadData$.next(true);
+        this.snackBar.open('Product added to wishlist successfully', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
       },
       error: (err) => {
+        this.snackBar.open('Failed in added product to wishlist', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         console.error('Error removing item:', err);
       },
     });

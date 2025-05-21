@@ -131,23 +131,23 @@ export class ProductComponent {
     this.cartService.addToCart(productId).subscribe(
       (response) => {
         if (response.status === 'success') {
-          this.snackBar.open('Product added to cart!', 'Close', {
+          this.snackBar.open('Product added to cart!', '', {
             duration: 3000,
-            panelClass: ['snackbar-success'],
+            panelClass: ['custom-snackbar'],
           });
-          this.router.navigate(['/cart']);
+          // this.router.navigate(['/cart']);
         }
       },
       (error) => {
         if (error.error.message === 'Product already in cart') {
-          this.snackBar.open('Product is already in your cart!', 'Close', {
+          this.snackBar.open('Product is already in your cart!', '', {
             duration: 4000,
-            panelClass: ['snackbar-warning'],
+            panelClass: ['custom-snackbar'],
           });
         } else {
-          this.snackBar.open('Something went wrong!', 'Close', {
+          this.snackBar.open('Something went wrong!', '', {
             duration: 4000,
-            panelClass: ['snackbar-error'],
+            panelClass: ['custom-snackbar'],
           });
           console.error('Add to cart error:', error);
         }

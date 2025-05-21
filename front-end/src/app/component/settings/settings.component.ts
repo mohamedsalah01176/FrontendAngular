@@ -6,6 +6,7 @@ import { faPenNib } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from 'jwt-decode';
 import { DecodedToken } from '../../util/interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-settings',
@@ -19,7 +20,8 @@ export class SettingsComponent {
   constructor(
     private AuthService: AuthService,
     private DashboardService: DashboardService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) {}
 
   userInfo: {
@@ -58,7 +60,6 @@ export class SettingsComponent {
           this.userInfo.username = user.username;
           this.userInfo.email = user.email;
         }
-        
       },
       error: (err) => console.error('Error fetching user:', err),
     });
@@ -70,7 +71,6 @@ export class SettingsComponent {
     ) as HTMLInputElement;
 
     const formData = new FormData();
-
 
     if (userAvatarInput.files && userAvatarInput.files.length > 0) {
       formData.append('avatar', userAvatarInput.files[0]);
@@ -92,8 +92,18 @@ export class SettingsComponent {
       next: (res: any) => {
         this.userInfo = res.data;
         this.cdr.detectChanges();
+        this.snackBar.open('Updated Successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['custom-snackbar'],
+        });
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        this.snackBar.open('Failed in updated data', 'Close', {
+          duration: 3000,
+          panelClass: ['custom-snackbar'],
+        });
+        console.error(err);
+      },
     });
   }
 }

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cart',
@@ -21,12 +22,15 @@ export class CartComponent implements OnInit, OnDestroy {
   discountAmount: number = 0;
   isLoading: boolean = true;
 
-  cartCount: number = 0; 
+  cartCount: number = 0;
   private subscriptions = new Subscription();
 
   serverURL = 'http://localhost:4000/uploads/';
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.loadCart();
@@ -98,9 +102,17 @@ export class CartComponent implements OnInit, OnDestroy {
       (response) => {
         if (response.status === 'success') {
           this.loadCart();
+          this.snackBar.open('Product deleted successfully', '', {
+            duration: 4000,
+            panelClass: ['custom-snackbar'],
+          });
         }
       },
       (error) => {
+        this.snackBar.open('Failed in deleted Product', '', {
+          duration: 4000,
+          panelClass: ['custom-snackbar'],
+        });
         console.error('Failed to remove product:', error);
       }
     );

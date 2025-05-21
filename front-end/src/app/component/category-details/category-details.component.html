@@ -34,37 +34,38 @@
             </owl-carousel-o>
           </div>
 
-          <div
-            class="product-details p-3"
-            routerLink="/products/{{ product._id }}"
-          >
+          <div class="product-details p-3">
             <span class="product-category">{{ product.category.name }}</span>
             <h3 class="product-title one-line">{{ product.title }}</h3>
 
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price fw-bold text-danger fs-4"
-                >{{ product.price }} EGP</span
-              >
-              <span class="rating text-warning d-flex align-items-center gap-1">
-                <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-                  <i
-                    class="fa-star"
-                    [ngClass]="{
-                      fas: product.ratingsAverage >= star,
-                      'fa-solid fa-star-half-stroke':
-                        product.ratingsAverage >= star - 0.5 &&
-                        product.ratingsAverage < star,
-                      far: product.ratingsAverage < star - 0.5
-                    }"
-                  ></i>
-                </ng-container>
-              </span>
+            <div routerLink="/products/{{ product._id }}">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="price fw-bold text-danger fs-4"
+                  >{{ product.price }} EGP</span
+                >
+                <span
+                  class="rating text-warning d-flex align-items-center gap-1"
+                >
+                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                    <i
+                      class="fa-star"
+                      [ngClass]="{
+                        fas: product.ratingsAverage >= star,
+                        'fa-solid fa-star-half-stroke':
+                          product.ratingsAverage >= star - 0.5 &&
+                          product.ratingsAverage < star,
+                        far: product.ratingsAverage < star - 0.5
+                      }"
+                    ></i>
+                  </ng-container>
+                </span>
+              </div>
             </div>
             @if (!isAdmin) {
 
             <button
               class="add-to-cart-btn w-100 mt-3"
-              (click)="addToCart(product)"
+              (click)="addToCart(product._id)"
             >
               Add to Cart
             </button>
